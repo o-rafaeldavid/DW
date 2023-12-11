@@ -16,7 +16,6 @@
     font-family: "Lexend Peta", sans-serif;
     font-weight: 700;
 
-    $tag: "TECHNO XUXEX";
     $nTags: 3;
 
     > div{
@@ -36,7 +35,6 @@
         }
     }
 
-
     $pannelWidth: 21px;
     $nDivs: 32;
     $translateZ: 318px;
@@ -44,7 +42,6 @@
     > div > div{
         position: absolute;
         transform: translate(-50%, -50%) rotateY(calc(var(--angle) + var(--plusAngle) + 70deg)) translateZ($translateZ);
-
         width: $pannelWidth;
         height: 100px;
 
@@ -62,11 +59,15 @@
             }
         }
 
+        
+        &[name="technoXuxex"]::before{ content: "TECHNO XUXEX"; }
+        &[name="underground"]::before{ content: "UNDERGROUND"; }
+        &[name="nossamissao"]::before{ content: "NOSSA MISSÃO"; }
+
         &::before{
 
             position: absolute;
             left: var(--left);
-            content: $tag;
 
             width: max-content;
             font-size: 60px;

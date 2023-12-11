@@ -2,7 +2,6 @@
 import Footer from "./footer"
 
 import main from "../styles/sass/main.module.scss"
-import { useRef } from "react"
 
 export default function Body({children, className}){
     const footerShow = (e) => {

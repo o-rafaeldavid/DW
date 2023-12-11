@@ -5,7 +5,7 @@ import WrappedText from "./components/WrappedText"
 export default function Home() {
   return (
     <main>
-      <WrappedText/>
+      <WrappedText classOn="technoXuxex"/>
     </main>
   )
 }

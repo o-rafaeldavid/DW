@@ -1,12 +1,12 @@
 "use client"
 import { useEffect, useRef } from "react";
-
+import { Helmet } from "react-helmet";
 import technoXuxex from "@/styles/sass/wrappedText/technoXuxex.module.scss"
 
 
 
 
-export default function WrappedText(){
+export default function WrappedText({classOn}){
     let inicializarTechnoXuxex = useRef(true);
     let refTechnoXuxex = useRef(undefined);
 
@@ -29,106 +29,106 @@ export default function WrappedText(){
         <>
             <div className={technoXuxex.wrappedText} ref={refTechnoXuxex}>
                 <div className={technoXuxex.mainText}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
                 </div>
                 <div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
                 </div>
                 <div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
                 </div>
             </div>
         </>

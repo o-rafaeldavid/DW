@@ -1,0 +1,118 @@
+/*
+    SCSS referente ao wrapping do TECHNO XUXEX
+*/
+
+.wrappedText{
+    perspective: 1000px;
+    perspective-origin: 50% calc(50% - 150px);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    
+
+    font-family: "Lexend Peta", sans-serif;
+    font-weight: 700;
+
+    $nTags: 3;
+
+    > div{
+        display: flex;
+        transform-style: preserve-3d;
+
+        animation: rodar 24s infinite linear;
+
+        @keyframes rodar {
+            to { transform: rotateY(-360deg); }
+        }
+
+        @for $i from 0 to ($nTags) {
+            &:nth-child(#{$i + 1}){
+                --plusAngle: #{($i - 1) * 360 / $nTags}deg;
+            }
+        }
+    }
+
+    $pannelWidth: 21px;
+    $nDivs: 32;
+    $translateZ: 318px;
+
+    > div > div{
+        position: absolute;
+        transform: translate(-50%, -50%) rotateY(calc(var(--angle) + var(--plusAngle) + 70deg)) translateZ($translateZ);
+        width: $pannelWidth;
+        height: 100px;
+
+        overflow: hidden;
+
+        //border: solid white 1px;
+        //background-color: rgba(255, 255, 255, 0.1);
+
+        ////////////////////////////////////////////////
+        @for $i from 0 to ($nDivs * $nTags){
+            &:nth-child(#{$i + 1}){
+                --left: #{$pannelWidth * $i * (-1)};
+                --saturation: #{100% / ($nDivs * $nTags) * $i};
+                --angle: #{360deg / ($nDivs * $nTags) * $i};
+            }
+        }
+
+        
+        &[name="technoXuxex"]::before{ content: "TECHNO XUXEX"; }
+        &[name="underground"]::before{ content: "UNDERGROUND"; }
+        &[name="nossamissao"]::before{ content: "NOSSA MISSÃO"; }
+
+        &::before{
+
+            position: absolute;
+            left: var(--left);
+
+            width: max-content;
+            font-size: 60px;
+            //color: hsl(0, var(--saturation), 50%);
+            color: white;
+        }
+    }
+}
+
+
+@mixin verdeMagenta($xv: 0px, $yv: 0px, $blurv: 0px, $xm: 0px, $ym: 0px, $blurm: 0px){
+    text-shadow:
+        rgb(0, 255, 0) $xv $yv $blurv,
+        magenta $xm $ym $blurm;
+}
+
+.mainText{
+
+    > div{
+        animation: scaleGlitch 24s infinite linear;
+
+        @keyframes scaleGlitch {
+            0%{ scale: 1 }
+            0.5%, 1.5%{}
+            1%{ scale: 1.05; }
+            2%, 100%{ scale: 1; }
+        }
+
+        &::before{
+            animation: glitch 24s infinite linear;
+
+            @keyframes glitch {
+                0%{
+                    text-shadow:
+                        rgb(0, 255, 0) 0 0 0,
+                        magenta 0 0 0;
+                }
+                0.5%, 1.5%{ @include verdeMagenta(1px, 1px, 4px, -1px, -1px, -4px); }
+                1%{ @include verdeMagenta(2px, 2px, 6px, -2px, -2px, -6px); }
+                2%, 100%{
+                    text-shadow:
+                        rgb(0, 255, 0) 0 0 0,
+                        magenta 0 0 0;
+                }
+            };
+        }
+    }
+}

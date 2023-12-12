@@ -25,7 +25,7 @@ export async function getGlobalData() {
             type: 'globals',
             slug: 'header',
           })
-          .props('metadata.site_title,metadata.site_tag')
+          .props('metadata.site_title, metadata.site_tag')
           .depth(1)
       );
       const siteData = data.object;

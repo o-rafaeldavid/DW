@@ -31,7 +31,7 @@ export default async function RootLayout({ children }) {
       <html lang="en" className={main.fundo}>
         <Body className={inter.className}>
           {children}
-          <div>{process.env.BUCKET_WRITE_KEY}</div>
+          <div>{process.env.BUCKET_SLUG}</div>
         </Body>
       </html>
     </>

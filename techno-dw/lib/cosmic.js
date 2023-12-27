@@ -16,42 +16,45 @@ const cosmic = createBucketClient({
   writeKey: process.env.BUCKET_WRITE_KEY,
 });
 
-export async function getGlobalData() {
-    // Get global data
-    try {
-      const data = await Promise.resolve(
-        cosmic.objects
-          .findOne({
-            type: 'globals',
-            slug: 'header',
-          })
-          .props('metadata.site_title, metadata.site_tag')
-          .depth(1)
-      );
-      const siteData = data.object;
-      return Promise.resolve(siteData);
-    } catch (error) {
-      console.log('Oof', error);
-    }
-    return Promise.resolve();
+//função geral para ir buscar no cosmic
+async function getFromCosmic(findOne, query, propstoget) {
+  try {
+    const data = await Promise.resolve(
+      (findOne)
+      ?
+      cosmic.objects
+        .findOne(query)
+        .props(propstoget)
+        .depth(1)
+      :
+      cosmic.objects
+        .find(query)
+        .props(propstoget)
+        .depth(1)
+    );
+    return Promise.resolve(data[`object${findOne ? '' : 's'}`]);
+  } catch (error) {
+    console.log('Oof', error);
   }
+  return Promise.resolve();
+}
 
-/* 
-// Fetch content
-await cosmic.objects
-  .find({
-    type: 'posts',
-  })
-  .limit(1);
+// data relativa ao header
+export const getGlobalData = async () =>
+  getFromCosmic(
+    true,
+    {
+      type: 'globals',
+      title: 'Head',
+    },
+    'metadata.site_title, metadata.site_tag'
+  )
 
-// Write content
-await cosmic.objects.insertOne({
-  title: 'Blog Post Title',
-  type: 'posts',
-  metadata: {
-    content: 'Here is the blog post content...',
-    seo_description: 'This is the blog post SEO description.',
-    featured_post: true,
-  },
-});
- */
+
+
+export const getAllEventos = async () =>
+  getFromCosmic(
+    false,
+    {"type": "eventos"},
+    "slug, title, metadata"
+  )

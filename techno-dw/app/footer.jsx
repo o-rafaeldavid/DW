@@ -1,9 +1,9 @@
 "use client"
 
-export default function Footer({className}){
+export default function Footer(){
     return (
         <>
-            <footer className={className}>
+            <footer>
             </footer>
         </>
     );

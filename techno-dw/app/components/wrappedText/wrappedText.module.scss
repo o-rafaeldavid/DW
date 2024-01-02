@@ -39,7 +39,7 @@
     $nDivs: 32;
     $translateZ: 318px;
 
-    > div > div{
+    > div > div, > div > span{
         position: absolute;
         transform: translate(-50%, -50%) rotateY(calc(var(--angle) + var(--plusAngle) + 70deg)) translateZ($translateZ);
         width: $pannelWidth;
@@ -58,6 +58,11 @@
                 --angle: #{360deg / ($nDivs * $nTags) * $i};
             }
         }
+    }
+
+    > div > div,
+    > div > span[param="glitchText"] > div,
+    > div > span[param="glitchText"] > span > div{
 
         
         &[name="technoXuxex"]::before{ content: "TECHNO XUXEX"; }
@@ -77,42 +82,3 @@
     }
 }
 
-
-@mixin verdeMagenta($xv: 0px, $yv: 0px, $blurv: 0px, $xm: 0px, $ym: 0px, $blurm: 0px){
-    text-shadow:
-        rgb(0, 255, 0) $xv $yv $blurv,
-        magenta $xm $ym $blurm;
-}
-
-.mainText{
-
-    > div{
-        animation: scaleGlitch 24s infinite linear;
-
-        @keyframes scaleGlitch {
-            0%{ scale: 1 }
-            0.5%, 1.5%{}
-            1%{ scale: 1.05; }
-            2%, 100%{ scale: 1; }
-        }
-
-        &::before{
-            animation: glitch 24s infinite linear;
-
-            @keyframes glitch {
-                0%{
-                    text-shadow:
-                        rgb(0, 255, 0) 0 0 0,
-                        magenta 0 0 0;
-                }
-                0.5%, 1.5%{ @include verdeMagenta(1px, 1px, 4px, -1px, -1px, -4px); }
-                1%{ @include verdeMagenta(2px, 2px, 6px, -2px, -2px, -6px); }
-                2%, 100%{
-                    text-shadow:
-                        rgb(0, 255, 0) 0 0 0,
-                        magenta 0 0 0;
-                }
-            };
-        }
-    }
-}

@@ -1,0 +1,106 @@
+@import '../../../styles/modules/main.module.scss';
+
+
+$headerHeight: 32px;
+
+header{
+    width: 100%;
+    height: $headerHeight;
+    margin: $headerHeight 0;
+    position: relative;
+    z-index: 101;
+
+    display: flex;
+    flex-direction: row-reverse;
+
+    > svg#hamb{
+        width: auto;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+
+        transition: scale 300ms ease-in-out;
+
+        filter: drop-shadow(white 0 0 4px);
+
+        > circle{
+            fill: white;
+            transition: transform 300ms ease-in-out;
+        }
+
+        &:hover{
+            cursor: pointer;
+            scale: 2;
+
+            filter: drop-shadow(white 0 0 6px) drop-shadow(white 0 0 6px);
+        }
+    }
+
+    + nav{
+        position: fixed;
+        top: 0; left: 0;
+        width: 100dvw; height: 100dvh;
+        margin-top: $headerHeight*5;
+        //opacity: 0;
+        z-index: 100;
+        
+
+        &.activated{
+            top: 0;
+            opacity: 1;
+        }
+
+        > ul{
+            display: flex;
+            flex-direction: column;
+
+            > li{
+                position: relative;
+                padding: $headerHeight 3*$headerHeight;
+                box-sizing: content-box;
+
+
+                > a > p{
+                    text-transform: uppercase;
+                }
+
+                        @mixin a_to_p(){
+                            > a > p{
+                                height: auto;
+                                margin-top: 24px;
+                                margin-left: 12px;
+                                font-size: 1.4em;
+                            }
+                        }
+
+                &:has(a.active){
+                    @include a_to_p();
+                    transition: filter 300ms;
+
+                    &:has(a.sombra){
+                        > a.sombra{
+                            > span[param="glitchText"] *{ filter: brightness(0); }
+                        }
+                    }
+                }
+
+                &:has(a.active), &:hover:not(:has(a.active)){
+                    background-color: white;
+                    > *, > * *{ color: $background !important; }
+                }
+                
+
+                &:not(:has(a.active)){
+                    > a > p{
+                        display: block;
+                        height: 0;
+                        font-size: 0;
+                        transition: 300ms margin-top;
+                    }
+                    &:hover{
+                        @include a_to_p();
+                    }
+                }
+            }
+        }
+    }
+}

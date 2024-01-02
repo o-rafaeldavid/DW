@@ -1,0 +1,35 @@
+*{
+    margin: unset;
+    padding: unset;
+    border: unset;
+    line-height: 1;
+    color: white;
+    cursor: default;
+}
+
+html:has(nav.activated) body{
+    overflow-y: hidden;
+    > main, footer{ filter: blur(10px); }
+}
+
+
+a{
+    all: unset;
+    &:hover *{ cursor: pointer; }
+}
+
+ul, ol{
+    list-style: none;
+}
+
+h1{
+    font-size: 5em;
+    text-transform: uppercase;
+    font-weight: 500;
+
+    font-family: 'Lexend Peta', sans-serif;
+}
+
+p{
+    font-size: 1.4em;
+}

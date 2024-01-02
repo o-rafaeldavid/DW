@@ -1,4 +1,4 @@
-import WrappedText from "../components/WrappedText"
+import WrappedText from "../components/wrappedText/WrappedText"
 
 export default async function NossaMissao() {
   return (

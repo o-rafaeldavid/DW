@@ -1,7 +1,6 @@
 "use client"
 import Footer from "./footer"
-
-import main from "../styles/sass/main.module.scss"
+import Header from "./components/header/header";
 
 export default function Body({children, className}){
     const footerShow = (e) => {
@@ -10,8 +9,11 @@ export default function Body({children, className}){
 
     return(
         <body className={className} onWheel={footerShow}>
-            {children}
-            <Footer className={main.footer}/>
+            <Header/>
+            <main>
+                {children}
+            </main>
+            <Footer/>
         </body>
     )
 }

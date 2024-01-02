@@ -1,0 +1,160 @@
+@use 'sass:list';
+
+@mixin verdeMagenta($xv: 0px, $yv: 0px, $blurv: 0px, $xm: 0px, $ym: 0px, $blurm: 0px){
+    text-shadow:
+        rgb(0, 255, 0) $xv $yv $blurv,
+        magenta $xm $ym $blurm;
+}
+
+@mixin glitchBlurAnimation($fundo, $params){
+    @keyframes glitchBlur#{$fundo}{
+        0%, 14%{
+            @include verdeMagenta(
+                list.nth($params, 2), list.nth($params, 2), list.nth($params, 1),
+                -1 * list.nth($params, 2), -1 * list.nth($params, 2), list.nth($params, 1)
+            );
+        }
+        15%, 49%{
+            @include verdeMagenta(
+                list.nth($params, 3), list.nth($params, 3), list.nth($params, 1),
+                -1 * list.nth($params, 3), -1 * list.nth($params, 3), list.nth($params, 1)
+            );
+        }
+        50%, 99%{
+            @include verdeMagenta(
+                list.nth($params, 4), list.nth($params, 4), list.nth($params, 1),
+                -1 * list.nth($params, 4), -1 * list.nth($params, 4), list.nth($params, 1)
+            );
+        }
+        100%{
+            @include verdeMagenta(
+                list.nth($params, 5), list.nth($params, 5), list.nth($params, 1),
+                -1 * list.nth($params, 5), -1 * list.nth($params, 5), list.nth($params, 1)
+            );
+        }
+    }
+}
+
+@mixin createGlitchCutAnimation($id, $params){
+    @keyframes glitchCut_#{$id}{
+        0%, 14%{
+            translate: list.nth($params, 1) list.nth($params, 2);
+        }
+        15%, 49%{
+            translate: list.nth($params, 3) list.nth($params, 4);
+        }
+        50%, 99%{
+            translate: list.nth($params, 5) list.nth($params, 6);
+        }
+        100%{
+            translate: list.nth($params, 7) list.nth($params, 8);
+        }
+    }
+}
+
+$cutProps0:
+    -0.0125em, 0.1em,
+    0.035em, -0.02em,
+    -0.05em, 0.1em,
+    0.03em, -0.025em
+;
+$cutProps1:
+    0.03em, 0.1em,
+    -0.05em, 0.03em,
+    0.03em, 0.025em,
+    -0.03em, 0.06em
+;
+@include createGlitchCutAnimation(0, $cutProps0);
+@include createGlitchCutAnimation(1, $cutProps1);
+
+$blurPropsWhite: 
+    0.4em,
+    -0.12em,
+    0.09em,
+    -0.07em,
+    0.05em
+;
+$blurPropsBlack: 
+    0.12em,
+    -0.05em,
+    0.04em,
+    -0.03em,
+    0.05em
+;
+@include glitchBlurAnimation('white', $blurPropsWhite);
+@include glitchBlurAnimation('black', $blurPropsBlack);
+
+////////////
+////////////
+////////////
+
+
+.glitch{
+    position: relative;
+
+    $eacher:
+        ('white', $blurPropsWhite),
+        ('black', $blurPropsBlack)
+    ;
+    @each $element in $eacher{
+        $props: nth($element, 2);
+        &.#{nth($element, 1)}{
+            @include verdeMagenta(
+                list.nth($props, 2),
+                list.nth($props, 2),
+                list.nth($props, 1),
+    
+                -1 * list.nth($props, 2),
+                -1 * list.nth($props, 2),
+                list.nth($props, 1)
+            );
+        }
+    }
+
+
+    > span{
+        position: absolute;
+        top: 0; left: 0;
+        opacity: 0;
+
+        &:first-of-type{
+            clip-path: polygon(
+                0 0,
+                100% 0,
+                100% 40%,
+                0 40%
+            );
+        }
+        &:last-of-type{
+            clip-path: polygon(
+                0 60%,
+                100% 60%,
+                100% 1000%,
+                0 100%
+            );
+        }
+    }
+}
+
+.glitchIt{
+    &:not(.notForText){
+        $eacherBackground: 'white', 'black';
+        @each $background in $eacherBackground{
+            &.#{$background}{
+                animation: glitchBlur_#{$background} 200ms infinite;
+            
+                > span{
+                    animation: glitchBlur_#{$background} 200ms infinite;
+                    opacity: 1;
+
+                    &:first-of-type{
+                        animation: glitchCut_0 200ms infinite;
+                    }
+                    &:last-of-type{
+                        animation: glitchCut_1 200ms infinite;
+                    }
+                }
+            }
+        }
+    }
+}

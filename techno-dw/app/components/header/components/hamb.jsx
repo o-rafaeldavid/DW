@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react"
 import { HambActivatedContext } from "../contexts/hambActivated"
-
+import { isMobile } from 'react-device-detect';
 
 
 export default function Hamb(){
@@ -24,7 +24,10 @@ export default function Hamb(){
             x="0px" y="0px"
 	        viewBox="0 0 100 100"
             id="hamb"
-            className={hambActivated ? 'popit' : ''}
+            className={`
+                ${hambActivated ? 'popit' : ''} 
+                ${isMobile ? 'mobile' : ''}
+            `}
 
             onMouseEnter={
                 () => {

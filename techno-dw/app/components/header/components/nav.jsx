@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import GlitchText from '../../glitchText/GlitchText'
 import { useContext, useState } from 'react'
 import { HambActivatedContext } from '../contexts/hambActivated'
-
+ 
 export default function Nav(){
     const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
 

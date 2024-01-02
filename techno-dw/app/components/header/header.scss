@@ -6,6 +6,7 @@ $headerHeight: 32px;
 
 header{
     width: 100dvw;
+    z-index: 10;
     height: $headerHeight;
     margin: $headerHeight 0;
     padding: 0 32px;
@@ -33,7 +34,7 @@ header{
             cursor: pointer;
         }
 
-        &:hover{
+        &:hover:not(.mobile){
             &:not(.popit){ scale: 2; }
             filter: drop-shadow(white 0 0 6px) drop-shadow(white 0 0 6px);
         }

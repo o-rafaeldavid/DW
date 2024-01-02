@@ -1,17 +1,16 @@
-@import '../../../styles/modules/main.module.scss';
+@import '../../../styles/general.scss';
 @import '../../../styles/mediaQueries.scss';
 
 
 $headerHeight: 32px;
 
 header{
-    width: 100%;
+    width: 100dvw;
     height: $headerHeight;
     margin: $headerHeight 0;
     padding: 0 32px;
     box-sizing: border-box;
     position: relative;
-    z-index: 101;
 
     position: fixed;
     top: 0; left: 0;
@@ -22,6 +21,7 @@ header{
         width: auto;
         height: 100%;
         aspect-ratio: 1 / 1;
+        z-index: 101;
 
         transition: scale 300ms ease-in-out;
         filter: drop-shadow(white 0 0 4px);
@@ -52,14 +52,15 @@ header{
         }
     }
 
-    + nav{
-        position: fixed;
+    > nav{
+        position: absolute;
         top: -100dvh; left: 0;
         width: 100dvw; height: 100dvh;
-        margin-top: $headerHeight*5;
+        padding-top: $headerHeight*5;
         opacity: 0;
         transition: 300ms opacity;
         z-index: 100;
+
         
                 @include tablet-portrait-up{
                     margin: 0;

@@ -1,5 +1,7 @@
 @import './mediaQueries.scss';
 
+$background: rgb(20, 20, 20);
+
 *{
     margin: unset;
     padding: unset;
@@ -16,6 +18,10 @@
     }
 }
 
+html {
+    background: $background
+}
+
 html:has(nav.activated) body{
     overflow-y: hidden;
     > main, footer{ filter: blur(10px); }
@@ -25,6 +31,32 @@ html:has(nav.activated) body{
     }
 }
 
+
+body{
+    min-height: 100dvh;
+    width: 100dvw;
+    padding: 0 32px;
+    box-sizing: border-box;
+
+    font-family: var(--font-inter), sans-serif;
+
+    overflow-x: hidden;
+
+
+    &::-webkit-scrollbar{
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+
+    > main{
+        margin-top: 64px;
+        min-height: calc(100dvh - 3 * 64px);
+    }
+}
 
 a{
     all: unset;

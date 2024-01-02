@@ -1,7 +1,6 @@
 import Body from './body'
 import { getGlobalData } from '@/lib/cosmic'
 
-import main from "../styles/modules/main.module.scss"
 import { Inter } from 'next/font/google'
 import { Lexend_Peta } from 'next/font/google'
 import "../styles/general.scss"
@@ -21,8 +20,8 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-      <html lang="en" className={main.fundo}>
-        <Body className={`${main.body} ${inter.variable} ${lexend_peta.variable}`}>
+      <html lang="en">
+        <Body className={`${inter.variable} ${lexend_peta.variable}`}>
           {children}
         </Body>
       </html>

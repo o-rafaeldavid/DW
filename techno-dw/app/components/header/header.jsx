@@ -13,8 +13,8 @@ export default function Header(){
         <HambActivatedProvider>
             <header>
                 <Hamb/>
+                <Nav/>
             </header>
-            <Nav/>
         </HambActivatedProvider>
     )
 }

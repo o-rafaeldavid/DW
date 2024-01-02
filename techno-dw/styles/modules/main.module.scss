@@ -27,5 +27,6 @@ $background: rgb(20, 20, 20);
 
     > main{
         margin-top: 64px;
+        min-height: calc(100dvh - 3 * 64px);
     }
 }

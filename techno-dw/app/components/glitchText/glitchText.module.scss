@@ -52,18 +52,23 @@
     }
 }
 
+
+
 $cutProps0:
     -0.0125em, 0.1em,
     0.035em, -0.02em,
     -0.05em, 0.1em,
     0.03em, -0.025em
 ;
+
+
 $cutProps1:
     0.03em, 0.1em,
     -0.05em, 0.03em,
     0.03em, 0.025em,
     -0.03em, 0.06em
 ;
+
 @include createGlitchCutAnimation(0, $cutProps0);
 @include createGlitchCutAnimation(1, $cutProps1);
 

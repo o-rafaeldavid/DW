@@ -1,3 +1,5 @@
+@import './mediaQueries.scss';
+
 *{
     margin: unset;
     padding: unset;
@@ -5,11 +7,22 @@
     line-height: 1;
     color: white;
     cursor: default;
+
+    @include tablet-portrait-up{
+        font-size: 0.9em;
+    }
+    @include phone-portrait-up{
+        font-size: 0.87em;
+    }
 }
 
 html:has(nav.activated) body{
     overflow-y: hidden;
     > main, footer{ filter: blur(10px); }
+
+    > main{
+        min-height: calc(100dvh - 2 * 64px);
+    }
 }
 
 
@@ -32,4 +45,8 @@ h1{
 
 p{
     font-size: 1.4em;
+}
+
+span{
+    font-size: 1em;
 }

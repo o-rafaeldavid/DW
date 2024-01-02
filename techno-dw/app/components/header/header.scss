@@ -1,4 +1,5 @@
 @import '../../../styles/modules/main.module.scss';
+@import '../../../styles/mediaQueries.scss';
 
 
 $headerHeight: 32px;
@@ -7,9 +8,13 @@ header{
     width: 100%;
     height: $headerHeight;
     margin: $headerHeight 0;
+    padding: 0 32px;
+    box-sizing: border-box;
     position: relative;
     z-index: 101;
 
+    position: fixed;
+    top: 0; left: 0;
     display: flex;
     flex-direction: row-reverse;
 
@@ -19,30 +24,46 @@ header{
         aspect-ratio: 1 / 1;
 
         transition: scale 300ms ease-in-out;
-
         filter: drop-shadow(white 0 0 4px);
+        cursor: pointer;
 
         > circle{
             fill: white;
             transition: transform 300ms ease-in-out;
+            cursor: pointer;
         }
 
         &:hover{
-            cursor: pointer;
-            scale: 2;
-
+            &:not(.popit){ scale: 2; }
             filter: drop-shadow(white 0 0 6px) drop-shadow(white 0 0 6px);
+        }
+
+                @keyframes pulse {
+                    0%, 100%{ filter: drop-shadow(white 0 0 2px) drop-shadow(white 0 0 2px); }
+                    70%{ filter:
+                            drop-shadow(white 0 0 8px)
+                            drop-shadow(white 0 0 8px)
+                            drop-shadow(white 0 0 8px)
+                            drop-shadow(white 0 0 8px)
+                        ; }
+                }
+        &.popit{
+            animation: pulse 300ms backwards;
         }
     }
 
     + nav{
         position: fixed;
-        top: 0; left: 0;
+        top: -100dvh; left: 0;
         width: 100dvw; height: 100dvh;
         margin-top: $headerHeight*5;
-        //opacity: 0;
+        opacity: 0;
+        transition: 300ms opacity;
         z-index: 100;
         
+                @include tablet-portrait-up{
+                    margin: 0;
+                }
 
         &.activated{
             top: 0;
@@ -53,10 +74,24 @@ header{
             display: flex;
             flex-direction: column;
 
+                    @include tablet-portrait-up{
+                        position: absolute;
+                        width: 100%;
+                        top: 50%; left: 0;
+                        translate: 0 -50%;
+                    }
+
             > li{
                 position: relative;
                 padding: $headerHeight 3*$headerHeight;
                 box-sizing: content-box;
+
+                        @include tablet-portrait-up(){
+                            padding: $headerHeight 2*$headerHeight;
+                        }
+                        @include phone-portrait-up(){
+                            padding: $headerHeight;
+                        }
 
 
                 > a > p{
@@ -69,6 +104,7 @@ header{
                                 margin-top: 24px;
                                 margin-left: 12px;
                                 font-size: 1.4em;
+                                color: white;
                             }
                         }
 
@@ -78,6 +114,8 @@ header{
 
                     &:has(a.sombra){
                         > a.sombra{
+                            opacity: 0.85;
+                            filter: blur(0.2em);
                             > span[param="glitchText"] *{ filter: brightness(0); }
                         }
                     }
@@ -96,8 +134,15 @@ header{
                         font-size: 0;
                         transition: 300ms margin-top;
                     }
+                            @include tablet-portrait-up{
+                                @include a_to_p();
+                            }
+
+
                     &:hover{
                         @include a_to_p();
+                        z-index: 2;
+                        box-shadow: $background 0 0 100px;
                     }
                 }
             }

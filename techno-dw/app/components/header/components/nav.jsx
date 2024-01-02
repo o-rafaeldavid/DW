@@ -3,9 +3,12 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import GlitchText from '../../glitchText/GlitchText'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { HambActivatedContext } from '../contexts/hambActivated'
 
 export default function Nav(){
+    const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
+
     const pathname = usePathname()
     const splitted = pathname.split('/')
     const where = '/' + splitted[1]
@@ -20,7 +23,7 @@ export default function Nav(){
     const [notActiveHover, setNAH] = useState(false)
 
     return(
-        <nav>
+        <nav className={hambActivated ? 'activated' : ''}>
             <ul>
                 {
                     routes.map(
@@ -40,6 +43,7 @@ export default function Nav(){
                                         className={
                                             sameRoute(`active ${(notActiveHover) ? 'sombra' : ''}`, '')
                                         }
+                                        onClick={() => setHambActivated(false)}
                                     >
                                         {sameRoute(glitch, (hover) ? glitch : titulo)}
                                         <p>{route.desc}</p>

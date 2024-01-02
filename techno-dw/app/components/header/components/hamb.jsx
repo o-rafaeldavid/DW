@@ -6,11 +6,10 @@ import { HambActivatedContext } from "../contexts/hambActivated"
 
 
 export default function Hamb(){
+    const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
     const [translate, setTranslate] = useState({x: 0, y: 0})
 
     const [styleCenter, setStyleCenter] = useState({})
-    
-    const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
 
 
     useEffect(
@@ -25,10 +24,11 @@ export default function Hamb(){
             x="0px" y="0px"
 	        viewBox="0 0 100 100"
             id="hamb"
+            className={hambActivated ? 'popit' : ''}
 
             onMouseEnter={
                 () => {
-                    setTranslate({x: 40, y: 40})
+                    if(!hambActivated) setTranslate({x: 40, y: 40})
                 }
             }
             onMouseLeave={
@@ -38,7 +38,10 @@ export default function Hamb(){
                 }
             }
             onClick={
-                () => {setHambActivated(!hambActivated)}
+                () => {
+                    setHambActivated(!hambActivated)
+                    if(!hambActivated) setTranslate({x: 10, y: 10})
+                }
             }
         >
             <circle cx="10" cy="10" r="10" transform={`translate(${translate.x} ${translate.y})`}/>

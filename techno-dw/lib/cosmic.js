@@ -36,7 +36,7 @@ async function getFromCosmic(findOne, query, propstoget) {
   } catch (error) {
     console.log('Oof', error);
   }
-  return Promise.resolve();
+  return Promise.resolve(undefined);
 }
 
 // data relativa ao header
@@ -53,6 +53,23 @@ export const getGlobalData = async () =>
 
 
 export const getAllEventos = async () =>
+  getFromCosmic(
+    false,
+    {"type": "eventos"},
+    "slug, title, metadata"
+  )
+
+export const getEventoBySlug = async (id) =>
+  getFromCosmic(
+    true,
+    {
+      "type": "eventos",
+      "slug": `evento-${id}`
+    },
+    "slug, title, metadata"
+  )
+
+export const getEventosForUnderground = async (order, limit, skip) =>
   getFromCosmic(
     false,
     {"type": "eventos"},

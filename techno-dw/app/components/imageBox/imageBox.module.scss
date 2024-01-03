@@ -9,3 +9,13 @@
     @include medium-landscape-down(){ aspect-ratio: 16 / 9; }
     @include phone-portrait-up(){ aspect-ratio: 3 / 4; }
 }
+
+
+@keyframes loading {
+    from{ opacity: 0.3; }
+    to{ opacity: 0; }
+}
+.loading{
+    background-color: white;
+    animation: loading 1s ease-in-out infinite;
+}

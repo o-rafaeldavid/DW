@@ -4,7 +4,9 @@ import GlitchBox from "@/app/components/glitchBox/glitchBox"
 import ImageBox from "@/app/components/imageBox/imageBox"
 import { useDeviceSize } from "@/lib/hooks"
 import { mapear } from "@/lib/misc"
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+
+
 
 export default function UndergroundBests({data, className, rotateZ, incline}){
     let onMountRef = useRef(true)
@@ -13,6 +15,7 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
 
     useEffect(
         () => {
+            console.log(data)
             if(onMountRef.current){
                 onMountRef.current = false
                 return

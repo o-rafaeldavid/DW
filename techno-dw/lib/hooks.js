@@ -21,6 +21,8 @@ export function useEventListener(
     )
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 export function useDeviceSize(){
     const [width, setWidth] = useState(0)
     const [height, setHeight] = useState(0)
@@ -40,5 +42,19 @@ export function useDeviceSize(){
         width,
         height
     }
-  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function useLoadingImage(src){
+    const [isLoaded, setIsLoaded] = useState(false)
+    useEffect(
+        () => {
+            const img = new Image()
+            img.src = src
+            img.onload = () => setIsLoaded(true)
+        }, [src]
+    )
+    return isLoaded
+}
   

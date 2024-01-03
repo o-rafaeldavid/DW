@@ -91,7 +91,7 @@ body{
     }
 
     &:has(nav.activated){
-        overflow-y: hidden;
+        overflow-y: hidden !important;
         > main, footer{ filter: blur(10px); }
     }
 }
@@ -110,9 +110,10 @@ ul, ol{
 $headingInfos:
     (6em, 600, var(--font-lexend-peta)),
     (2em, 500, var(--font-lexend-peta)),
-    (1.5em, 400, var(--font-lexend-peta))
+    (1.5em, 400, var(--font-lexend-peta)),
+    (4em, 500, var(--font-lexend-peta))
 ;
-@for $i from 1 to 4{
+@for $i from 1 to 5{
     $headingInfo: nth($headingInfos, $i);
 
     h#{$i}{

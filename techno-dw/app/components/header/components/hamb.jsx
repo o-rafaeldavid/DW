@@ -18,8 +18,11 @@ export default function Hamb(){
         () => {
             setStyleCenter((hambActivated) ? {opacity: 0} : {})
             if(!hambActivated){
-                const pos = (hover) ? 40 : 0
-                setTranslate({x: pos, y: pos})
+                if(!isMobile){
+                    const pos = (hover) ? 40 : 0
+                    setTranslate({x: pos, y: pos})
+                }
+                else setTranslate({x: 0, y: 0})
             }
         }, [hambActivated]
     )
@@ -35,7 +38,7 @@ export default function Hamb(){
                 () => {
                     if(!hambActivated) setTranslate({x: 40, y: 40})
                     
-                    setHover(true)
+                    if(!isMobile) setHover(true)
                 }
             }
             onMouseLeave={
@@ -43,7 +46,7 @@ export default function Hamb(){
                    if(!hambActivated) setTranslate({x: 0, y: 0})
                    else setTranslate({x: 10, y: 10})
 
-                   setHover(false)
+                   if(!isMobile) setHover(false)
                 }
             }
             onClick={

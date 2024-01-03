@@ -2,8 +2,9 @@
 
 import GlitchBox from "@/app/components/glitchBox/glitchBox"
 import ImageBox from "@/app/components/imageBox/imageBox"
+import { WindowDimensionContext } from "@/app/contexts/windowDimensions"
 import { mapear } from "@/lib/misc"
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 
 export default function UndergroundBests({data, className, rotateZ, incline}){
     let onMountRef = useRef(true)
@@ -30,16 +31,26 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
 
 
 
+    const { windowWidth } = useContext(WindowDimensionContext)
+    const [nLists, setNLists] = useState(7)
     const [lists, setLists] = useState([])
     useEffect(
         () => {
             let lista = []
-            for(let i = 0; i < 5; i++){
+            for(let i = 0; i < nLists; i++){
                 lista.push((data[i] !== undefined) ? data[i] : {slug: i, metadata:{ hero:{ imgix_url: ''}}})
             }
             setLists(lista)
-        }, []
+        }, [nLists]
     )
+    useEffect(
+        () => {
+            if(windowWidth <= 870 && nLists !== 5) setNLists(5)
+            else if(windowWidth > 870 && nLists !== 7) setNLists(7)
+        }, [windowWidth]
+    )
+
+    
 
     return(
         <div className={className} ref={wrapperRef}>

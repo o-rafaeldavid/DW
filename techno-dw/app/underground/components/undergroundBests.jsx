@@ -2,7 +2,7 @@
 
 import GlitchBox from "@/app/components/glitchBox/glitchBox"
 import ImageBox from "@/app/components/imageBox/imageBox"
-import { WindowDimensionContext } from "@/app/contexts/windowDimensions"
+import { useDeviceSize } from "@/lib/hooks"
 import { mapear } from "@/lib/misc"
 import { useContext, useEffect, useRef, useState } from "react"
 
@@ -31,7 +31,7 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
 
 
 
-    const { windowWidth } = useContext(WindowDimensionContext)
+    const deviceSize = useDeviceSize()
     const [nLists, setNLists] = useState(7)
     const [lists, setLists] = useState([])
     useEffect(
@@ -45,9 +45,9 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
     )
     useEffect(
         () => {
-            if(windowWidth <= 870 && nLists !== 5) setNLists(5)
-            else if(windowWidth > 870 && nLists !== 7) setNLists(7)
-        }, [windowWidth]
+            if(deviceSize.width <= 870 && nLists !== 5) setNLists(5)
+            else if(deviceSize.width > 870 && nLists !== 7) setNLists(7)
+        }, [deviceSize]
     )
 
     

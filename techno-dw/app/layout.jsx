@@ -5,7 +5,6 @@ import { Inter } from 'next/font/google'
 import { Lexend_Peta } from 'next/font/google'
 import { Lexend_Exa } from 'next/font/google'
 import { Lexend } from 'next/font/google'
-import WindowDimensionProvider from './contexts/windowDimensions'
 import "../styles/general.scss"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter'})
@@ -25,13 +24,11 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-      <WindowDimensionProvider>
-        <html lang="en">
-          <Body className={`${inter.variable} ${lexend_peta.variable} ${lexend_exa.variable} ${lexend.variable}`}>
-            {children}
-          </Body>
-        </html>
-      </WindowDimensionProvider>
+      <html lang="en">
+        <Body className={`${inter.variable} ${lexend_peta.variable} ${lexend_exa.variable} ${lexend.variable}`}>
+          {children}
+        </Body>
+      </html>
     </>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import GlitchText from "@/app/components/glitchText/glitchText.jsx"
+import GlitchText from "@/app/components/glitchText/glitchText"
 import Container from "@/app/components/container"
 import GlitchBox from "@/app/components/glitchBox/glitchBox"
 import ImageBox from "@/app/components/imageBox/imageBox"

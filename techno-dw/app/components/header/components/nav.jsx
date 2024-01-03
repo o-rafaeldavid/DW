@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import GlitchText from '../../glitchText/glitchText'
+import GlitchText from "@/app/components/glitchText/glitchText"
 import { useContext, useState } from 'react'
 import { HambActivatedContext } from '../contexts/hambActivated'
 import { isMobile } from 'react-device-detect';

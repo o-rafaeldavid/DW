@@ -1,5 +1,5 @@
 "use client"
-import GlitchText from "../teste/teste";
+import GlitchText from "../glitchText/glitchText";
 import wrappedText from "./wrappedText.module.scss"
 
 

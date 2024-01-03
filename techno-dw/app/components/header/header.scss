@@ -17,6 +17,15 @@ header{
     top: 0; left: 0;
     display: flex;
     flex-direction: row-reverse;
+    
+
+            @include phone-portrait-up(){
+                top: unset;
+                bottom: 0;
+            }
+
+
+            
 
     > svg#hamb{
         width: auto;
@@ -55,20 +64,21 @@ header{
 
     > nav{
         position: absolute;
-        top: -100dvh; left: 0;
+        top: 0; left: 0;
         width: 100dvw; height: 100dvh;
         padding-top: $headerHeight*5;
         opacity: 0;
         transition: 300ms opacity;
-        z-index: 100;
+        z-index: -1;
 
         
                 @include tablet-portrait-up{
+                    padding: 0;
                     margin: 0;
                 }
 
         &.activated{
-            top: 0;
+            z-index: 100;
             opacity: 1;
         }
 
@@ -114,7 +124,7 @@ header{
                     @include a_to_p();
                     transition: filter 300ms;
 
-                    &:has(a.sombra){
+                    &:has(a.sombra:not(.mobile)){
                         > a.sombra{
                             opacity: 0.85;
                             filter: blur(0.2em);

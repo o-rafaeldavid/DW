@@ -7,7 +7,7 @@
 }
 
 @mixin glitchBlurAnimation($fundo, $params){
-    @keyframes glitchBlur#{$fundo}{
+    @keyframes glitchBlur_#{$fundo}{
         0%, 14%{
             @include verdeMagenta(
                 list.nth($params, 2), list.nth($params, 2), list.nth($params, 1),
@@ -142,22 +142,23 @@ $blurPropsBlack:
 }
 
 .glitchIt{
-    &:not(.notForText){
-        $eacherBackground: 'white', 'black';
-        @each $background in $eacherBackground{
-            &.#{$background}{
-                animation: glitchBlur_#{$background} 200ms infinite;
-            
-                > span{
-                    animation: glitchBlur_#{$background} 200ms infinite;
-                    opacity: 1;
+    $eacherBackground: 'white', 'black';
+    @each $background in $eacherBackground{
+        &.#{$background}{
+            > span{
+                opacity: 1;
 
-                    &:first-of-type{
-                        animation: glitchCut_0 200ms infinite;
-                    }
-                    &:last-of-type{
-                        animation: glitchCut_1 200ms infinite;
-                    }
+                &:first-of-type{
+                    animation:
+                        glitchBlur_#{$background} 200ms infinite, 
+                        glitchCut_0 200ms infinite
+                    ;
+                }
+                &:last-of-type{
+                    animation: 
+                        glitchBlur_#{$background} 200ms infinite,
+                        glitchCut_1 200ms infinite
+                    ;
                 }
             }
         }

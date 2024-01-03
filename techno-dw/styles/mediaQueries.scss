@@ -1,3 +1,15 @@
+@mixin medium-landscape-down{
+    @media (max-height: 900px){
+        @content;
+    }
+}
+
+@mixin small-landscape-down{
+    @media (max-height: 700px){
+        @content;
+    }
+}
+
 @mixin tablet-portrait-up{
     @media (max-width: 1300px){
         @content;

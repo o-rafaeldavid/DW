@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import GlitchText from '../../glitchText/GlitchText'
+import GlitchText from '../../glitchText/glitchText'
 import { useContext, useState } from 'react'
 import { HambActivatedContext } from '../contexts/hambActivated'
+import { isMobile } from 'react-device-detect';
  
 export default function Nav(){
     const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
@@ -20,10 +21,15 @@ export default function Nav(){
         new defRoute('nossa missão', '/nossamissao', '------ descrição aqui')
     ]
 
+    console.log(isMobile)
+
     const [notActiveHover, setNAH] = useState(false)
 
     return(
-        <nav className={hambActivated ? 'activated' : ''}>
+        <nav
+            className={hambActivated ? 'activated' : ''}
+            onClick={() => setHambActivated(false)}
+        >
             <ul>
                 {
                     routes.map(
@@ -41,9 +47,12 @@ export default function Nav(){
                                     <Link
                                         href={sameRoute('', route.to)}
                                         className={
-                                            sameRoute(`active ${(notActiveHover) ? 'sombra' : ''}`, '')
+                                            sameRoute(`
+                                                active 
+                                                ${(notActiveHover) ? 'sombra' : ''}
+                                                ${isMobile ? 'mobile' : ''}
+                                            `, '')
                                         }
-                                        onClick={() => setHambActivated(false)}
                                     >
                                         {sameRoute(glitch, (hover) ? glitch : titulo)}
                                         <p>{route.desc}</p>

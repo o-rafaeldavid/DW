@@ -1,15 +1,15 @@
 "use client"
-import GlitchText from "../glitchText/GlitchText";
+import GlitchText from "../glitchText/glitchText";
 import wrappedText from "./wrappedText.module.scss"
 
 
 
 
-export default function WrappedText({classOn}){
+export default function WrappedText({classOn, style}){
 
     return(
         <>
-            <div className={wrappedText.wrappedText}>
+            <div className={wrappedText.wrappedText} style={style}>
                 <div>
                     <GlitchText><div name={classOn}></div></GlitchText>
                     <GlitchText><div name={classOn}></div></GlitchText>

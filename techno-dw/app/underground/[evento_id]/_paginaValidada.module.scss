@@ -1,0 +1,110 @@
+@import '../../../styles/mediaQueries.scss';
+$background: rgb(20, 20, 20);
+
+#mainContainer{
+    display: flex;
+    flex-direction: column;
+    @include medium-landscape-down(){
+        flex-direction: row-reverse;
+    }
+    @include tablet-portrait-up{
+        flex-direction: column;
+    }
+    @include phone-portrait-up(){
+        flex-direction: column-reverse;
+    }
+}
+    #sectionTitle{
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        @include phone-portrait-up(){
+            flex-direction: column-reverse;
+            text-align: unset;
+        }
+    }
+
+        #titulo{
+            @include phone-portrait-up(){
+                margin-top: 0.5em;
+            }
+        }
+
+            h2.data{
+                margin-top: 0.7em;
+                @include phone-portrait-up(){
+                    margin-top: 0.2em;
+                }
+            }
+
+            h3.data{
+                margin-top: 0.2em;
+                opacity: 0.7;
+            }
+
+    #sectionHeroAbout{
+        position: relative;
+        flex-grow: 1;
+        margin-bottom: 64px;
+    }
+
+        #hero, #sobreEvento{
+            position: absolute;
+        }
+
+        #hero{
+            > div[param="imageBox"]{
+                height: 100%;
+            }
+            height: 0;
+            min-height: 100%;
+            bottom: 0;
+            left: 7%;
+
+            @include medium-landscape-down(){
+                min-height: unset;
+                height: auto;
+                > div[param="imageBox"]{
+                    height: unset;
+                    width: 700px;
+                }
+            }
+            @include tablet-portrait-up{
+                min-height: unset;
+                height: auto;
+
+                bottom: unset;
+                top: 10%;
+                left: 7%;
+                > div[param="imageBox"]{
+                    height: unset;
+                    width: 420px;
+                }
+            }
+            @include phone-portrait-up(){
+                left: unset;
+                top: 64px;
+
+                > div[param="imageBox"]{
+                    height: unset;
+                    width: 300px;
+                }
+            }
+        }
+
+        #sobreEvento{
+            z-index: 1;
+            left: calc(500px + 7%);
+            top: 70%;
+
+            text-shadow: $background 0 0 6px, $background 0 0 6px;
+
+            @include tablet-portrait-up{
+                left: calc(300px + 7%);
+                top: 50%;
+            }
+            @include phone-portrait-up(){
+                left: 200px;
+                top: 65%;
+            }
+        }

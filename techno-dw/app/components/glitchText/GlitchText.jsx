@@ -24,7 +24,7 @@ export default function GlitchText({children, background = 'black'}){
             param="glitchText"
             className={`
                 ${glitchText.glitch} 
-                ${glitchText.glitchIt} 
+                ${(glitchIt) ? glitchText.glitchIt : ''} 
                 ${(background === 'black') ? glitchText.black : glitchText.white}
             `}
         >

@@ -11,33 +11,39 @@ export default function Hamb(){
 
     const [styleCenter, setStyleCenter] = useState({})
 
+    const [hover, setHover] = useState(false)
+
 
     useEffect(
         () => {
             setStyleCenter((hambActivated) ? {opacity: 0} : {})
+            if(!hambActivated){
+                const pos = (hover) ? 40 : 0
+                setTranslate({x: pos, y: pos})
+            }
         }, [hambActivated]
     )
-
 
     return(
         <svg
             x="0px" y="0px"
 	        viewBox="0 0 100 100"
             id="hamb"
-            className={`
-                ${hambActivated ? 'popit' : ''} 
-                ${isMobile ? 'mobile' : ''}
-            `}
+            className={` ${hambActivated ? 'popit' : ''} ${isMobile ? 'mobile' : ''} `}
 
             onMouseEnter={
                 () => {
                     if(!hambActivated) setTranslate({x: 40, y: 40})
+                    
+                    setHover(true)
                 }
             }
             onMouseLeave={
                 () => {
                    if(!hambActivated) setTranslate({x: 0, y: 0})
                    else setTranslate({x: 10, y: 10})
+
+                   setHover(false)
                 }
             }
             onClick={

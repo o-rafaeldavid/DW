@@ -1,0 +1,11 @@
+@import '../../../styles/mediaQueries.scss';
+
+.box{
+    aspect-ratio: 16 / 9;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    @include tablet-portrait-up(){ aspect-ratio: 3 / 4; }
+    @include medium-landscape-down(){ aspect-ratio: 16 / 9; }
+    @include phone-portrait-up(){ aspect-ratio: 3 / 4; }
+}

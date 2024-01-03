@@ -58,7 +58,7 @@ $background: rgb(20, 20, 20);
             }
             height: 0;
             min-height: 100%;
-            bottom: 0;
+            bottom: 64px;
             left: 7%;
 
             @include medium-landscape-down(){

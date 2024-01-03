@@ -26,7 +26,7 @@ $background: rgb(20, 20, 20);
 }
 
 html {
-    background: $background
+    background: $background;
 }
 
 
@@ -36,6 +36,11 @@ body{
     box-sizing: border-box;
     font-family: var(--font-inter), sans-serif;
     overflow-x: hidden;
+    overflow-y: hidden;
+
+    &:has(main > .container:nth-child(2)){
+        overflow-y: scroll !important;
+    }
 
 
     &::-webkit-scrollbar{
@@ -65,7 +70,8 @@ body{
             z-index: 10;
             position: relative;
             &:first-of-type{
-                min-height: calc(100dvh - 3 * 64px);
+                min-height: unset;
+                height: calc(100dvh - 2 * 64px);
                 @include medium-landscape-down(){
                     min-height: calc(100dvh - 2 * 64px);
                 }

@@ -1,29 +1,38 @@
+@import '../../../styles/mediaQueries.scss';
+
 /*
     SCSS referente ao wrapping do TECHNO XUXEX
 */
 
+
+
 .wrappedText{
+    --perspective-incline: -150px;
     perspective: 1000px;
-    perspective-origin: 50% calc(50% - 150px);
+    perspective-origin: 0 var(--perspective-incline);
 
-    position: absolute;
-    translate: -50% -50%;
-
+    width: 0;
+    height: 0;
     
 
     font-family: var(--font-lexend-peta), sans-serif;
     font-weight: 700;
+            @include phone-portrait-up{
+                font-family: var(--font-lexend), sans-serif;
+            }
 
     $nTags: 3;
 
     > div{
-        display: flex;
+        --rotateZ: 0deg;
+        position: relative;
         transform-style: preserve-3d;
 
         animation: rodar 24s infinite linear;
 
         @keyframes rodar {
-            to { transform: rotateY(-360deg); }
+            from{ transform: rotateZ(var(--rotateZ)) rotateY(0deg); }
+            to { transform: rotateZ(var(--rotateZ)) rotateY(-360deg); }
         }
 
         @for $i from 0 to ($nTags) {
@@ -34,13 +43,29 @@
     }
 
     $pannelWidth: 21px;
+        $pannelWidth_phone: 16.7px;
     $nDivs: 32;
     $translateZ: 318px;
+        $translateZ_phone: 253px;
 
-    > div > div, > div > span{
+    > div > div,
+    > div > span{
         position: absolute;
-        transform: translate(-50%, -50%) rotateY(calc(var(--angle) + var(--plusAngle) + 70deg)) translateZ($translateZ);
+        transform:
+            translate(-50%, -50%) 
+            rotateY(calc(var(--angle) + var(--plusAngle) + 70deg)) 
+            translateZ($translateZ)
+        ;
         width: $pannelWidth;
+            @include phone-portrait-up{
+                transform:
+                    translate(-50%, -50%) 
+                    rotateY(calc(var(--angle) + var(--plusAngle) + 70deg)) 
+                    translateZ($translateZ_phone)
+                ;
+
+                width: $pannelWidth_phone;
+            }
         height: 100px;
 
         overflow: hidden;
@@ -52,8 +77,10 @@
         @for $i from 0 to ($nDivs * $nTags){
             &:nth-child(#{$i + 1}){
                 --left: #{$pannelWidth * $i * (-1)};
-                --saturation: #{100% / ($nDivs * $nTags) * $i};
                 --angle: #{360deg / ($nDivs * $nTags) * $i};
+                @include phone-portrait-up{
+                    --left: #{$pannelWidth_phone * $i * (-1)};
+                }
             }
         }
     }

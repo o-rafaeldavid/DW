@@ -17,3 +17,15 @@ export function cosmicToDate(dateCosmic, year){
 export function cosmicYear(dateCosmic){
     return parseInt(dateCosmic.split('-')[0])
 }
+
+
+
+export function mapear(
+    number,
+    inMin,
+    inMax,
+    outMin,
+    outMax
+) {
+    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}

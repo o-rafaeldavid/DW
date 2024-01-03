@@ -1,0 +1,195 @@
+@import '../../styles/mediaQueries.scss';
+
+$background: rgb(20, 20, 20);
+
+#underground{
+    position: absolute;
+    bottom: 300px; left: 800px;
+
+    scale: 3;
+
+            @include medium-landscape-down(){
+                bottom: 200px; left: 600px;
+                scale: 2.4;
+            }
+
+            @include tablet-portrait-up(){
+                bottom: 240px !important; left: 55% !important;
+                scale: 2;
+            }
+
+            @include small-landscape-down(){
+                bottom: 150px; left: 600px;
+                scale: 1.9;
+            }
+
+                @media (max-width: 1100px){
+                    scale: 1.85;
+                }
+
+            @include phone-portrait-up{
+                bottom: calc(10% + 64px) !important;
+                scale: 1.8;
+            }
+
+                @media (max-width: 700px){
+                    scale: 1.6;
+                }
+
+                @media (max-width: 580px){
+                    left: 80% !important;
+                    scale: 1.6;
+                }
+
+                @media (max-width: 470px){
+                    left: 90% !important;
+                    scale: 1.5;
+                }
+}
+
+.undergroundBests{
+    --perspective-incline: -150px;
+    perspective: 1400px;
+    perspective-origin: 0 var(--perspective-incline);
+    width: 0;
+    height: 0;
+
+    position: absolute;
+    bottom: 600px; left: 800px;
+
+            @include medium-landscape-down(){
+                bottom: 440px; left: 600px;
+                scale: 0.8;
+            }
+
+            @include tablet-portrait-up(){
+                bottom: 600px !important; left: 52% !important;
+            }
+
+            @include small-landscape-down(){
+                bottom: 340px; left: 570px;
+                scale: 0.72;
+            }
+
+            @include phone-portrait-up{
+                bottom: calc(10% + 64px + 400px) !important;
+            }
+
+                @media (max-width: 700px){
+                    bottom: calc(10% + 64px + 360px) !important;
+                }
+
+                @media (max-width: 580px){
+                    left: 70% !important;
+                }
+
+                @media (max-width: 470px){
+                    left: 90% !important;
+                }
+
+    > ul{
+        --rotateZ: 0deg;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rodar 24s infinite linear;
+
+        @keyframes rodar {
+            from{ transform: rotateZ(var(--rotateZ)) rotateY(0deg); }
+            to { transform: rotateZ(var(--rotateZ)) rotateY(-360deg); }
+        }
+
+        @for $i from 0 to 7 {
+            > li:nth-child(#{$i + 1}){
+                --plusAngle: #{($i - 1) * 360 / 7}deg;
+            }
+        }
+
+                @include phone-portrait-up(){
+                    @for $i from 0 to 5 {
+                        > li:nth-child(#{$i + 1}){
+                            --plusAngle: #{($i - 1) * 360 / 5}deg;
+                        }
+                    }
+                }
+
+        > li{
+            width: fit-content;
+            height: fit-content;
+            background-color: $background;
+            position: absolute;
+            transform:
+                translate(-50%, -50%) 
+                rotateY(calc(var(--plusAngle) + 70deg)) 
+                translateZ(620px)
+            ;
+                    @include tablet-portrait-up(){
+                        transform:
+                            translate(-50%, -50%) 
+                            rotateY(calc(var(--plusAngle) + 70deg)) 
+                            translateZ(450px)
+                        ;
+                    }
+
+                            @media (max-width: 1100px){
+                                transform:
+                                    translate(-50%, -50%) 
+                                    rotateY(calc(var(--plusAngle) + 70deg)) 
+                                    translateZ(420px)
+                                ;
+                            }
+
+                    @include phone-portrait-up{
+                        transform:
+                            translate(-50%, -50%) 
+                            rotateY(calc(var(--plusAngle) + 70deg)) 
+                            translateZ(330px)
+                        ;
+                    }
+
+                    @media (max-width: 700px){
+                        transform:
+                            translate(-50%, -50%) 
+                            rotateY(calc(var(--plusAngle) + 70deg)) 
+                            translateZ(290px)
+                        ;
+                    }
+
+
+
+
+            &:hover{
+                div[param="imageBox"]{
+                    width: 520px;
+                    @include tablet-portrait-up(){
+                        width: 390px;
+                    }
+
+                        @media (max-width: 1100px){
+                            width: 350px;
+                        }
+
+                    @media (max-width: 700px){
+                        width: 310px
+                    }
+                }
+            }
+            
+
+            div[param="imageBox"]{
+                width: 440px;
+                transition: width 300ms;
+                    @include tablet-portrait-up(){
+                        width: 350px;
+                    }
+
+                        @media (max-width: 1100px){
+                            width: 320px;
+                        }
+
+                    @media (max-width: 700px){
+                        width: 290px
+                    }
+            }
+        }
+    }
+}

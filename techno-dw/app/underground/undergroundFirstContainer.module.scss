@@ -28,7 +28,7 @@ $background: rgb(20, 20, 20);
                 }
 
             @include phone-portrait-up{
-                bottom: calc(10% + 64px) !important;
+                bottom: calc(10% + 48px) !important;
                 scale: 1.8;
             }
 
@@ -82,7 +82,7 @@ $background: rgb(20, 20, 20);
             }
 
                 @media (max-width: 700px){
-                    bottom: calc(10% + 64px + 360px) !important;
+                    bottom: calc(10% + 48px + 300px) !important;
                 }
 
                 @media (max-width: 580px){

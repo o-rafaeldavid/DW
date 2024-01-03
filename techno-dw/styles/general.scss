@@ -55,6 +55,7 @@ body{
 
     > main{
         margin-top: 64px * 3;
+        overflow: hidden;
                 @include medium-landscape-down(){
                     margin-top: 64px * 2;
                 }

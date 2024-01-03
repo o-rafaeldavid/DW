@@ -33,7 +33,6 @@ html {
 
 body{
     width: 100dvw;
-    padding: 0 32px;
     box-sizing: border-box;
     font-family: var(--font-inter), sans-serif;
     overflow-x: hidden;
@@ -54,8 +53,11 @@ body{
 
 
     > main{
-        margin-top: 64px * 3;
         overflow: hidden;
+
+        > .container{
+            width: calc(100% - 2 * 32px);
+            margin: 64px*3 32px 0 32px;
                 @include medium-landscape-down(){
                     margin-top: 64px * 2;
                 }
@@ -66,8 +68,6 @@ body{
                     margin-top: 0;
                 }
 
-        > .container{
-            width: 100%;
             min-height: 100dvh;
             z-index: 10;
             position: relative;
@@ -85,7 +85,7 @@ body{
                 }
             }
             > .innerContainer{
-                margin: 64px 0;
+                margin: calc(64px + 32px) 0;
                 height: calc(100dvh - 2 * 64px);
             }
         }

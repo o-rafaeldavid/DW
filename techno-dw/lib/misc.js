@@ -1,5 +1,5 @@
-const meses = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
- "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const meses = ["Jan", "Feb", "Mar", "Abr", "Maio", "Jun",
+ "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
 
 // a data recebida pelo cosmic é no formato yyyy-mm-dd

@@ -1,12 +1,217 @@
-.h4{
+@import '../../../../../styles/mediaQueries.scss';
+
+#h4{
     text-align: center;
 }
 
-.sectionFilters{
+#sectionFilters{
     display: flex;
     gap: 4em;
 
     width: fit-content;
     margin: 0 auto;
     opacity: 0.7;
+}
+
+#inner{
+    overflow: hidden;
+}
+
+#carrossel{
+    position: relative;
+    height: 500px;
+    width: 100%;
+    margin-top: 128px;
+
+    &:hover{cursor: grab;}
+    &[param='grabbing']{
+        &:hover{cursor: grabbing;}
+    }
+
+        @include medium-landscape-down(){
+            margin-top: 64px !important;
+            height: 400px;
+        }
+
+        @media (max-width: 1740px){
+            height: 450px;
+        }
+
+        @media (max-width: 1550px){
+            height: 420px;
+            margin-top: 88px;
+        }
+
+        @include small-landscape-down(){
+            height: 360px;
+        }
+
+        @include tablet-portrait-up(){
+            height: 590px;
+            overflow: hidden;
+        }
+
+    > div[param="showOffer"]{
+        position: absolute;
+        top: 0;
+        width: 200px;
+        height: 100%;
+        z-index: 1;
+
+        &:first-of-type{ left: 0; }
+        &:last-of-type{ right: 0; rotate: 180deg;}
+
+        @include tablet-portrait-up(){
+            background: linear-gradient(180deg, rgba(20, 20, 20, 0.8) 0%, rgba(20, 20, 20, 0) 100%);
+            width: calc(100% + 2 * 32px);
+            height: 100px;
+            
+            &:first-of-type{ top: 0}
+            &:last-of-type{ top:unset; bottom: 0;}
+        }
+    }
+
+    > ol{
+        position: absolute;
+        width: auto;
+        height: 100%;
+        top: 50%; left: 50%;
+        translate: -50% -50%;
+
+        display: flex;
+        gap: 64px;
+
+        transition: transform 300ms;
+
+                @include medium-landscape-down(){
+                    gap: 32px;
+                }
+                @media (max-width: 1550px){
+                    gap: 46px;
+                }
+                @include tablet-portrait-up(){
+                    width: calc(100% - 2 * 128px);
+                    flex-direction: column;
+                }
+
+        > li{
+            position: relative;
+            height: 100%;
+            width: auto;
+            aspect-ratio: 4 / 3;
+
+            transition: background 300ms, scale 300ms, opacity 300ms;
+
+
+                    @include tablet-portrait-up(){
+                        aspect-ratio: unset;
+                        width: 100%;
+                        height: auto;
+
+                        background-color: unset;
+
+                        &[param="eventSelected"]{
+                            padding-right: 128px;
+                            padding-left: 128px;
+                            width: 100%;
+                            left: 50%;
+                            translate: -50% 0;
+                        }
+                    }
+
+            &[param="eventSelected"]{
+                background-color: white;
+                scale: 1;
+                opacity: 1;
+                &:hover{
+                    cursor: pointer;
+                    scale: 1.05;
+                    @include tablet-portrait-up(){
+                        scale: 0.96;
+                    }
+                }
+                    * { color: black }
+            }     
+
+            &:has(+ [param="eventSelected"]),
+            &[param="eventSelected"] + li + li:not[param="moreEvents"]{
+                scale: 0.8;
+                opacity: 0.5;
+                @media (max-width: 1550px){
+                    scale: 0.9;
+                }
+                @include tablet-portrait-up(){
+                    scale: unset;
+                }
+            }
+
+
+            > a, > section{
+                position: relative;
+                width: 100%; height: 100%;
+                padding: 24px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                font-size: 1.1em;
+            }
+
+            &[param="moreEvents"]{
+                position: relative;
+                > a > span{
+                    position: absolute;
+                    text-align: center;
+                    top: 50%; left: 50%;
+                    translate: -50% -50%;
+                    gap: 32px;
+                }
+
+                &:hover{
+                    scale: 1.1;
+                    opacity: 0.5;
+                }
+            }
+
+
+            /* ==================== */
+            > a, > section{
+                gap: 24px;
+
+                        @include tablet-portrait-up(){
+                            flex-direction: row;
+                        }
+            
+                > div[param='imageBox']{
+                    width: 100%;
+                    aspect-ratio: 21 / 9;
+                        @include tablet-portrait-up(){
+                            aspect-ratio: 1 / 1;
+                            width: auto;
+                            height: 100px;
+                        }
+                }
+
+                > section{
+                    flex-grow: 1;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 24px;
+
+                    div{
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 32px;
+                        
+                        h3{ font-weight: 600;}
+
+                        > div{
+                            overflow: hidden;
+                            flex-grow: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -9,8 +9,13 @@ $background: rgb(20, 20, 20);
     border: unset;
     line-height: 1;
     color: white;
-    cursor: default;
     scroll-behavior: smooth;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
 
     @include medium-landscape-down(){
         font-size: 0.97em;
@@ -19,7 +24,7 @@ $background: rgb(20, 20, 20);
         font-size: 0.93em;
     }
     @include tablet-portrait-up{
-        font-size: 0.9em;
+        font-size: 0.95em;
     }
     @include phone-portrait-up{
         font-size: 0.87em;
@@ -123,6 +128,8 @@ $headingInfos:
         font-weight: nth($headingInfo, 2);
     
         font-family:nth($headingInfo, 3), sans-serif;
+
+        text-wrap: nowrap;
     }
 }
 
@@ -150,4 +157,10 @@ p{
 
 span{
     font-size: 1em;
+}
+
+
+
+div[param="showOffer"]{
+    background: linear-gradient(90deg, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 100%)
 }

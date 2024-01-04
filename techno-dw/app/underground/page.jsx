@@ -13,6 +13,8 @@ export default async function Underground({searchParams}) {
 
   const eventosForUnderground = await getEventosForUnderground('created_at', 4, 4 * pagina)
 
+  console.log('mega teste')
+
   return (
     <>
       <UndergroundContainer_1 data={allEventos}/>

@@ -1,0 +1,254 @@
+@use 'sass:list';
+
+@mixin verdeMagenta($xv: 0px, $yv: 0px, $blurv: 0px, $xm: 0px, $ym: 0px, $blurm: 0px){
+    /* text-shadow:
+        rgb(0, 255, 0) $xv $yv $blurv,
+        magenta $xm $ym $blurm; */
+
+    
+    filter:
+        drop-shadow(rgb(0, 255, 0) $xv $yv $blurv) 
+        drop-shadow(magenta $xm $ym $blurm)
+    ;
+}
+
+@mixin glitchBlurAnimation($fundo, $params){
+    @keyframes glitchBlur_#{$fundo}{
+        0%, 14%{
+            @include verdeMagenta(
+                list.nth($params, 2), list.nth($params, 2), list.nth($params, 1),
+                -1 * list.nth($params, 2), -1 * list.nth($params, 2), list.nth($params, 1)
+            );
+        }
+        15%, 49%{
+            @include verdeMagenta(
+                list.nth($params, 3), list.nth($params, 3), list.nth($params, 1),
+                -1 * list.nth($params, 3), -1 * list.nth($params, 3), list.nth($params, 1)
+            );
+        }
+        50%, 99%{
+            @include verdeMagenta(
+                list.nth($params, 4), list.nth($params, 4), list.nth($params, 1),
+                -1 * list.nth($params, 4), -1 * list.nth($params, 4), list.nth($params, 1)
+            );
+        }
+        100%{
+            @include verdeMagenta(
+                list.nth($params, 5), list.nth($params, 5), list.nth($params, 1),
+                -1 * list.nth($params, 5), -1 * list.nth($params, 5), list.nth($params, 1)
+            );
+        }
+    }
+}
+
+@mixin createGlitchCutAnimation($id, $params){
+    @keyframes glitchCut_#{$id}{
+        0%, 14%{
+            translate: list.nth($params, 1) list.nth($params, 2);
+        }
+        15%, 49%{
+            translate: list.nth($params, 3) list.nth($params, 4);
+        }
+        50%, 99%{
+            translate: list.nth($params, 5) list.nth($params, 6);
+        }
+        100%{
+            translate: list.nth($params, 7) list.nth($params, 8);
+        }
+    }
+}
+
+
+
+$cutProps0_text:
+    -0.0125em, 0.1em,
+    0.035em, -0.02em,
+    -0.05em, 0.1em,
+    0.03em, -0.025em
+;
+
+
+$cutProps1_text:
+    0.03em, 0.1em,
+    -0.05em, 0.03em,
+    0.03em, 0.025em,
+    -0.03em, 0.06em
+;
+
+
+$cutProps0_box:
+    -1em, 3em,
+    4em, -1em,
+    -2em, 3em,
+    3em, -3em
+;
+
+$cutProps1_box:
+    3em, 2em,
+    -1em, 1em,
+    2em, 3em,
+    -5em, 4em
+;
+
+
+
+
+
+$blurProps_textWhite: 
+    0.1em,
+    -0.12em,
+    0.09em,
+    -0.07em,
+    0.05em
+;
+$blurProps_textBlack: 
+    0.05em,
+    -0.05em,
+    0.04em,
+    -0.03em,
+    0.05em
+;
+
+$blurProps_box: 
+    0.7em,
+    0.2em,
+    0.5em,
+    -1em,
+    1em
+;
+
+$blurProps_wrappedText: 
+    0.2em,
+    0.1em,
+    0.4em,
+    -0.6em,
+    0.2em
+;
+
+
+
+
+@include createGlitchCutAnimation('text_0', $cutProps0_text);
+@include createGlitchCutAnimation('text_1', $cutProps1_text);
+@include glitchBlurAnimation('white_text', $blurProps_textWhite);
+@include glitchBlurAnimation('black_text', $blurProps_textBlack);
+
+
+@include createGlitchCutAnimation('box_0', $cutProps0_box);
+@include createGlitchCutAnimation('box_1', $cutProps1_box);
+@include glitchBlurAnimation('black_box', $blurProps_box);
+@include glitchBlurAnimation('black_box', $blurProps_box);
+
+@include glitchBlurAnimation('wrappedText', $blurProps_wrappedText);
+
+
+////////////
+////////////
+////////////
+
+
+.glitch{
+    position: relative;
+
+    &.text{
+        $eacher:
+            ('white', $blurProps_textWhite),
+            ('black', $blurProps_textBlack)
+        ;
+        @each $element in $eacher{
+            $props: nth($element, 2);
+            &.#{nth($element, 1)}{
+                @include verdeMagenta(
+                    list.nth($props, 2),
+                    list.nth($props, 2),
+                    list.nth($props, 1),
+        
+                    -1 * list.nth($props, 2),
+                    -1 * list.nth($props, 2),
+                    list.nth($props, 1)
+                );
+            }
+        }
+    }
+    &.box{
+        @include verdeMagenta(
+            list.nth($blurProps_box, 2),
+            list.nth($blurProps_box, 2),
+            list.nth($blurProps_box, 1),
+
+            -1 * list.nth($blurProps_box, 2),
+            -1 * list.nth($blurProps_box, 2),
+            list.nth($blurProps_box, 1)
+        );
+    }
+    &.wrappedText{
+        @include verdeMagenta(
+            list.nth($blurProps_wrappedText, 2),
+            list.nth($blurProps_wrappedText, 2),
+            list.nth($blurProps_wrappedText, 1),
+
+            -1 * list.nth($blurProps_wrappedText, 2),
+            -1 * list.nth($blurProps_wrappedText, 2),
+            list.nth($blurProps_wrappedText, 1)
+        );
+    }
+
+
+    > span{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0; left: 0;
+        opacity: 0;
+
+        &:first-of-type{
+            clip-path: polygon(
+                0 0,
+                100% 0,
+                100% 40%,
+                0 40%
+            );
+        }
+        &:last-of-type{
+            clip-path: polygon(
+                0 60%,
+                100% 60%,
+                100% 1000%,
+                0 100%
+            );
+        }
+    }
+}
+
+.glitchIt{
+    $eacherTypes: 'text', 'box';
+    $eacherBackground: 'white', 'black';
+    > span{
+        opacity: 1;
+    }
+    @each $type in $eacherTypes{
+        @each $background in $eacherBackground{
+            &.#{$background}.#{$type}{
+                > span{
+                    &:first-of-type{
+                        animation:
+                            glitchBlur_#{$background}#{$type} 200ms infinite, 
+                            glitchCut_#{$type}_0 200ms infinite
+                        ;
+                    }
+                    &:last-of-type{
+                        animation: 
+                            glitchBlur_#{$background}_#{$type} 200ms infinite,
+                            glitchCut_#{$type}_1 200ms infinite
+                        ;
+                    }
+                }
+            }
+        }
+    }
+    &.wrappedText{
+        animation:
+            glitchBlur_wrappedText 200ms infinite
+        ;
+    }
+}

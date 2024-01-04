@@ -1,6 +1,6 @@
 "use client"
+import GlitchContainer from "../glitchContainer/glitchContainer";
 import { useEffect, useRef } from "react";
-import GlitchText from "../glitchText/glitchText";
 import { mapear } from "@/lib/misc";
 
 
@@ -9,7 +9,7 @@ import wrappedText from "./wrappedText.module.scss"
 
 
 
-export default function WrappedText({classOn, style, rotateZ, incline}){
+export default function WrappedText({classOn, style, rotateZ, incline, qtd = 3}){
     let onMountRef = useRef(true)
     let difRefs = [useRef(), useRef(), useRef()]
     let wrapperRef = useRef()
@@ -24,12 +24,15 @@ export default function WrappedText({classOn, style, rotateZ, incline}){
                 console.log('teste')
                 difRefs.forEach(
                     divRef => {
-                        if(rotateZ !== undefined) divRef.current.style.setProperty('--rotateZ', rotateZ)
-                        if(incline !== undefined){
-                            wrapperRef.current.style.setProperty(
-                                '--perspective-incline',
-                                `${mapear(incline, 0, 100, 0, -1000)}px`
-                            )
+                        const div = divRef.current
+                        if(div !== undefined){
+                            if(rotateZ !== undefined) div.style.setProperty('--rotateZ', rotateZ)
+                            if(incline !== undefined){
+                                wrapperRef.current.style.setProperty(
+                                    '--perspective-incline',
+                                    `${mapear(incline, 0, 100, 0, -1000)}px`
+                                )
+                            }
                         }
                     }
                 );
@@ -40,38 +43,38 @@ export default function WrappedText({classOn, style, rotateZ, incline}){
         <>
             <div ref={wrapperRef} className={wrappedText.wrappedText} style={style}>
                 <div ref={difRefs[0]}>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
-                    <GlitchText><div name={classOn}></div></GlitchText>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
+                    <div name={classOn}></div>
                 </div>
                 <div ref={difRefs[1]}>
                 <div name={classOn}></div>

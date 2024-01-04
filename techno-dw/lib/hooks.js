@@ -23,7 +23,7 @@ export function useEventListener(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-export function useDeviceSize(){
+export function useWindowSize(){
     const [width, setWidth] = useState(0)
     const [height, setHeight] = useState(0)
   

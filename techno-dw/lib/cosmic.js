@@ -39,6 +39,8 @@ async function getFromCosmic(findOne, query, propstoget) {
   return Promise.resolve(undefined);
 }
 
+
+
 // data relativa ao header
 export const getGlobalData = async () =>
   getFromCosmic(
@@ -59,6 +61,8 @@ export const getAllEventos = async () =>
     "slug, title, metadata"
   )
 
+
+
 export const getEventoBySlug = async (id) =>
   getFromCosmic(
     true,
@@ -69,9 +73,28 @@ export const getEventoBySlug = async (id) =>
     "slug, title, metadata"
   )
 
-export const getEventosForUnderground = async (order, limit, skip) =>
-  getFromCosmic(
-    false,
-    {"type": "eventos"},
-    "slug, title, metadata"
-  )
+
+/*
+    sort: created_at, -created_at, modified_at, -modified_at, random, order (https://www.cosmicjs.com/docs/api/objects)
+    limit: limite recebido (se quero só 1, 2, 3, 10, 100, etc... (acho q até 1000))
+    skip: quantos elementos se ignoram (bom para paginação)
+*/
+export const getEventosForUnderground = async (sort, limit, skip) => {
+  try {
+    const data = await Promise.resolve(
+      cosmic.objects
+        .find({
+          "type": "eventos"
+        })
+        .props("slug, title, metadata")
+        .depth(1)
+        .sort(sort)
+        .limit(limit)
+        .skip(skip)
+    );
+    return Promise.resolve(data);
+  } catch (error) {
+    console.log('Oof', error);
+  }
+  return Promise.resolve(undefined);
+}

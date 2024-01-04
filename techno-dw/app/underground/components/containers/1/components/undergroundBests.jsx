@@ -1,8 +1,8 @@
 'use client'
 
-import GlitchBox from "@/app/components/glitchBox/glitchBox"
+import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import ImageBox from "@/app/components/imageBox/imageBox"
-import { useDeviceSize } from "@/lib/hooks"
+import { useWindowSize } from "@/lib/hooks"
 import { mapear } from "@/lib/misc"
 import { useEffect, useRef, useState } from "react"
 
@@ -15,7 +15,6 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
 
     useEffect(
         () => {
-            console.log(data)
             if(onMountRef.current){
                 onMountRef.current = false
                 return
@@ -34,7 +33,7 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
 
 
 
-    const deviceSize = useDeviceSize()
+    const windowSize = useWindowSize()
     const [nLists, setNLists] = useState(7)
     const [lists, setLists] = useState([])
     useEffect(
@@ -48,9 +47,9 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
     )
     useEffect(
         () => {
-            if(deviceSize.width <= 870 && nLists !== 5) setNLists(5)
-            else if(deviceSize.width > 870 && nLists !== 7) setNLists(7)
-        }, [deviceSize]
+            if(windowSize.width <= 870 && nLists !== 5) setNLists(5)
+            else if(windowSize.width > 870 && nLists !== 7) setNLists(7)
+        }, [windowSize]
     )
 
     
@@ -63,11 +62,11 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
                         evento => {
                             return(
                                 <li key={`evento-${evento.slug}`}>
-                                    <GlitchBox>
+                                    <GlitchContainer type="box">
                                         <ImageBox
                                             src={evento.metadata.hero.imgix_url}
                                         />
-                                    </GlitchBox>
+                                    </GlitchContainer>
                                 </li>
                             )
                         }

@@ -1,4 +1,4 @@
-@import '../../styles/mediaQueries.scss';
+@import '../../../../../styles/mediaQueries.scss';
 
 $background: rgb(20, 20, 20);
 
@@ -51,8 +51,6 @@ $background: rgb(20, 20, 20);
 
 
 
-
-
 .undergroundBests{
     --perspective-incline: -150px;
     perspective: 1400px;
@@ -92,7 +90,7 @@ $background: rgb(20, 20, 20);
                 @media (max-width: 470px){
                     left: 90% !important;
                 }
-
+    
     > ul{
         --rotateZ: 0deg;
         position: relative;

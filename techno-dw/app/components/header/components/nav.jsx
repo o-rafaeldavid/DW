@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import GlitchText from "@/app/components/glitchText/glitchText"
+import GlitchContainer from '../../glitchContainer/glitchContainer'
 import { useContext, useState } from 'react'
 import { HambActivatedContext } from '../contexts/hambActivated'
 import { isMobile } from 'react-device-detect';
@@ -35,7 +35,7 @@ export default function Nav(){
                     routes.map(
                         (route, index) => {
                             const titulo = <h1>{route.name}</h1>
-                            const glitch = <GlitchText background='white'>{titulo}</GlitchText>
+                            const glitch = <GlitchContainer background='white'>{titulo}</GlitchContainer>
                             const sameRoute = (yes, no) => (where === route.to) ? yes : no
                             const [hover, setHover] = useState(false)
                             return (

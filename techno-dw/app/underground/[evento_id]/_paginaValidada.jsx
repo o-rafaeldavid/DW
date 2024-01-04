@@ -1,8 +1,7 @@
 'use client'
 
-import GlitchText from "@/app/components/glitchText/glitchText"
 import Container from "@/app/components/container"
-import GlitchBox from "@/app/components/glitchBox/glitchBox"
+import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import ImageBox from "@/app/components/imageBox/imageBox"
 
 
@@ -28,7 +27,7 @@ export default function EventoValidado({eventoDados}){
                 {/*  */}
                 <section id={paginaEvento.sectionTitle}>
                     <h1 id={paginaEvento.titulo}>
-                        <GlitchText>{eventoDados.title}</GlitchText>
+                        <GlitchContainer type="text">{eventoDados.title}</GlitchContainer>
                     </h1>
                     <h2 className={paginaEvento.data}>
                         {cosmicToDate(metadata.data_do_evento, false)}
@@ -45,9 +44,9 @@ export default function EventoValidado({eventoDados}){
                         id={paginaEvento.sobreEvento}
                         dangerouslySetInnerHTML={{__html: metadata.conteudo}}
                     />
-                    <GlitchBox id={paginaEvento.hero}>
+                    <GlitchContainer id={paginaEvento.hero} type="box">
                         <ImageBox src={metadata.hero.imgix_url}/>
-                    </GlitchBox>
+                    </GlitchContainer>
                 </section>
                 {/*  */}
             </Container>

@@ -1,51 +1,25 @@
-import Container from "../components/container"
-import WrappedText from "../components/wrappedText/WrappedText"
-import GlitchText from "../components/glitchText/glitchText"
-import UndergroundBests from "./components/undergroundBests"
-import InnerContainer from "../components/innerContainer"
-import { getAllEventos } from "@/lib/cosmic"
+import { getAllEventos, getEventosForUnderground } from "@/lib/cosmic"
+import UndergroundContainer_1 from "./components/containers/1/container_1"
+import UndergroundContainer_2 from "./components/containers/2/container_2"
 
-import firstContainer from './undergroundFirstContainer.module.scss'
-import secondContainer from './undergroundSecondContainer.module.scss'
 
-export default async function Underground() {
+export default async function Underground({searchParams}) {
   const allEventos = await getAllEventos()
+  const page = parseInt(searchParams.page)
+  let pagina = 0
+
+  if(isNaN(page) || page < 0) pagina = 0
+  else pagina = page
+
+  const eventosForUnderground = await getEventosForUnderground('created_at', 4, 4 * pagina)
 
   return (
     <>
-      <Container>
-        <div id={firstContainer.underground}>
-          <WrappedText
-            classOn="underground"
-            rotateZ={'-5deg'}
-          />
-        </div>
-        <UndergroundBests
-          data={allEventos}
-          className={firstContainer.undergroundBests}
-          rotateZ={'-5deg'}
-          incline={-2}
-        />
-      </Container>
-
-      {/*
-        ===========
-        ===========
-      */}
-
-      <Container>
-        <InnerContainer>
-          <h4 className={secondContainer.h4}>
-            <GlitchText>MAIS EVENTOS</GlitchText>
-          </h4>
-          <br/>
-          <section className={secondContainer.sectionFilters}>
-            <h3>Procurar Por:</h3>
-            <h3>Nome</h3>
-            <h3>Data</h3>
-          </section>
-        </InnerContainer>
-      </Container>
+      <UndergroundContainer_1 data={allEventos}/>
+      <UndergroundContainer_2 data={
+        (eventosForUnderground !== undefined) ? eventosForUnderground
+        : await getEventosForUnderground('created_at', 4, 0)
+      }/>
     </>
   )
 }

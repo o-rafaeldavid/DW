@@ -1,0 +1,100 @@
+
+.errorAnimatedText{
+
+    >span > div > div, span > span > div > div{ animation: newRodar 24s infinite linear; }
+
+    position: absolute;
+    top: 35%;
+    left: 50%;
+
+    translate: -50% -50%;
+    scale: 1.5;
+}
+
+@keyframes newRodar {
+    from{ 
+        transform: rotateX(0) rotateY(0) rotateZ(0)  ; 
+
+    }
+    to { 
+        transform: rotateX(-360deg) rotateY(-360deg) rotateZ(-360deg); 
+
+    }
+}
+
+.errorTitle{
+
+    position: absolute;
+    top: 25%;
+    left: 50%;
+
+    translate: -50% -50%;
+
+    text-align: center;
+
+    font-family: 'Lexend Exa', sans-serif;
+    font-size: 60px;
+    font-weight: 900;
+
+    line-height: 65px;
+
+    text-shadow: 0px 0px 5px rgb(255, 255, 255);
+
+}
+
+.errorSubTitle{
+    position: absolute;
+    top: 35%;
+    left: 50%;
+
+    translate: -50% -50%;
+
+    text-align: center;
+
+    font-family: 'Lexend Exa', sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+
+    line-height: 20px;
+
+    text-shadow: 0px 0px 2px rgb(126, 126, 126);
+}
+
+.errorText{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+
+    translate: -50% -50%;
+
+    text-align: center;
+
+    font-family: 'Lexend Exa', sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+
+    line-height: 20px;
+
+    text-shadow: 0px 0px 2px rgb(126, 126, 126);
+}
+
+.errorListItems{
+    position: absolute;
+    top: 55%;
+    left: 50%;
+
+    cursor: pointer;
+
+    translate: -50% -50%;
+
+    font-family: 'Lexend Exa', sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+
+    line-height: 20px;
+
+    text-decoration: white underline solid 1px;
+
+    text-shadow: 0px 0px 2px rgb(126, 126, 126);
+
+}

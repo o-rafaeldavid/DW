@@ -13,8 +13,11 @@
     opacity: 0.7;
 }
 
+
 #inner{
     overflow: hidden;
+
+  
 }
 
 #carrossel{
@@ -47,9 +50,14 @@
         }
 
         @include tablet-portrait-up(){
-            height: 590px;
             overflow: hidden;
             font-size: 1.25em;
+            height: 500px;
+            margin-top: 36px;
+        }
+
+        @media (max-width: 870px){
+            height: 370px;
         }
 
         @include phone-portrait-up(){
@@ -68,6 +76,7 @@
         display: flex;
         justify-content: center;
         gap: 32px;
+
         > div{
             height: 100%;
             aspect-ratio: 1 / 1;
@@ -101,14 +110,21 @@
         &:first-of-type{ left: 0; }
         &:last-of-type{ right: 0; rotate: 180deg;}
 
-        @include tablet-portrait-up(){
-            background: linear-gradient(180deg, rgba(20, 20, 20, 0.8) 0%, rgba(20, 20, 20, 0) 100%);
-            width: calc(100% + 2 * 32px);
-            height: 100px;
-            
-            &:first-of-type{ top: 0}
-            &:last-of-type{ top:unset; bottom: 0;}
-        }
+
+
+                @include tablet-portrait-up(){
+                    background: linear-gradient(
+                                    180deg, rgba(20, 20, 20, 0.8) 0%, rgba(20, 20, 20, 0) 100%);
+                    width: calc(100% + 2 * 32px);
+                    height: 100px;
+                    
+                    &:first-of-type{ top: 0}
+                    &:last-of-type{ top:unset; bottom: 0;}
+                }
+
+                @include phone-portrait-up(){
+                    height: 50px;
+                }
     }
 
     
@@ -140,6 +156,7 @@
                 }
                 @include phone-portrait-up(){
                     width: 100%;
+                    gap: 24px;
                 }
                 
 
@@ -148,6 +165,9 @@
             height: 100%;
             width: auto;
             aspect-ratio: 4 / 3;
+
+            opacity: 0.5;
+            filter: blur(2px);
 
             transition: background 300ms, scale 300ms, opacity 300ms;
 
@@ -191,6 +211,7 @@
                 background-color: white;
                 scale: 1;
                 opacity: 1;
+                filter: none;
                 &:hover{
                     cursor: pointer;
                     scale: 1.05;
@@ -214,15 +235,28 @@
             }
 
 
+
+
+            $paddingBoxDesktop: 24px;
+            $paddingBoxPhone: 16px;
+            $paddingBox470: 10px;
             > a, > section{
                 position: relative;
                 width: 100%; height: 100%;
-                padding: 24px;
+                padding: $paddingBoxDesktop;
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
+
+                        @include phone-portrait-up(){
+                            padding: $paddingBoxPhone;
+                        }
+                        @media (max-width: 470px){
+                            padding: $paddingBox470;
+                        }
             }
 
+            // secção "mais eventos" q aparece no desktop
             &[param="moreEvents"]{
                 position: relative;
                 > a > span{
@@ -241,11 +275,18 @@
 
 
             /* ==================== */
+            $imagemTablet: 100px;
+            $imagemPhone: 80px;
+            $gapBoxDesktop: 24px;
+            $gapBoxPhone: 16px;
             > a, > section{
-                gap: 24px;
+                gap: $gapBoxDesktop;
 
                         @include tablet-portrait-up(){
                             flex-direction: row;
+                        }
+                        @include phone-portrait-up(){
+                            gap: $gapBoxPhone;
                         }
             
                 > div[param='imageBox']{
@@ -254,20 +295,41 @@
                         @include tablet-portrait-up(){
                             aspect-ratio: 1 / 1;
                             width: auto;
-                            height: 100px;
+                            height: $imagemTablet;
+                        }
+
+                        @include phone-portrait-up(){
+                            height: $imagemPhone;
                         }
                 }
 
                 > section{
+                    flex-grow: 1;
                     position: relative;
                     display: flex;
                     flex-direction: column;
                     gap: 24px;
 
+                            @include tablet-portrait-up(){
+                                flex-grow: unset;
+                                overflow: hidden;
+                                width: calc(100% - $imagemTablet - $gapBoxDesktop);
+                                height: $imagemTablet;
+                            }
+                            @include phone-portrait-up(){
+                                gap: 8px;
+                                width: calc(100% - $imagemPhone - $gapBoxPhone);
+                                height: $imagemPhone;
+                            }
+
                     div{
                         display: flex;
                         justify-content: space-between;
                         gap: 32px;
+
+                                @include phone-portrait-up(){
+                                    gap: 16px;
+                                }
                         
                         h3{ font-weight: 600;}
 

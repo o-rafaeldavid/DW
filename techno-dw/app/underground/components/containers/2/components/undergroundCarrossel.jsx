@@ -2,7 +2,7 @@
 
 import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import ImageBox from "@/app/components/imageBox/imageBox"
-import { cosmicToDate } from "@/lib/misc"
+import { cosmicToDate, mapear } from "@/lib/misc"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import Link from 'next/link'
@@ -61,29 +61,53 @@ export default function UndergroundCarrossel({data, id}){
         }
     }
     const [translateX, setTranslateX] = useState(30)
-    const [translateY, setTranslateY] = useState(100)
+
+    const showOfferHeights = (windowWidth) => {
+        if(windowWidth > 870) return 100
+        else return 50
+    }
+    /*
+        definição dos steps:
+        tamanho da imagem + 2 * margem (top&bottom) + tamanho do gap da <ol/>
+    */
+    const ySteps = (windowWidth) => {
+        if(windowWidth > 870) return 100 + 24 * 2 + 46 //tablet
+        else if((windowWidth > 470)) return 80 + 16 * 2 + 24 //phone
+        else return 80 + 10 * 2 + 24 //width menor q 470px (real phone)
+    }
     const [selected, setSelected] = useState(0)
+
+
+
+
+
 
 
     const doNext = (sinal) => {
         const stepX = 20
         const nextTranslateX = translateX + (sinal * stepX)
 
-        const stepY = 100 + 24 * 2 + 46
-        const nextTranslateY = translateY + (sinal * stepY)
+
+        const stepY = ySteps(windowSize.width)
+        const showOfferHeight = showOfferHeights(windowSize.width)
+        const nextTranslateY = showOfferHeight - selected * stepY + (sinal * stepY)
 
         if(
             ((30 - 2 * stepX * (data.objects.length - 2)) <= nextTranslateX &&
             nextTranslateX <= 30)
             &&
-            ((100 - 2 * stepY * (data.objects.length - 2)) <= nextTranslateY &&
-            nextTranslateY <= 100)
+            ((showOfferHeight - 2 * stepY * (data.objects.length - 2)) <= nextTranslateY &&
+            nextTranslateY <= showOfferHeight)
         ){
-            setSelected((prev) => selected - sinal)
-            setTranslateX((prev) => nextTranslateX)
-            setTranslateY((prev) => nextTranslateY)
+            setSelected(() => selected - sinal)
+            setTranslateX(() => nextTranslateX)
         }
     }
+    useEffect(
+        () => {
+           
+        }, [windowSize.width]
+    )
     // useEffect chamado quando o rato/dedo para de dar 'grab'/'touch'
     useEffect(
         () => {
@@ -211,7 +235,7 @@ export default function UndergroundCarrossel({data, id}){
                     transform: `
                         translate(
                             ${(windowSize.width > 1300) ? translateX : 0}%,
-                            ${(windowSize.width <= 1300) ? translateY : 0}px
+                            ${(windowSize.width <= 1300) ? showOfferHeights(windowSize.width) - selected * ySteps(windowSize.width) : 0}px
                         )
                     `
                 }}
@@ -238,7 +262,6 @@ export default function UndergroundCarrossel({data, id}){
                             onClick={() => {
                                 setSelected(0)
                                 setTranslateX(30)
-                                setTranslateY(100)
                             }}
                         >
                             <span>

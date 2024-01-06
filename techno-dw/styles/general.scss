@@ -70,10 +70,16 @@ body{
                     margin-top: 64px * 2;
                 }
                 @include phone-portrait-up(){
-                    margin-top: 0;
+                    width: 100%;
+                    margin: 0;
                 }
 
             min-height: 100dvh;
+            &.dynamicContainer{
+                min-height: unset;
+                height: auto;
+            }
+
             z-index: 10;
             position: relative;
             &:first-of-type{
@@ -91,7 +97,7 @@ body{
             }
             > .innerContainer{
                 margin: calc(64px + 32px) 0;
-                height: calc(100dvh - 2 * 64px);
+                height: calc(100% - 2 * 64px);
             }
         }
     }

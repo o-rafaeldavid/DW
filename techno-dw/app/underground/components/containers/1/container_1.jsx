@@ -1,6 +1,6 @@
 'use client'
 
-import Container from "@/app/components/container";
+import {Container} from "@/app/components/container";
 import WrappedText from "@/app/components/wrappedText/WrappedText";
 import UndergroundBests from "./components/undergroundBests";
 

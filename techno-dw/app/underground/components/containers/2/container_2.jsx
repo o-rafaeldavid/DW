@@ -1,6 +1,6 @@
 'use client'
 
-import { DynamicContainer } from '@/app/components/container'
+import DynamicContainer from '@/app/components/dynamicContainer'
 import InnerContainer from '@/app/components/innerContainer'
 import GlitchContainer from '@/app/components/glitchContainer/glitchContainer'
 import UndergroundCarrossel from './components/undergroundCarrossel'

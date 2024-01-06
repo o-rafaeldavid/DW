@@ -11,7 +11,7 @@ export default function ImageBox({id, src, width, height}){
             if(width == undefined && height == undefined){
                 if(!loadedImg) setStyle({})
                 else setStyle({ backgroundImage: `url(${src})` })
-            }
+                }
             else{
                 if(width !== undefined) height = 'auto'
                 else width = 'auto'
@@ -30,8 +30,9 @@ export default function ImageBox({id, src, width, height}){
                     })
                 }
             }
-        }, [loadedImg]
+        }, [loadedImg, src]
     )
+
 
 
     return(

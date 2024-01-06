@@ -1,11 +1,13 @@
 import Body from './body'
-import { getGlobalData } from '@/lib/cosmic'
+import { getAllPaginas, getGlobalData } from '@/lib/cosmic'
+import { Inter, Lexend_Peta, Lexend_Exa, Lexend } from 'next/font/google'
 
-import { Inter } from 'next/font/google'
-import { Lexend_Peta } from 'next/font/google'
-import { Lexend_Exa } from 'next/font/google'
-import { Lexend } from 'next/font/google'
+
 import "../styles/general.scss"
+
+
+
+
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter'})
 const lexend_peta = Lexend_Peta({ subsets: ['latin'], variable: '--font-lexend-peta'})
@@ -17,15 +19,26 @@ export async function generateMetadata() {
   return {
     title: metaDataPrincipal.metadata.site_title,
     description: metaDataPrincipal.metadata.site_tag,
+    icons: {
+      icon: 'faviconestranho.png'
+    }
   };
 }
 
+
+
+
 export default async function RootLayout({ children }) {
+
+  const paginas = await getAllPaginas()
 
   return (
     <>
       <html lang="en">
-        <Body className={`${inter.variable} ${lexend_peta.variable} ${lexend_exa.variable} ${lexend.variable}`}>
+        <Body
+          className={`${inter.variable} ${lexend_peta.variable} ${lexend_exa.variable} ${lexend.variable}`}
+          paginas={paginas}
+        >
           {children}
         </Body>
       </html>

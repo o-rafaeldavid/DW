@@ -98,7 +98,7 @@ body{
 
     &:has(nav.activated){
         overflow-y: hidden !important;
-        > main, footer{ filter: blur(10px); }
+        > main, footer{ filter: blur(10px) brightness(0.3); }
     }
 }
 

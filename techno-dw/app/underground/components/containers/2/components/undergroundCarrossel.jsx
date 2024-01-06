@@ -3,10 +3,10 @@
 import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import ImageBox from "@/app/components/imageBox/imageBox"
 import { cosmicToDate } from "@/lib/misc"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import Link from 'next/link'
-import { useWindowSize } from "@/lib/hooks"
+import { useEventListener, useWindowSize } from "@/lib/hooks"
 
 const existMoreDataOnCosmic = (data) => {
     const {limit, skip, total} = data
@@ -64,6 +64,27 @@ export default function UndergroundCarrossel({data, id}){
     const [translateY, setTranslateY] = useState(100)
     const [selected, setSelected] = useState(0)
 
+
+    const doNext = (sinal) => {
+        const stepX = 20
+        const nextTranslateX = translateX + (sinal * stepX)
+
+        const stepY = 100 + 24 * 2 + 46
+        const nextTranslateY = translateY + (sinal * stepY)
+
+        if(
+            ((30 - 2 * stepX * (data.objects.length - 2)) <= nextTranslateX &&
+            nextTranslateX <= 30)
+            &&
+            ((100 - 2 * stepY * (data.objects.length - 2)) <= nextTranslateY &&
+            nextTranslateY <= 100)
+        ){
+            setSelected((prev) => selected - sinal)
+            setTranslateX((prev) => nextTranslateX)
+            setTranslateY((prev) => nextTranslateY)
+        }
+    }
+    // useEffect chamado quando o rato/dedo para de dar 'grab'/'touch'
     useEffect(
         () => {
             if(cursor.started.end_up[0] && cursor.started.start_down[0]){
@@ -82,24 +103,7 @@ export default function UndergroundCarrossel({data, id}){
 
                 if(Math.abs(difference.x) >= 50 || Math.abs(difference.y) >= 50){
                     const sinal = -1 * Math.sign((windowSize.width > 1300) ? difference.x : difference.y)
-
-                    const stepX = 20
-                    const nextTranslateX = translateX + (sinal * stepX)
-
-                    const stepY = 100 + 24 * 2 + 46
-                    const nextTranslateY = translateY + (sinal * stepY)
-
-                    if(
-                        ((30 - 2 * stepX * (data.objects.length - 2)) <= nextTranslateX &&
-                        nextTranslateX <= 30)
-                        &&
-                        ((100 - 2 * stepY * (data.objects.length - 2)) <= nextTranslateY &&
-                        nextTranslateY <= 100)
-                    ){
-                        setSelected(selected - sinal)
-                        setTranslateX(nextTranslateX)
-                        setTranslateY(nextTranslateY)
-                    }
+                    doNext(sinal)                    
                 }
 
 
@@ -116,40 +120,89 @@ export default function UndergroundCarrossel({data, id}){
         }, [cursor.started.end_up[0]]
     )
 
+
+    const moveIt = {
+        start_down: (e, x, y) => {
+            e.currentTarget.setAttribute('param', 'grabbing')
+            cursor.started
+                .start_down[1](true)
+
+            cursor.position
+                .start_down[1]({x: x, y: y})
+        },
+        move: (e, x, y) => {
+            if(cursor.started.start_down[0]){
+                cursor.started
+                    .move[1](true)
+
+                cursor.position
+                    .move[1]({x: x, y: y})
+            }
+        },
+        end_up: (e) => {
+            e.currentTarget.removeAttribute('param')
+            cursor.started
+                .end_up[1](true)
+        }
+    }
+
+
+    useEventListener(document.body, 'wheel', (e) => {
+        const carrossel = document.querySelector('*[id^="undergroundSecondContainer_carrossel"]')
+        const boundsCarrossel = carrossel.getBoundingClientRect()
+        const inside =
+            (boundsCarrossel.left < e.clientX && e.clientX < boundsCarrossel.right)
+            &&
+            (boundsCarrossel.top < e.clientY && e.clientY < boundsCarrossel.bottom)
+
+
+
+        if(!inside) document.body.style.removeProperty('overflow-y')
+    })
+
+
     return (
         <>
         <div
             id={id}
-            onMouseDown={(e) => {
-                e.currentTarget.setAttribute('param', 'grabbing')
-                cursor.started
-                    .start_down[1](true)
+            onWheel={(e) => {
+                const body = document.querySelector('body')
+                const sinal = Math.sign(e.nativeEvent.wheelDelta)
 
-                cursor.position
-                    .start_down[1]({x: e.clientX, y: e.clientY})
+                if(sinal < 0){
+                    console.log('para a frente')
+                    console.log(selected < data.objects.length - 1)
+                    if(selected < data.objects.length - 1) body.style.setProperty('overflow-y', 'hidden')
+                    else body.style.removeProperty('overflow-y')
+                }
+                else{
+                    console.log('para tras')
+                    console.log(selected > 0)
+                    if(selected > 0) body.style.setProperty('overflow-y', 'hidden')
+                    else body.style.removeProperty('overflow-y')
+                }
+
+                doNext(sinal)
+            }}
+            onMouseDown={(e) => {
+                moveIt.start_down(e, e.clientX, e.clientY)
             }}
             onMouseMove={(e) => {
-                if(cursor.started.start_down[0]){
-                    cursor.started
-                        .move[1](true)
-
-                    cursor.position
-                        .move[1]({x: e.clientX, y: e.clientY})
-                }
+                moveIt.move(e, e.clientX, e.clientY)
             }}
             onMouseUp={(e) =>  {
-                e.currentTarget.removeAttribute('param')
-                cursor.started
-                    .end_up[1](true)
+                moveIt.end_up(e)
             }}
             onTouchStart={(e) => {
-
+                document.querySelector('body').style.setProperty('overflow-y', 'hidden')
+                moveIt.start_down(e, e.touches[0].clientX, e.touches[0].clientY)
             }}
             onTouchMove={(e) => {
-
+                moveIt.move(e, e.touches[0].clientX, e.touches[0].clientY)
             }}
             onTouchEnd={(e) => {
-
+                document.querySelector('body').style.removeProperty('overflow-y')
+                moveIt.end_up(e)
             }}
         >
             <ol
@@ -201,6 +254,11 @@ export default function UndergroundCarrossel({data, id}){
             <div param="showOffer"></div>
             <div param="showOffer"></div>
         </div>
+        <div param="navigatePoints">
+            {data.objects.map(
+                (d, index) => <div param={(selected === index) ? 'selected' : ''}/>
+            )}
+        </div>
         </>
     )
 }
@@ -212,10 +270,24 @@ export default function UndergroundCarrossel({data, id}){
 
 function CarrosselCard({eventoInfo, selected = false}){
     const pathname = usePathname()
-
-
     const metadata = eventoInfo.metadata
     const idBySlug = parseInt(eventoInfo.slug.split('-')[1]) - 1
+
+    const [texto, setTexto] = useState({
+        data: '',
+        titulo: '',
+        descricao: ''
+    })
+
+    useEffect(
+        () => {
+            setTexto({
+                data: cosmicToDate(metadata.data_do_evento, false),
+                titulo: eventoInfo.title,
+                descricao: metadata.descricao
+            })
+        }, [eventoInfo]
+    )
 
     const innerList = 
     <>
@@ -223,26 +295,19 @@ function CarrosselCard({eventoInfo, selected = false}){
         <section>
             <GlitchContainer background="white">
                 <div>
-                    <h3>{cosmicToDate(metadata.data_do_evento, false)}</h3>
+                    <h3>{texto.data}</h3>
                     <div>
-                        <h3>{eventoInfo.title}</h3>
+                        <h3>{texto.titulo}</h3>
                     </div>
                 </div>
             </GlitchContainer>
-            <p>about</p>
+            <section>
+                <p>{texto.descricao}</p>
+            </section>
         </section>
     </>
     return(
-        <li
-            param={selected ? 'eventSelected' : ''}
-            onClick={
-                () => {
-                    if(selected){
-                        console.log('CLICKED')
-                    }
-                }
-            }
-        >
+        <li param={selected ? 'eventSelected' : ''}>
             {
                 (selected) ?
                 <Link href={`${pathname}/${idBySlug}`} scroll={true}>

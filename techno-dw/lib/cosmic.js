@@ -16,6 +16,7 @@ const cosmic = createBucketClient({
   writeKey: process.env.BUCKET_WRITE_KEY,
 });
 
+
 //função geral para ir buscar no cosmic
 async function getFromCosmic(findOne, query, propstoget) {
   try {
@@ -98,3 +99,13 @@ export const getEventosForUnderground = async (sort, limit, skip) => {
   }
   return Promise.resolve(undefined);
 }
+
+
+
+
+export const getAllPaginas = async () =>
+  getFromCosmic(
+    false,
+    {"type": "paginas"},
+    "slug, title, metadata",
+  )

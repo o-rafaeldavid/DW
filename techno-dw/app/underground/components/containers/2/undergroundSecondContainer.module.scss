@@ -49,7 +49,47 @@
         @include tablet-portrait-up(){
             height: 590px;
             overflow: hidden;
+            font-size: 1.25em;
         }
+
+        @include phone-portrait-up(){
+            font-size: 1.6em;
+        }
+
+
+
+
+
+    + div[param="navigatePoints"]{
+        margin-top: 64px;
+        height: 24px;
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+        > div{
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: white;
+            border-radius: 50%;
+            scale: 0.75;
+            opacity: 0.5;
+
+            &[param="selected"]{ scale: 1; opacity: 1; }
+        }
+
+                @include tablet-portrait-up(){
+                    height: 18px;
+                    gap: 18px;
+                }
+
+                @include phone-portrait-up(){
+                    height: 12px;
+                    gap: 12px;
+                }
+    }
+
 
     > div[param="showOffer"]{
         position: absolute;
@@ -70,6 +110,8 @@
             &:last-of-type{ top:unset; bottom: 0;}
         }
     }
+
+    
 
     > ol{
         position: absolute;
@@ -93,6 +135,13 @@
                     width: calc(100% - 2 * 128px);
                     flex-direction: column;
                 }
+                @media (max-width: 1100px){
+                    width: calc(100% - 2 * 64px);
+                }
+                @include phone-portrait-up(){
+                    width: 100%;
+                }
+                
 
         > li{
             position: relative;
@@ -118,6 +167,25 @@
                             translate: -50% 0;
                         }
                     }
+
+                    @media (max-width: 1100px){
+                        &[param="eventSelected"]{
+                            padding-right: 64px;
+                            padding-left: 64px;
+                        }
+                    }
+
+                    @include phone-portrait-up(){
+                        &[param="eventSelected"]{
+                            padding-right: 0;
+                            padding-left: 0;
+                        }
+                    }
+    
+
+
+
+
 
             &[param="eventSelected"]{
                 background-color: white;
@@ -153,7 +221,6 @@
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
-                font-size: 1.1em;
             }
 
             &[param="moreEvents"]{
@@ -192,7 +259,6 @@
                 }
 
                 > section{
-                    flex-grow: 1;
                     position: relative;
                     display: flex;
                     flex-direction: column;

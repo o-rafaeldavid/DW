@@ -8,12 +8,12 @@ import './header.scss'
 
 
 
-export default function Header(){
+export default function Header({paginas}){
     return(
         <HambActivatedProvider>
             <header>
                 <Hamb/>
-                <Nav/>
+                <Nav paginas={paginas}/>
             </header>
         </HambActivatedProvider>
     )

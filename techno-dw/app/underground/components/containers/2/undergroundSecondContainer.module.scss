@@ -10,14 +10,13 @@
 
     width: fit-content;
     margin: 0 auto;
-    opacity: 0.7;
+    
+    > h3 { opacity: 0.7; }
 }
 
 
 #inner{
     overflow: hidden;
-
-  
 }
 
 #carrossel{

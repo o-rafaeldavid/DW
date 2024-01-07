@@ -109,3 +109,13 @@ export const getAllPaginas = async () =>
     {"type": "paginas"},
     "slug, title, metadata",
   )
+
+export const getPaginaBySlug = async (slug) =>
+  getFromCosmic(
+    true,
+    {
+      type: "paginas",
+      slug: slug
+    },
+    "slug, title, metadata",
+  )

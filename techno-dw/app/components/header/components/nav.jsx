@@ -42,7 +42,7 @@ export default function Nav({paginas}){
                             const glitch = <GlitchContainer background='white'>{titulo}</GlitchContainer>
 
                             const metadata = paginaInfo.metadata
-                            const route = `/${metadata.route}`
+                            const route = `${metadata.route}`
 
                             const sameRoute = (yes, no) => (where === route) ? yes : no
                             const [hover, setHover] = useState(false)

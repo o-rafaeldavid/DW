@@ -1,8 +1,8 @@
 'use client'
 
 import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
-import ImageBox from "@/app/components/imageBox/imageBox"
-import { cosmicToDate, mapear } from "@/lib/misc"
+import CarrosselCard from "./components/carrosselCard"
+import { mapear } from "@/lib/misc"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import Link from 'next/link'
@@ -24,18 +24,26 @@ const existMoreDataOnCosmic = (data) => {
     return existance
 }
 
-const pageNavigation = (paginaAtual, pathname) => {
-    paginaAtual = parseInt(paginaAtual)
-    if(isNaN(paginaAtual)) paginaAtual = 0
+const pageNavigation = (searchParams, pathname) => {
+    const URL = new URLSearchParams(searchParams.entries())
 
-    const anteiror = `${pathname}?page=${paginaAtual - 1}`
-    const proximo = `${pathname}?page=${paginaAtual + 1}`
-    const atual = `${pathname}?page=${paginaAtual}`
+    let paginaAtual = parseInt(URL.get('page'))
+    if(isNaN(paginaAtual)) paginaAtual = 0
+    URL.set('page', paginaAtual + 1)
 
     return {
-        anteiror,
-        proximo,
-        atual
+        anteiror: () => {
+            URL.set('page', paginaAtual - 1)
+            return `${pathname}?${URL.toString()}`
+        },
+        proximo: () => {
+            URL.set('page', paginaAtual + 1)
+            return `${pathname}?${URL.toString()}`
+        },
+        atual: () => {
+            URL.set('page', paginaAtual)
+            return `${pathname}?${URL.toString()}`
+        }
     }
 }
 
@@ -44,8 +52,18 @@ const pageNavigation = (paginaAtual, pathname) => {
 
 export default function UndergroundCarrossel({data, id}){
     const searchParams = useSearchParams()
+            useEffect(
+                () => {
+                    if(searchParams.toString() !== ''){
+                        let body = document.body
+                        if(body !== undefined) window.scrollTo(0, body.scrollHeight - window.innerHeight)
+                    }
+                }, [searchParams]
+            )
     const pathname = usePathname()
     const windowSize = useWindowSize()
+
+    console.log(data.objects)
 
     let lista = useRef()
     const cursor = {
@@ -60,17 +78,26 @@ export default function UndergroundCarrossel({data, id}){
             end_up: useState({x: 0, y: 0})
         }
     }
-    const [translateX, setTranslateX] = useState(30)
+    const starting = mapear(
+        data.objects.length,
+        4,
+        9,
+        30,
+        40
+    )
+    const [translateX, setTranslateX] = useState(starting)
     const [selected, setSelected] = useState(0)
 
-
     const doNext = (sinal) => {
-        const stepX = 20
+        const stepX = 100 / (data.objects.length + 1)
         const nextTranslateX = translateX + (sinal * stepX)
 
+
+        console.log(sinal)
         if(
-            ((30 - 2 * stepX * (data.objects.length - 2)) <= nextTranslateX &&
-            nextTranslateX <= 30)
+            (sinal < 0 && (starting - stepX * (data.objects.length - 1)) <= nextTranslateX)
+            ||
+            (sinal > 0 && nextTranslateX <= starting)
         ){
             setSelected(() => selected - sinal)
             setTranslateX(() => nextTranslateX)
@@ -179,151 +206,90 @@ export default function UndergroundCarrossel({data, id}){
 
     return (
         <>
-        <div
-            id={id}
-            onWheel={(e) => {
-                if(windowSize.width > 1300){
-                    const body = document.querySelector('body')
-                    const sinal = Math.sign(e.nativeEvent.wheelDelta)
+            <div
+                id={id}
+                onWheel={(e) => {
+                    if(windowSize.width > 1300){
+                        const body = document.querySelector('body')
+                        const sinal = Math.sign(e.nativeEvent.wheelDelta)
 
-                    if(sinal < 0){
-                        console.log('para a frente')
-                        console.log(selected < data.objects.length - 1)
-                        if(selected < data.objects.length - 1) body.style.setProperty('overflow-y', 'hidden')
-                        else body.style.removeProperty('overflow-y')
-                    }
-                    else{
-                        console.log('para tras')
-                        console.log(selected > 0)
-                        if(selected > 0) body.style.setProperty('overflow-y', 'hidden')
-                        else body.style.removeProperty('overflow-y')
-                    }
+                        if(sinal < 0){
+                            console.log('para a frente')
+                            console.log(selected < data.objects.length - 1)
+                            if(selected < data.objects.length - 1) body.style.setProperty('overflow-y', 'hidden')
+                            else body.style.removeProperty('overflow-y')
+                        }
+                        else{
+                            console.log('para tras')
+                            console.log(selected > 0)
+                            if(selected > 0) body.style.setProperty('overflow-y', 'hidden')
+                            else body.style.removeProperty('overflow-y')
+                        }
 
-                    doNext(sinal)
-                }
-            }}
-            onMouseDown={(e) => {
-                moveIt.start_down(e, e.clientX, e.clientY)
-            }}
-            onMouseMove={(e) => {
-                moveIt.move(e, e.clientX, e.clientY)
-            }}
-            onMouseUp={(e) =>  {
-                moveIt.end_up(e)
-            }}
-        >
-            <ol
-                ref={lista}
-                style={{ transform: `translate(${(windowSize.width > 1300) ? translateX : 0}%, 0)` }}
-                onScroll={(e) => { setForTablet() }}
+                        doNext(sinal)
+                    }
+                }}
+                onMouseDown={(e) => {
+                    moveIt.start_down(e, e.clientX, e.clientY)
+                }}
+                onMouseMove={(e) => {
+                    moveIt.move(e, e.clientX, e.clientY)
+                }}
+                onMouseUp={(e) =>  {
+                    moveIt.end_up(e)
+                }}
             >
-                {data.objects.map(
-                    (d, index) => (
-                        <CarrosselCard
-                            key={`carrsossel-${index}`}
-                            eventoInfo={d}
-                            selected={(windowSize.width > 1300) ? (selected === index) : ''}
-                        />
-                    )
-                )}
-                {
-                    (windowSize.width > 1300) ?
-                    <li param="moreEvents">
-                        <Link
-                            href={
-                                (existMoreDataOnCosmic(data).proximo) ?
-                                pageNavigation(searchParams.get('page'), pathname).proximo :
-                                pageNavigation(searchParams.get('page'), pathname).atual
-                            }
-                            scroll={false}
-                            onClick={() => {
-                                setSelected(0)
-                                setTranslateX(30)
-                            }}
-                        >
-                            <span>
-                                <h1><GlitchContainer>+</GlitchContainer></h1>
-                                <h2><GlitchContainer>MAIS EVENTOS</GlitchContainer></h2>
-                            </span>
-                        </Link>
-                    </li>
+                <ol
+                    ref={lista}
+                    style={{ transform: `translate(${(windowSize.width > 1300) ? translateX : 0}%, 0)` }}
+                    onScroll={(e) => { setForTablet() }}
+                >
+                    {data.objects.map(
+                        (d, index) => (
+                            <CarrosselCard
+                                key={`carrsossel-${index}`}
+                                eventoInfo={d}
+                                selected={(windowSize.width > 1300) ? (selected === index) : ''}
+                            />
+                        )
+                    )}
+                    {
+                        (windowSize.width > 1300) ?
+                        <li param="moreEvents">
+                            <Link
+                                href={
+                                    (existMoreDataOnCosmic(data).proximo) ?
+                                    pageNavigation(searchParams, pathname).proximo() :
+                                    pageNavigation(searchParams, pathname).atual()
+                                }
+                                scroll={false}
+                                onClick={() => {
+                                    setSelected(0)
+                                    setTranslateX(30)
+                                }}
+                            >
+                                <span>
+                                    <h1><GlitchContainer>+</GlitchContainer></h1>
+                                    <h2><GlitchContainer>MAIS EVENTOS</GlitchContainer></h2>
+                                </span>
+                            </Link>
+                        </li>
 
-                    : <></>
-                }
-            </ol>
-            <div param="showOffer"></div>
-            <div param="showOffer"></div>
-        </div>
-        {
-            (windowSize.width > 1300) ?
-            <div param="navigatePoints">
-                {data.objects.map(
-                    (d, index) => <div param={(selected === index) ? 'selected' : ''}/>
-                )}
+                        : <></>
+                    }
+                </ol>
+                <div param="showOffer"></div>
+                <div param="showOffer"></div>
             </div>
-            : <></>
-        }
-        </>
-    )
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-function CarrosselCard({eventoInfo, selected = false}){
-    const pathname = usePathname()
-    const metadata = eventoInfo.metadata
-    const idBySlug = parseInt(eventoInfo.slug.split('-')[1]) - 1
-
-    const [texto, setTexto] = useState({
-        data: '',
-        titulo: '',
-        descricao: ''
-    })
-
-    useEffect(
-        () => {
-            setTexto({
-                data: cosmicToDate(metadata.data_do_evento, false),
-                titulo: eventoInfo.title,
-                descricao: metadata.descricao
-            })
-        }, [eventoInfo]
-    )
-
-
-
-    const innerList = 
-    <>
-        <ImageBox src={metadata.hero.imgix_url}/>
-        <section>
-            <GlitchContainer background="white">
-                <div>
-                    <h3>{texto.data}</h3>
-                    <div>
-                        <h3>{texto.titulo}</h3>
-                    </div>
-                </div>
-            </GlitchContainer>
-            <section>
-                <p>{texto.descricao}</p>
-            </section>
-        </section>
-    </>
-    return(
-        <li param={ (selected) ? 'eventSelected' : '' }>
             {
-                (selected) ?
-                <Link href={`${pathname}/${idBySlug}`} scroll={true}>
-                    {innerList}
-                </Link>
-                :
-                <section>
-                    {innerList}
-                </section>
+                (windowSize.width > 1300) ?
+                <div param="navigatePoints">
+                    {data.objects.map(
+                        (d, index) => <div param={(selected === index) ? 'selected' : ''} key={`point-${index}`}/>
+                    )}
+                </div>
+                : <></>
             }
-        </li>
+        </>
     )
 }

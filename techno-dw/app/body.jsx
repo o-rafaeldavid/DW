@@ -2,14 +2,37 @@
 import Footer from "./footer"
 import Header from "./components/header/header";
 import GlitchContextProvider from "./contexts/glitchContext";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import FilterForm from "./components/filterForm/filterForm";
+import FilterFormContextProvider, { FilterFormContext } from "./contexts/filterFormContext";
+
+
+
 
 export default function Body({children, className, paginas}){
+    return(
+        <FilterFormContextProvider>
+            <GlitchContextProvider>
+                <RealBody className={className} paginas={paginas}>{children}</RealBody>
+            </GlitchContextProvider>
+        </FilterFormContextProvider>
+    )
+}
+
+
+
+
+
+
+function RealBody({children, className, paginas}){
     const footerShow = () => {
         document.querySelector('footer').classList.add('up');
     }
+    const pathname = usePathname()
+    const estouUnderground = (pathname === '/underground')
 
-    /* const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0)
 
     useEffect(
         () => {
@@ -26,17 +49,42 @@ export default function Body({children, className, paginas}){
             clearInterval(interval)
             }
         }
-    ) */
+    )
+
+
+    
+
+    const {filterFormData, setFilterDataActivness} = useContext(FilterFormContext)
+
+
+
 
     return(
-        <GlitchContextProvider>
-            <body className={className} onWheel={footerShow}>
-                <Header paginas={paginas}/>
-                <main>
-                    {children}
-                </main>
-                <Footer/>
-            </body>
-        </GlitchContextProvider>
+        <body
+            className={className}
+            onWheel={footerShow}
+            onClick={(e) => {
+                if(estouUnderground && filterFormData.activated){
+                    const filterForm = document.getElementById('filterForm')
+                    const filterFormBounds = filterForm.getBoundingClientRect()
+
+                    const isInsideFilterForm =
+                        (filterFormBounds.top < e.clientY && e.clientY < filterFormBounds.bottom)
+                        &&
+                        (filterFormBounds.left < e.clientX && e.clientX < filterFormBounds.right)
+
+
+                    
+                    if(!isInsideFilterForm) setFilterDataActivness(false)
+                }
+            }}
+        >
+            <Header paginas={paginas}/>
+            <main>
+                {children}
+            </main>
+            <Footer/>
+            {estouUnderground ? <FilterForm type="search"/> : <></>}
+        </body>
     )
 }

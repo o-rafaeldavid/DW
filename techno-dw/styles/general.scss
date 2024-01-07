@@ -17,6 +17,15 @@ $background: rgb(20, 20, 20);
     user-select: none;
     -webkit-user-drag: none;
 
+    &::-webkit-scrollbar{
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+
     @include medium-landscape-down(){
         font-size: 0.97em;
     }
@@ -48,20 +57,11 @@ body{
     }
 
 
-    &::-webkit-scrollbar{
-        width: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb{
-        background-color: rgba(255, 255, 255, 0.5);
-    }
-
-
     > main{
         overflow: hidden;
 
         > .container{
-            width: calc(100% - 2 * 32px);
+            width: calc(100% - 2 * 64px);
             margin: 64px*3 32px 0 32px;
                 @include medium-landscape-down(){
                     margin-top: 64px * 2;
@@ -84,7 +84,7 @@ body{
             position: relative;
             &:first-of-type{
                 min-height: unset;
-                height: calc(100dvh - 2 * 64px);
+                height: calc(100dvh - 3 * 64px);
                 @include medium-landscape-down(){
                     min-height: calc(100dvh - 2 * 64px);
                 }
@@ -102,7 +102,7 @@ body{
         }
     }
 
-    &:has(nav.activated){
+    &:has(nav.activated, form[param="filterForm"].activated){
         overflow-y: hidden !important;
         > main, footer{ filter: blur(10px) brightness(0.3); }
     }
@@ -123,9 +123,10 @@ $headingInfos:
     (6em, 600, var(--font-lexend-peta)),
     (2em, 500, var(--font-lexend-peta)),
     (1.5em, 400, var(--font-lexend-peta)),
-    (4em, 500, var(--font-lexend-peta))
+    (4em, 500, var(--font-lexend-peta)),
+    (1em, 300, var(--font-lexend-peta))
 ;
-@for $i from 1 to 5{
+@for $i from 1 to 6{
     $headingInfo: nth($headingInfos, $i);
 
     h#{$i}{
@@ -151,6 +152,11 @@ h2, h3{
     }
 }
 
+h5{
+    @include tablet-portrait-up(){ font-size: 0.95em; }
+    @include phone-portrait-up(){ font-size: 0.9em; }
+}
+
 p{
     font-size: 1.4em;
     @include tablet-portrait-up{
@@ -169,4 +175,14 @@ span{
 
 div[param="showOffer"]{
     background: linear-gradient(90deg, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 100%)
+}
+
+button{
+    background-color: unset;
+    opacity: 0.5;
+    &:hover{
+        cursor: pointer;
+        opacity: 1;
+        scale: 1.1;
+    }
 }

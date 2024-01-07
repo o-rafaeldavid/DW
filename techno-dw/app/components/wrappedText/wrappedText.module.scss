@@ -66,22 +66,24 @@
                 width: $pannelWidth_phone;
             }
         height: 100px;
-
         overflow: hidden;
-
-        //border: solid white 1px;
-        //background-color: rgba(255, 255, 255, 0.1);
 
         ////////////////////////////////////////////////
         @for $i from 0 to ($nDivs * $nTags){
             &:nth-child(#{$i + 1}){
                 --left: #{$pannelWidth * $i * (-1)};
                 --angle: #{360deg / ($nDivs * $nTags) * $i};
+                --lag: #{50ms * $i};
                 @include phone-portrait-up{
                     --left: #{$pannelWidth_phone * $i * (-1)};
                 }
             }
         }
+    }
+
+    @keyframes girar {
+        0%, 25%{ transform: rotateX(0); }
+        12.5%{ transform: rotateX(-360deg); }
     }
 
     > div > div,
@@ -93,14 +95,18 @@
         &[name="underground"]::before{ content: "UNDERGROUND"; }
         &[name="nossamissao"]::before{ content: "NOSSA MISSÃO"; }
 
-        &::before{
+        &[girar="true"]{
+            &::before{
+                animation: girar 10s var(--lag) infinite linear;
+            }
+        }
 
+        &::before{
             position: absolute;
             left: var(--left);
 
             width: max-content;
             font-size: 60px;
-            //color: hsl(0, var(--saturation), 50%);
             color: white;
         }
     }

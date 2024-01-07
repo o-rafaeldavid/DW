@@ -1,11 +1,6 @@
 @use 'sass:list';
 
 @mixin verdeMagenta($xv: 0px, $yv: 0px, $blurv: 0px, $xm: 0px, $ym: 0px, $blurm: 0px){
-    /* text-shadow:
-        rgb(0, 255, 0) $xv $yv $blurv,
-        magenta $xm $ym $blurm; */
-
-    
     filter:
         drop-shadow(rgb(0, 255, 0) $xv $yv $blurv) 
         drop-shadow(magenta $xm $ym $blurm)
@@ -118,7 +113,7 @@ $blurProps_box:
 ;
 
 $blurProps_wrappedText: 
-    0.2em,
+    6px,
     0.1em,
     0.4em,
     -0.6em,

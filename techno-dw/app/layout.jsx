@@ -6,9 +6,6 @@ import { Inter, Lexend_Peta, Lexend_Exa, Lexend } from 'next/font/google'
 import "../styles/general.scss"
 
 
-
-
-
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter'})
 const lexend_peta = Lexend_Peta({ subsets: ['latin'], variable: '--font-lexend-peta'})
 const lexend_exa = Lexend_Exa({ subsets: ['latin'], variable: '--font-lexend-exa'})

@@ -5,15 +5,14 @@ import UndergroundContainer_2 from "./components/containers/2/container_2"
 
 export default async function Underground({searchParams}) {
   const allEventos = await getAllEventos()
-  const page = parseInt(searchParams.page)
-  let pagina = 0
-
-  if(isNaN(page) || page < 0) pagina = 0
-  else pagina = page
-
-  const eventosForUnderground = await getEventosForUnderground('created_at', 4, 4 * pagina)
+  let page = parseInt(searchParams.page)
+  let limit = parseInt(searchParams.limit)
 
 
+  if(isNaN(page) || page < 0) page = 0
+  if(isNaN(limit) || limit < 4) limit = 4
+
+  const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page)
 
 
   return (

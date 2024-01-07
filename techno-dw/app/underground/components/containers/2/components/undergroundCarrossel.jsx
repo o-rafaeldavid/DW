@@ -61,53 +61,45 @@ export default function UndergroundCarrossel({data, id}){
         }
     }
     const [translateX, setTranslateX] = useState(30)
-
-    const showOfferHeights = (windowWidth) => {
-        if(windowWidth > 870) return 100
-        else return 50
-    }
-    /*
-        definição dos steps:
-        tamanho da imagem + 2 * margem (top&bottom) + tamanho do gap da <ol/>
-    */
-    const ySteps = (windowWidth) => {
-        if(windowWidth > 870) return 100 + 24 * 2 + 46 //tablet
-        else if((windowWidth > 470)) return 80 + 16 * 2 + 24 //phone
-        else return 80 + 10 * 2 + 24 //width menor q 470px (real phone)
-    }
     const [selected, setSelected] = useState(0)
-
-
-
-
-
 
 
     const doNext = (sinal) => {
         const stepX = 20
         const nextTranslateX = translateX + (sinal * stepX)
 
-
-        const stepY = ySteps(windowSize.width)
-        const showOfferHeight = showOfferHeights(windowSize.width)
-        const nextTranslateY = showOfferHeight - selected * stepY + (sinal * stepY)
-
         if(
             ((30 - 2 * stepX * (data.objects.length - 2)) <= nextTranslateX &&
             nextTranslateX <= 30)
-            &&
-            ((showOfferHeight - 2 * stepY * (data.objects.length - 2)) <= nextTranslateY &&
-            nextTranslateY <= showOfferHeight)
         ){
             setSelected(() => selected - sinal)
             setTranslateX(() => nextTranslateX)
         }
     }
-    useEffect(
-        () => {
-           
-        }, [windowSize.width]
-    )
+
+
+    const setForTablet = () => {
+        if(windowSize.width <= 1300 && lista.current !== undefined){
+            const ol = lista.current
+            const parentBounds = ol.getBoundingClientRect()
+            ol.querySelectorAll('li:not([param="moreEvents"])').forEach((li) => {
+                const liBounds = li.getBoundingClientRect()
+                if(parentBounds.top < liBounds.top && liBounds.bottom < parentBounds.bottom){
+                    li.setAttribute('param', 'eventSelected')
+                }
+                else li.removeAttribute('param')
+            })
+        }
+    }
+    useEffect(() => {
+        setForTablet()
+        if(windowSize.width > 1300 && lista.current !== undefined){
+            const ol = lista.current
+            ol.querySelectorAll('li:not([param="moreEvents"])').forEach((li, index) => {
+                if(index !== selected) li.removeAttribute('param')
+            })
+        }
+    }, [windowSize.width])
     // useEffect chamado quando o rato/dedo para de dar 'grab'/'touch'
     useEffect(
         () => {
@@ -190,23 +182,25 @@ export default function UndergroundCarrossel({data, id}){
         <div
             id={id}
             onWheel={(e) => {
-                const body = document.querySelector('body')
-                const sinal = Math.sign(e.nativeEvent.wheelDelta)
+                if(windowSize.width > 1300){
+                    const body = document.querySelector('body')
+                    const sinal = Math.sign(e.nativeEvent.wheelDelta)
 
-                if(sinal < 0){
-                    console.log('para a frente')
-                    console.log(selected < data.objects.length - 1)
-                    if(selected < data.objects.length - 1) body.style.setProperty('overflow-y', 'hidden')
-                    else body.style.removeProperty('overflow-y')
-                }
-                else{
-                    console.log('para tras')
-                    console.log(selected > 0)
-                    if(selected > 0) body.style.setProperty('overflow-y', 'hidden')
-                    else body.style.removeProperty('overflow-y')
-                }
+                    if(sinal < 0){
+                        console.log('para a frente')
+                        console.log(selected < data.objects.length - 1)
+                        if(selected < data.objects.length - 1) body.style.setProperty('overflow-y', 'hidden')
+                        else body.style.removeProperty('overflow-y')
+                    }
+                    else{
+                        console.log('para tras')
+                        console.log(selected > 0)
+                        if(selected > 0) body.style.setProperty('overflow-y', 'hidden')
+                        else body.style.removeProperty('overflow-y')
+                    }
 
-                doNext(sinal)
+                    doNext(sinal)
+                }
             }}
             onMouseDown={(e) => {
                 moveIt.start_down(e, e.clientX, e.clientY)
@@ -217,40 +211,23 @@ export default function UndergroundCarrossel({data, id}){
             onMouseUp={(e) =>  {
                 moveIt.end_up(e)
             }}
-            onTouchStart={(e) => {
-                document.querySelector('body').style.setProperty('overflow-y', 'hidden')
-                moveIt.start_down(e, e.touches[0].clientX, e.touches[0].clientY)
-            }}
-            onTouchMove={(e) => {
-                moveIt.move(e, e.touches[0].clientX, e.touches[0].clientY)
-            }}
-            onTouchEnd={(e) => {
-                document.querySelector('body').style.removeProperty('overflow-y')
-                moveIt.end_up(e)
-            }}
         >
             <ol
                 ref={lista}
-                style={{
-                    transform: `
-                        translate(
-                            ${(windowSize.width > 1300) ? translateX : 0}%,
-                            ${(windowSize.width <= 1300) ? showOfferHeights(windowSize.width) - selected * ySteps(windowSize.width) : 0}px
-                        )
-                    `
-                }}
+                style={{ transform: `translate(${(windowSize.width > 1300) ? translateX : 0}%, 0)` }}
+                onScroll={(e) => { setForTablet() }}
             >
                 {data.objects.map(
                     (d, index) => (
                         <CarrosselCard
                             key={`carrsossel-${index}`}
                             eventoInfo={d}
-                            selected={(selected === index)}
+                            selected={(windowSize.width > 1300) ? (selected === index) : ''}
                         />
                     )
                 )}
                 {
-                    (windowSize.width > 1500) ?
+                    (windowSize.width > 1300) ?
                     <li param="moreEvents">
                         <Link
                             href={
@@ -271,17 +248,21 @@ export default function UndergroundCarrossel({data, id}){
                         </Link>
                     </li>
 
-                    : <li></li>
+                    : <></>
                 }
             </ol>
             <div param="showOffer"></div>
             <div param="showOffer"></div>
         </div>
-        <div param="navigatePoints">
-            {data.objects.map(
-                (d, index) => <div param={(selected === index) ? 'selected' : ''}/>
-            )}
-        </div>
+        {
+            (windowSize.width > 1300) ?
+            <div param="navigatePoints">
+                {data.objects.map(
+                    (d, index) => <div param={(selected === index) ? 'selected' : ''}/>
+                )}
+            </div>
+            : <></>
+        }
         </>
     )
 }
@@ -312,6 +293,8 @@ function CarrosselCard({eventoInfo, selected = false}){
         }, [eventoInfo]
     )
 
+
+
     const innerList = 
     <>
         <ImageBox src={metadata.hero.imgix_url}/>
@@ -330,7 +313,7 @@ function CarrosselCard({eventoInfo, selected = false}){
         </section>
     </>
     return(
-        <li param={selected ? 'eventSelected' : ''}>
+        <li param={ (selected) ? 'eventSelected' : '' }>
             {
                 (selected) ?
                 <Link href={`${pathname}/${idBySlug}`} scroll={true}>

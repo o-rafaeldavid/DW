@@ -52,12 +52,9 @@
         @include tablet-portrait-up(){
             overflow: hidden;
             font-size: 1.25em;
-            height: 500px;
+            height: 530px;
             margin-top: 36px;
-        }
-
-        @media (max-width: 870px){
-            height: 370px;
+            margin-bottom: 84px;
         }
 
         @include phone-portrait-up(){
@@ -100,6 +97,8 @@
     }
 
 
+
+
     > div[param="showOffer"]{
         position: absolute;
         top: 0;
@@ -120,12 +119,16 @@
                     
                     &:first-of-type{ top: 0}
                     &:last-of-type{ top:unset; bottom: 0;}
+                    height: 50px;
                 }
 
                 @include phone-portrait-up(){
                     height: 50px;
                 }
     }
+
+
+
 
     
 
@@ -150,13 +153,14 @@
                 @include tablet-portrait-up(){
                     width: calc(100% - 2 * 128px);
                     flex-direction: column;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
                 }
                 @media (max-width: 1100px){
                     width: calc(100% - 2 * 64px);
                 }
                 @include phone-portrait-up(){
                     width: 100%;
-                    gap: 24px;
                 }
                 
 
@@ -166,8 +170,10 @@
             width: auto;
             aspect-ratio: 4 / 3;
 
-            opacity: 0.5;
-            filter: blur(2px);
+            &:not([param="moreEvents"]){
+                opacity: 0.5;
+                filter: blur(2px);
+            }
 
             transition: background 300ms, scale 300ms, opacity 300ms;
 
@@ -185,6 +191,13 @@
                             width: 100%;
                             left: 50%;
                             translate: -50% 0;
+                        }
+
+                        &:first-of-type{
+                            margin-top: 50px;
+                        }
+                        &:last-of-type{
+                            margin-bottom: 50px;
                         }
                     }
 
@@ -259,12 +272,15 @@
             // secção "mais eventos" q aparece no desktop
             &[param="moreEvents"]{
                 position: relative;
-                > a > span{
-                    position: absolute;
-                    text-align: center;
-                    top: 50%; left: 50%;
-                    translate: -50% -50%;
-                    gap: 32px;
+                > a{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    > span{
+                        gap: 32px;
+                        text-align: center;
+                    }
                 }
 
                 &:hover{

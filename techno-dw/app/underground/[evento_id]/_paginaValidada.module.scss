@@ -4,9 +4,6 @@ $background: rgb(20, 20, 20);
 #mainContainer{
     display: flex;
     flex-direction: column;
-    /* @include medium-landscape-down(){
-        flex-direction: row-reverse;
-    } */
     @include tablet-portrait-up{
         flex-direction: column;
     }
@@ -22,10 +19,13 @@ $background: rgb(20, 20, 20);
         right: 0; bottom: 2 * 64px;
         display: flex; flex-direction: column;
         gap: 8px;
-        @include phone-portrait-up(){
-            bottom: unset;
-            top: max(10%, 64px);
-        }
+            @include phone-portrait-up(){
+                bottom: unset;
+                top: max(10%, 64px);
+            }
+            @media (max-width: 700px){
+                top: 64px;
+            }
     }
     #sectionTitle{
         position: relative;
@@ -69,6 +69,9 @@ $background: rgb(20, 20, 20);
                 @media (max-width: 1550px){
                     margin-bottom: 128px;
                 }
+                @media (max-width: 580px){
+                    margin-bottom: max(15%, 46px);
+                }
     }
 
         #hero{
@@ -109,6 +112,19 @@ $background: rgb(20, 20, 20);
                         > div[param="imageBox"]{
                             height: unset;
                             width: 450px;
+                        }
+                    }
+                    @media (max-width: 700px){
+                        top: max(25%, 72px);
+                        > div[param="imageBox"]{
+                            width: 370px;
+                            @media (max-width: 650px){ width: 330px; }
+                        }
+                    }
+                    @media (max-width: 580px){
+                        top: unset; bottom: 0;
+                        > div[param="imageBox"]{
+                            width: calc(100dvw - 64px*2)
                         }
                     }
         }

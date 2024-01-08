@@ -62,11 +62,10 @@ export default function UndergroundBests({data, className, rotateZ, incline}){
                         evento => {
                             return(
                                 <li key={`evento-${evento.slug}`}>
-                                    <GlitchContainer type="box">
-                                        <ImageBox
-                                            src={evento.metadata.hero.imgix_url}
-                                        />
-                                    </GlitchContainer>
+                                    
+                                    <ImageBox
+                                        src={evento.metadata.hero.imgix_url}
+                                    />
                                 </li>
                             )
                         }

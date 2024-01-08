@@ -4,27 +4,53 @@ $background: rgb(20, 20, 20);
 #mainContainer{
     display: flex;
     flex-direction: column;
-    @include medium-landscape-down(){
-        flex-direction: row-reverse;
-    }
     @include tablet-portrait-up{
         flex-direction: column;
     }
     @include phone-portrait-up(){
         flex-direction: column-reverse;
+        margin: 0 32px;
+        width: calc(100dvw - 32px * 2);
     }
 }
+    #generos{
+        position: absolute;
+        text-align: right;
+        right: 0; bottom: 2 * 64px;
+        display: flex; flex-direction: column;
+        gap: 8px;
+            @include phone-portrait-up(){
+                bottom: unset;
+                top: max(10%, 64px);
+                    @media (max-width: 700px){
+                        top: 64px;
+                        @media (max-height: 850px){
+                            top: 32px;
+                        }
+                    }
+            }
+    }
     #sectionTitle{
+        position: relative;
         display: flex;
         flex-direction: column;
         text-align: right;
-        @include phone-portrait-up(){
-            flex-direction: column-reverse;
-            text-align: unset;
-        }
+        align-items: flex-end;
+                @include phone-portrait-up(){
+                    flex-direction: column-reverse;
+                    text-align: unset;
+                    margin-bottom: 32px;
+                    
+                            @media (max-height: 920px){
+                                margin-bottom: 8px;
+                            }
+                }
     }
 
-        #titulo{
+
+        #tituloDiv{
+            max-width: 80%;
+            overflow: hidden;
             @include phone-portrait-up(){
                 margin-top: 0.5em;
             }
@@ -42,69 +68,117 @@ $background: rgb(20, 20, 20);
                 opacity: 0.7;
             }
 
-    #sectionHeroAbout{
+    #sectionHero{
         position: relative;
         flex-grow: 1;
         margin-bottom: 64px;
+
+                @media (max-width: 1550px){
+                    margin-bottom: 128px;
+                }
+                @media (max-width: 580px){
+                    margin-bottom: 10%;
+                }
+                @media (max-height: 920px){
+                    margin-bottom: 12px;
+                }
     }
 
-        #hero, #sobreEvento{
-            position: absolute;
-        }
-
         #hero{
+            position: absolute;
             > div[param="imageBox"]{
                 height: 100%;
             }
             height: 0;
-            min-height: 100%;
+            min-height: calc(100% - 64px);
             bottom: 64px;
             left: 7%;
+            z-index: 0;
 
-            @include medium-landscape-down(){
-                min-height: unset;
-                height: auto;
-                > div[param="imageBox"]{
-                    height: unset;
-                    width: 700px;
-                }
-            }
-            @include tablet-portrait-up{
-                min-height: unset;
-                height: auto;
+                    @media (max-width: 1550px){
+                        min-height: unset;
+                        height: auto;
+                        > div[param="imageBox"]{
+                            height: unset;
+                            width: 700px;
+                        }
+                    }
+                    @include tablet-portrait-up{
+                        min-height: unset;
+                        height: auto;
 
-                bottom: unset;
-                top: 10%;
-                left: 7%;
-                > div[param="imageBox"]{
-                    height: unset;
-                    width: 420px;
-                }
-            }
-            @include phone-portrait-up(){
-                left: unset;
-                top: 64px;
+                        bottom: unset;
+                        top: 10%;
+                        left: 7%;
+                        > div[param="imageBox"]{
+                            height: unset;
+                            width: 500px;
+                        }
+                    }
+                    @include phone-portrait-up(){
+                        left: 32px;
+                        top: max(10%, 64px);
 
-                > div[param="imageBox"]{
-                    height: unset;
-                    width: 300px;
-                }
-            }
+                        > div[param="imageBox"]{
+                            height: unset;
+                            width: 450px;
+                        }
+                    }
+                    @media (max-width: 700px){
+                        top: max(25%, 72px);
+                        > div[param="imageBox"]{
+                            width: 370px;
+                            @media (max-width: 650px){ width: 330px; }
+                        }
+                    }
+                    @media (max-width: 580px){
+                        top: unset; bottom: 0;
+                        left: 50%;
+                        translate: -50% 0;
+                        > div[param="imageBox"]{
+                            width: calc(100dvw - 64px*2);
+                        }
+                    }
         }
 
-        #sobreEvento{
-            z-index: 1;
-            left: calc(500px + 7%);
-            top: 70%;
 
-            text-shadow: $background 0 0 6px, $background 0 0 6px;
+#atualizateContainer{
+    h4{ text-align: center; }
+            @include phone-portrait-up{
+                margin-top: 128px + 32px;
+            }
+}
 
+    #sobreEvento{
+        margin: 64px auto;
+        width: 60%;
+        min-width: 700px;
+
+        @mixin p_style(){
+            font-size: 1.4em;
+            line-height: 1.2em;
             @include tablet-portrait-up{
-                left: calc(300px + 7%);
-                top: 50%;
+                font-size: 1.8em;
             }
             @include phone-portrait-up(){
-                left: 200px;
-                top: 65%;
+                font-size: 2.8em;
             }
         }
+        ul{
+            @include p_style();
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+
+                @include tablet-portrait-up{
+                    min-width: 500px;
+                }
+                @include phone-portrait-up{
+                    min-width: 500px;
+                    width: 60%;
+                }
+                @media (max-width: 700px){
+                    min-width: 400px;
+                }
+    }

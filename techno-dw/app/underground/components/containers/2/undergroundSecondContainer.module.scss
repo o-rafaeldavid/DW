@@ -5,13 +5,26 @@
 }
 
 #sectionFilters{
+    position: relative;
     display: flex;
-    gap: 4em;
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
 
     width: fit-content;
     margin: 0 auto;
-    opacity: 0.7;
+    
+    > h3 { opacity: 0.7; }
+
+    > div{
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
 }
+
 
 #inner{
     overflow: hidden;
@@ -23,9 +36,12 @@
     width: 100%;
     margin-top: 128px;
 
-    &:hover{cursor: grab;}
-    &[param='grabbing']{
-        &:hover{cursor: grabbing;}
+
+    @media (min-width: 1300px){
+        &:hover{cursor: grab;}
+        &[param='grabbing']{
+            &:hover{cursor: grabbing;}
+        }
     }
 
         @include medium-landscape-down(){
@@ -47,9 +63,54 @@
         }
 
         @include tablet-portrait-up(){
-            height: 590px;
             overflow: hidden;
+            font-size: 1.25em;
+            height: 530px;
+            margin-top: 36px;
+            margin-bottom: 84px;
         }
+
+        @include phone-portrait-up(){
+            font-size: 1.6em;
+        }
+
+
+
+
+
+    + div[param="navigatePoints"]{
+        margin-top: 64px;
+        height: 24px;
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+
+        > div{
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: white;
+            border-radius: 50%;
+            scale: 0.75;
+            opacity: 0.5;
+
+            &[param="selected"]{ scale: 1; opacity: 1; }
+        }
+
+                @include tablet-portrait-up(){
+                    height: 18px;
+                    gap: 18px;
+                }
+
+                @include phone-portrait-up(){
+                    height: 12px;
+                    gap: 12px;
+                }
+    }
+
+
+
 
     > div[param="showOffer"]{
         position: absolute;
@@ -61,15 +122,28 @@
         &:first-of-type{ left: 0; }
         &:last-of-type{ right: 0; rotate: 180deg;}
 
-        @include tablet-portrait-up(){
-            background: linear-gradient(180deg, rgba(20, 20, 20, 0.8) 0%, rgba(20, 20, 20, 0) 100%);
-            width: calc(100% + 2 * 32px);
-            height: 100px;
-            
-            &:first-of-type{ top: 0}
-            &:last-of-type{ top:unset; bottom: 0;}
-        }
+
+
+                @include tablet-portrait-up(){
+                    background: linear-gradient(
+                                    180deg, rgba(20, 20, 20, 0.8) 0%, rgba(20, 20, 20, 0) 100%);
+                    width: calc(100% + 2 * 32px);
+                    height: 100px;
+                    
+                    &:first-of-type{ top: 0}
+                    &:last-of-type{ top:unset; bottom: 0;}
+                    height: 50px;
+                }
+
+                @include phone-portrait-up(){
+                    height: 50px;
+                }
     }
+
+
+
+
+    
 
     > ol{
         position: absolute;
@@ -92,13 +166,27 @@
                 @include tablet-portrait-up(){
                     width: calc(100% - 2 * 128px);
                     flex-direction: column;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
                 }
+                @media (max-width: 1100px){
+                    width: calc(100% - 2 * 64px);
+                }
+                @include phone-portrait-up(){
+                    width: 100%;
+                }
+                
 
         > li{
             position: relative;
             height: 100%;
             width: auto;
             aspect-ratio: 4 / 3;
+
+            &:not([param="moreEvents"]){
+                opacity: 0.5;
+                filter: blur(2px);
+            }
 
             transition: background 300ms, scale 300ms, opacity 300ms;
 
@@ -117,12 +205,39 @@
                             left: 50%;
                             translate: -50% 0;
                         }
+
+                        &:first-of-type{
+                            margin-top: 50px;
+                        }
+                        &:last-of-type{
+                            margin-bottom: 50px;
+                        }
                     }
+
+                    @media (max-width: 1100px){
+                        &[param="eventSelected"]{
+                            padding-right: 64px;
+                            padding-left: 64px;
+                        }
+                    }
+
+                    @include phone-portrait-up(){
+                        &[param="eventSelected"]{
+                            padding-right: 0;
+                            padding-left: 0;
+                        }
+                    }
+    
+
+
+
+
 
             &[param="eventSelected"]{
                 background-color: white;
                 scale: 1;
                 opacity: 1;
+                filter: none;
                 &:hover{
                     cursor: pointer;
                     scale: 1.05;
@@ -146,24 +261,39 @@
             }
 
 
+
+
+            $paddingBoxDesktop: 24px;
+            $paddingBoxPhone: 16px;
+            $paddingBox470: 10px;
             > a, > section{
                 position: relative;
                 width: 100%; height: 100%;
-                padding: 24px;
+                padding: $paddingBoxDesktop;
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
-                font-size: 1.1em;
+
+                        @include phone-portrait-up(){
+                            padding: $paddingBoxPhone;
+                        }
+                        @media (max-width: 470px){
+                            padding: $paddingBox470;
+                        }
             }
 
+            // secção "mais eventos" q aparece no desktop
             &[param="moreEvents"]{
                 position: relative;
-                > a > span{
-                    position: absolute;
-                    text-align: center;
-                    top: 50%; left: 50%;
-                    translate: -50% -50%;
-                    gap: 32px;
+                > a{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    > span{
+                        gap: 32px;
+                        text-align: center;
+                    }
                 }
 
                 &:hover{
@@ -174,11 +304,18 @@
 
 
             /* ==================== */
+            $imagemTablet: 100px;
+            $imagemPhone: 80px;
+            $gapBoxDesktop: 24px;
+            $gapBoxPhone: 16px;
             > a, > section{
-                gap: 24px;
+                gap: $gapBoxDesktop;
 
                         @include tablet-portrait-up(){
                             flex-direction: row;
+                        }
+                        @include phone-portrait-up(){
+                            gap: $gapBoxPhone;
                         }
             
                 > div[param='imageBox']{
@@ -187,7 +324,11 @@
                         @include tablet-portrait-up(){
                             aspect-ratio: 1 / 1;
                             width: auto;
-                            height: 100px;
+                            height: $imagemTablet;
+                        }
+
+                        @include phone-portrait-up(){
+                            height: $imagemPhone;
                         }
                 }
 
@@ -198,10 +339,26 @@
                     flex-direction: column;
                     gap: 24px;
 
+                            @include tablet-portrait-up(){
+                                flex-grow: unset;
+                                overflow: hidden;
+                                width: calc(100% - $imagemTablet - $gapBoxDesktop);
+                                height: $imagemTablet;
+                            }
+                            @include phone-portrait-up(){
+                                gap: 8px;
+                                width: calc(100% - $imagemPhone - $gapBoxPhone);
+                                height: $imagemPhone;
+                            }
+
                     div{
                         display: flex;
                         justify-content: space-between;
                         gap: 32px;
+
+                                @include phone-portrait-up(){
+                                    gap: 16px;
+                                }
                         
                         h3{ font-weight: 600;}
 

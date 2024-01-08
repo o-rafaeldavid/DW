@@ -17,6 +17,15 @@ $background: rgb(20, 20, 20);
     user-select: none;
     -webkit-user-drag: none;
 
+    &::-webkit-scrollbar{
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb{
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+
     @include medium-landscape-down(){
         font-size: 0.97em;
     }
@@ -37,6 +46,7 @@ html {
 
 
 body{
+    position: relative;
     width: 100dvw;
     box-sizing: border-box;
     font-family: var(--font-inter), sans-serif;
@@ -48,20 +58,11 @@ body{
     }
 
 
-    &::-webkit-scrollbar{
-        width: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb{
-        background-color: rgba(255, 255, 255, 0.5);
-    }
-
-
     > main{
         overflow: hidden;
 
         > .container{
-            width: calc(100% - 2 * 32px);
+            width: calc(100% - 2 * 64px);
             margin: 64px*3 32px 0 32px;
                 @include medium-landscape-down(){
                     margin-top: 64px * 2;
@@ -70,15 +71,22 @@ body{
                     margin-top: 64px * 2;
                 }
                 @include phone-portrait-up(){
-                    margin-top: 0;
+                    width: 100%;
+                    margin: 0;
                 }
 
             min-height: 100dvh;
+            &.dynamicContainer{
+                min-height: unset;
+                height: auto;
+                margin-bottom: 64px * 3;
+            }
+
             z-index: 10;
             position: relative;
             &:first-of-type{
                 min-height: unset;
-                height: calc(100dvh - 2 * 64px);
+                height: calc(100dvh - 3 * 64px);
                 @include medium-landscape-down(){
                     min-height: calc(100dvh - 2 * 64px);
                 }
@@ -91,14 +99,14 @@ body{
             }
             > .innerContainer{
                 margin: calc(64px + 32px) 0;
-                height: calc(100dvh - 2 * 64px);
+                height: calc(100% - 2 * 64px);
             }
         }
     }
 
-    &:has(nav.activated){
+    &:has(nav.activated, form[param="filterForm"].activated){
         overflow-y: hidden !important;
-        > main, footer{ filter: blur(10px); }
+        > main, footer{ filter: blur(10px) brightness(0.3); }
     }
 }
 
@@ -117,9 +125,11 @@ $headingInfos:
     (6em, 600, var(--font-lexend-peta)),
     (2em, 500, var(--font-lexend-peta)),
     (1.5em, 400, var(--font-lexend-peta)),
-    (4em, 500, var(--font-lexend-peta))
+    (4em, 500, var(--font-lexend-peta)),
+    (1em, 300, var(--font-lexend-peta)),
+    (1.3em, 300, var(--font-lexend-exa))
 ;
-@for $i from 1 to 5{
+@for $i from 1 to 7{
     $headingInfo: nth($headingInfos, $i);
 
     h#{$i}{
@@ -145,14 +155,28 @@ h2, h3{
     }
 }
 
-p{
+h5{
+    @include tablet-portrait-up(){ font-size: 0.95em; }
+    @include phone-portrait-up(){ font-size: 0.9em; }
+}
+
+h6{
+    @include tablet-portrait-up(){ font-size: 1.7em; }
+    @include phone-portrait-up(){ font-size: 2.3em; }
+}
+
+@mixin p_style(){
     font-size: 1.4em;
+    line-height: 1.2em;
     @include tablet-portrait-up{
-        font-size: 1.7em;
+        font-size: 1.8em;
     }
     @include phone-portrait-up(){
-        font-size: 2em;
+        font-size: 2.8em;
     }
+}
+p{
+    @include p_style();
 }
 
 span{
@@ -163,4 +187,46 @@ span{
 
 div[param="showOffer"]{
     background: linear-gradient(90deg, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 100%)
+}
+
+button{
+    background-color: unset;
+    opacity: 0.5;
+    &:hover{
+        cursor: pointer;
+        opacity: 1;
+        scale: 1.1;
+    }
+}
+
+
+#bgContainFoto{
+    position: absolute;
+    top: 0; left: 0;
+    width: 100dvw; height: 100%;
+    overflow: hidden;
+    
+
+    > * {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+    }
+
+    > section{
+        z-index: 1;
+        background: linear-gradient(180deg,
+                        rgba(20, 20, 20, 0) 30%,
+                        rgba(20, 20, 20, 0.2) 40%,
+                        rgba(20, 20, 20, 0.8) 60%,
+                        rgba(20, 20, 20, 1) 95%
+                    );
+    }
+
+    > #bgFoto{
+        z-index: 0;
+        filter: blur(20px) saturate(1) contrast(1.3) brightness(0.2);
+        scale: 1.2;
+        background-repeat: repeat;
+    }
 }

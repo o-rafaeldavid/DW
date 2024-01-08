@@ -8,16 +8,18 @@ export function useEventListener(
 ){
     useEffect(
         () => {
-            (options !== undefined)
-                ? DOC.addEventListener(type, listener, options)
-                : DOC.addEventListener(type, listener)
-            
-            return () => {
+            if(DOC !== undefined){
                 (options !== undefined)
-                    ? DOC.removeEventListener(type, listener, options)
-                    : DOC.removeEventListener(type, listener)
+                    ? DOC.addEventListener(type, listener, options)
+                    : DOC.addEventListener(type, listener)
+                
+                return () => {
+                    (options !== undefined)
+                        ? DOC.removeEventListener(type, listener, options)
+                        : DOC.removeEventListener(type, listener)
+                }
             }
-        }
+        }, [DOC]
     )
 }
 

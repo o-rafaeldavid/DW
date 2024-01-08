@@ -16,6 +16,7 @@ const cosmic = createBucketClient({
   writeKey: process.env.BUCKET_WRITE_KEY,
 });
 
+
 //função geral para ir buscar no cosmic
 async function getFromCosmic(findOne, query, propstoget) {
   try {
@@ -79,13 +80,30 @@ export const getEventoBySlug = async (id) =>
     limit: limite recebido (se quero só 1, 2, 3, 10, 100, etc... (acho q até 1000))
     skip: quantos elementos se ignoram (bom para paginação)
 */
-export const getEventosForUnderground = async (sort, limit, skip) => {
+export const getEventosForUnderground = async (sort, limit, skip, query) => {
+  const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
+                    .split('/').reverse().join('-')
+
+  let find = {"type": "eventos"}
+  if(query !== undefined){
+    if(query.date !== undefined){
+      find["metadata.data_do_evento"] = {}
+
+      
+      if(query.date.min !== undefined) find["metadata.data_do_evento"]["$gte"] = query.date.min
+      else find["metadata.data_do_evento"]["$gte"] = hoje
+
+      if(query.date.max !== undefined) find["metadata.data_do_evento"]["$lte"] = query.date.max
+    }
+    if(query.search !== undefined) find["title"] = {$regex: query.search, $options: "i"}
+  }
+
+
+  
   try {
     const data = await Promise.resolve(
       cosmic.objects
-        .find({
-          "type": "eventos"
-        })
+        .find(find)
         .props("slug, title, metadata")
         .depth(1)
         .sort(sort)
@@ -98,3 +116,29 @@ export const getEventosForUnderground = async (sort, limit, skip) => {
   }
   return Promise.resolve(undefined);
 }
+
+
+/* getEventosForUnderground("created_at", 4, 0, {date: {min: '2024-07-06'}, search: 'NEOPOP'})
+.then(res => {}) */
+
+
+
+
+
+
+export const getAllPaginas = async () =>
+  getFromCosmic(
+    false,
+    {"type": "paginas"},
+    "slug, title, metadata",
+  )
+
+export const getPaginaBySlug = async (slug) =>
+  getFromCosmic(
+    true,
+    {
+      type: "paginas",
+      slug: slug
+    },
+    "slug, title, metadata",
+  )

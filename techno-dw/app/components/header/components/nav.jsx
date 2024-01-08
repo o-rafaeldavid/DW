@@ -1,29 +1,24 @@
-'use client'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import GlitchContainer from '../../glitchContainer/glitchContainer'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { HambActivatedContext } from '../contexts/hambActivated'
 import { isMobile } from 'react-device-detect';
+
  
-export default function Nav(){
+export default function Nav({paginas}){
     const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
 
     const pathname = usePathname()
     const splitted = pathname.split('/')
     const where = '/' + splitted[1]
-
-    const routes = [
-        new defRoute('página principal', '/', 'página principal'),
-        new defRoute('underground', '/underground', 'calendário dos próximos beats'),
-        new defRoute('stay alive', '/stayalive', '------ descrição aqui'),
-        new defRoute('nossa missão', '/nossamissao', '------ descrição aqui')
-    ]
-
-    console.log(isMobile)
-
+    
     const [notActiveHover, setNAH] = useState(false)
+
+
+
+
 
     return(
         <nav
@@ -32,11 +27,15 @@ export default function Nav(){
         >
             <ul>
                 {
-                    routes.map(
-                        (route, index) => {
-                            const titulo = <h1>{route.name}</h1>
+                    paginas.map(
+                        (paginaInfo, index) => {
+                            const titulo = <h1>{paginaInfo.title}</h1>
                             const glitch = <GlitchContainer background='white'>{titulo}</GlitchContainer>
-                            const sameRoute = (yes, no) => (where === route.to) ? yes : no
+
+                            const metadata = paginaInfo.metadata
+                            const route = `${metadata.route}`
+
+                            const sameRoute = (yes, no) => (where === route) ? yes : no
                             const [hover, setHover] = useState(false)
                             return (
                                 <li 
@@ -45,7 +44,7 @@ export default function Nav(){
                                     onMouseLeave={() => { setNAH(false); setHover(false) }}
                                 >
                                     <Link
-                                        href={sameRoute('', route.to)}
+                                        href={sameRoute('', route)}
                                         className={
                                             sameRoute(`
                                                 active 
@@ -55,7 +54,7 @@ export default function Nav(){
                                         }
                                     >
                                         {sameRoute(glitch, (hover) ? glitch : titulo)}
-                                        <p>{route.desc}</p>
+                                        <p>{metadata.descricao}</p>
                                     </Link>
                                 </li>
                             )
@@ -65,12 +64,4 @@ export default function Nav(){
             </ul>
         </nav>
     )
-}
-
-class defRoute{
-    constructor(name, to, desc){
-        this.name = name
-        this.to = to
-        this.desc = desc
-    }
 }

@@ -1,6 +1,6 @@
 import Container from "../components/container"
 import WrappedText from "../components/wrappedText/WrappedText"
-import nossaMissaoSyles from "../../styles/nossa-missao.module.scss"
+import nossaMissaoSyles from "./nossa-missao.module.scss"
 import GlitchContainer from "../components/glitchContainer/glitchContainer";
 
 export default async function NossaMissao() {

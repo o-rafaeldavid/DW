@@ -24,6 +24,9 @@ $background: rgb(20, 20, 20);
                 top: max(10%, 64px);
                     @media (max-width: 700px){
                         top: 64px;
+                        @media (max-height: 850px){
+                            top: 32px;
+                        }
                     }
             }
     }
@@ -134,13 +137,6 @@ $background: rgb(20, 20, 20);
                         translate: -50% 0;
                         > div[param="imageBox"]{
                             width: calc(100dvw - 64px*2);
-
-                            @media (max-height: 850px){
-                                width: calc(100dvw - 64px*2 - 48px);
-                            }
-                            @media (max-height: 790px){
-                                width: calc(100dvw - 64px*2 - 64px - 16px);
-                            }
                         }
                     }
         }

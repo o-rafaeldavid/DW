@@ -181,4 +181,8 @@ $background: rgb(20, 20, 20);
                 @media (max-width: 700px){
                     min-width: 400px;
                 }
+                @media (max-width: 500px){
+                    min-width: unset;
+                    width: calc(100% - 64px);
+                }
     }

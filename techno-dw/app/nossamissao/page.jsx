@@ -11,24 +11,24 @@ export default async function NossaMissao() {
       <div className={nossaMissaoSyles.NMAnimatedText}>
         
         <GlitchContainer type="wrappedText">
-          <WrappedText classOn="nossamissao"/>
+          <WrappedText classOn="nossamissao" incline={-15}/>
         </GlitchContainer>
         
       </div>
 
       <div className={nossaMissaoSyles.NMContainer}>
-        <h1 className={nossaMissaoSyles.NMSubTitle}>
-        SOMOS A SOLUÇÃO
-        </h1>
-      
+        <h4 className={nossaMissaoSyles.NMSubTitle}>
+          <GlitchContainer type="text">SOMOS<wbr/> A SOLUÇÃO</GlitchContainer>
+        </h4>
+        <br/><br/>
         <p className={nossaMissaoSyles.NMText} >
-        Acompanhar o mundo underground não é uma tarefa fácil, tanto que muitas 
-        vezes é dificil saber qual o evento mais proximo que nos fará sentir o céu.
+          Acompanhar o mundo underground não é uma tarefa fácil, tanto que muitas 
+          vezes é dificil saber qual o evento mais proximo que nos fará sentir o céu.
         </p>
-
+        <br/>
         <p className={nossaMissaoSyles.NMText}>
-        Propomo-nos a ser a tua bússola guiando-te pelos eventos mais alternativos 
-        que alguma vez foste!
+          Propomo-nos a ser a tua bússola guiando-te pelos eventos mais alternativos 
+          que alguma vez foste!
         </p>
       </div>
     </Container>

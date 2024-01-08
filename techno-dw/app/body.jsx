@@ -44,7 +44,7 @@ function RealBody({children, className, paginas}){
             const interval = setInterval(
             () => {
                 const linkIcon = document.querySelector('link[rel="icon"]')
-                linkIcon.href = (count % 2 === 0) ? '/telelinho.ico' : '/faviconestranho.png'
+                linkIcon.href = `/favincons/${count % 10}.svg`
 
                 setCount(count + 1)
             }, 1000

@@ -1,118 +1,67 @@
+@import '../../styles/mediaQueries.scss';
 
 .NMAnimatedText{
+    >span > div > div,
+    span > span > div > div{
+        @media (max-width: 1100px){ --rotateZ: -20deg; }
+        @include phone-portrait-up(){ --rotateZ: -30deg; }
+    }
 
-    >span > div > div, span > span > div > div{ animation: NMRodar 24s infinite linear; }
 
     position: absolute;
-    top: 40%;
-    left: 30%;
+    top: 30%; left: 50%;
 
     translate: -50% -50%;
     transform:  rotateZ(-25deg);
-    scale: 2;
+    scale: 2.6;
 
     @media only screen and (min-width: 1600px) {
-        scale: 2.7;
+        top: 40%;
+        scale: 3;
     }
-}
-
-@keyframes NMRodar {
-    from{ 
-        transform: rotateY(0); 
-
+    @media (max-width: 1200px){ scale: 2.2; }
+    @include phone-portrait-up(){
+        top: 40%;
     }
-    to { 
-        transform: rotateY(-360deg); 
 
-    }
+    
 }
 
 .NMContainer{
+    filter:
+        drop-shadow(rgb(20, 20, 20) 0 0 24px)
+        drop-shadow(rgb(20, 20, 20) 0 0 24px)
+        drop-shadow(rgb(20, 20, 20) 0 0 24px)
+        drop-shadow(rgb(20, 20, 20) 0 0 24px)
+    ;
     position: absolute;
     top: 60%;
-    left: 60%;
+    right: 5%;
+    width: 850px;
 
-    width: 670px;
+    > p{ width: 80%;}
 
-    @media only screen and (max-width: 1700px) {
-        width: 600px;
-        left: 55%;
+    @media (max-width: 1515px){
+        right: 10%;
     }
-
-    @media only screen and (max-width: 1600px) {
-        width: 600px;
-
+    @include tablet-portrait-up(){
+        width: 670px;
     }
-
-    @media only screen and (max-width: 1400px) {
-        width: 450px;
-
+    @media (max-width: 1000px){
+        right: unset; left: 10%;
     }
-
-    @media only screen and (max-width: 1045px) {
-        width: 450px;
-
-        position: absolute;
-        top: 60%;
-        left: 50%;
-
+    @include phone-portrait-up(){
+        width: 420px;
+        left: unset; right: 5%; top: 65%;
+        > p{ width: 100%;}
     }
-
-    @media only screen and (max-width: 930px) {
-        width: 324px;
-
-        position: absolute;
-        top: 80%;
-        left: 50%;
-
-        translate: -50% -50%;
+    @media (max-width: 500px){
+        width: 350px;
+        top: 50%; left: 50%; right: unset;
+        translate: -50% 0;
     }
-
-    @media only screen and (max-width: 655px) {
-        width: 324px;
-
-        position: absolute;
-        top: 80%;
-        left: 50%;
-
-        translate: -50% -50%;
+    @media (max-width: 400px){
+        width: calc(100% - 64px);
+        top: 40%;
     }
 }
-
-.NMSubTitle{
-    margin-bottom: 20px;
-
-    font-family: 'Lexend Exa', sans-serif;
-    font-size: 60px;
-    font-weight: 900;
-
-    text-shadow: 0px 0px 5px rgb(255, 255, 255);
-
-    @media only screen and (max-width: 1600px) {
-        font-size: 55px;
-    }
-
-    @media only screen and (max-width: 1400px) {
-        font-size: 40px;
-    }
-
-    @media only screen and (max-width: 930px) {
-        font-size: 30px;
-    }
-}
-
-.NMText{
-    margin-bottom: 15px;
-
-    font-family: 'Lexend Exa', sans-serif;
-    font-size: 15px;
-    font-weight: 100;
-
-    text-shadow: 0px 0px 2px rgb(126, 126, 126);
-
-    @media only screen and (max-width: 930px) {
-        text-align: center;
-    }
-
-}
-

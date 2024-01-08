@@ -18,18 +18,16 @@ export default function NotFoundPage({ statusCode }) {
       </GlitchContainer>
     </div>
 
-    <div>
-
-       <h1 className={notFound.errorTitle}> ALGO DE ERRADO <br></br> NÃO ESTÁ CERTO </h1>
-
-       <p className={notFound.errorSubTitle}> (ERRO 404) </p>
-
-       <p className={notFound.errorText}> NÃO CONSEGUIMOS ENCONTRAR A PÁGINA QUE ESTÁS À PROCURA. <br></br> TENTA VERIFICAR O URL POR ALGUM POSSIVEL ERRO. </p>
-
-       <ul>
-         <li><Link href="/" className={notFound.errorListItems}> CONTINUAR PARA A PÁGINA PRINCIPAL </Link></li>
-       </ul>
-
+    <div className={notFound.msgContainer}>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <h4> ALGO DE ERRADO<br/>NÃO ESTÁ CERTO</h4>
+      <br/>
+      <h2><GlitchContainer type="text">(ERRO 404)</GlitchContainer></h2>
+      <br/><br/><br/><br/>
+      <h6>NÃO CONSEGUIMOS ENCONTRAR<wbr/>A PÁGINA QUE ESTÁS À PROCURA.<br/><br/>TENTA VERIFICAR O URL<wbr/>POR ALGUM POSSIVEL ERRO.</h6>
+      <br/>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <button><h3><Link href="/"> CONTINUAR PARA A PÁGINA PRINCIPAL</Link></h3></button>
     </div>
 
    </div>

@@ -40,6 +40,27 @@
 
     text-shadow: 0px 0px 5px rgb(255, 255, 255);
 
+
+    @media only screen and (max-width: 1300px) {
+        top: 30%;
+    }
+
+    @media only screen and (max-width: 870px) {
+        top: 50%;
+        font-size: 55px;
+    }
+
+    @media only screen and (max-width: 650px) {
+        top: 50%;
+        font-size: 45px;
+        line-height: 55px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        top: 50%;
+        font-size: 35px;
+        line-height: 35px;
+    }
 }
 
 .errorSubTitle{
@@ -58,6 +79,16 @@
     line-height: 20px;
 
     text-shadow: 0px 0px 2px rgb(126, 126, 126);
+
+    @media only screen and (max-width: 1300px) {
+        top: 40%;
+    }
+
+    @media only screen and (max-width: 870px) {
+        top: 60%;
+        font-size: 12px ;
+        line-height: 15px;
+    }
 }
 
 .errorText{
@@ -76,6 +107,16 @@
     line-height: 20px;
 
     text-shadow: 0px 0px 2px rgb(126, 126, 126);
+
+    @media only screen and (max-width: 1300px) {
+        top: 50%;
+    }
+
+    @media only screen and (max-width: 870px) {
+        top: 70%;
+        font-size: 12px ;
+        line-height: 15px;
+    }
 }
 
 .errorListItems{
@@ -97,4 +138,17 @@
 
     text-shadow: 0px 0px 2px rgb(126, 126, 126);
 
+    @media only screen and (max-width: 1300px) {
+        top: 60%;
+    }
+
+    @media only screen and (max-width: 870px) {
+        top: 80%;
+        font-size: 12px ;
+        line-height: 15px;
+    }
+
+    @media only screen and (max-width: 525px) {
+        text-align: center;
+    }
 }

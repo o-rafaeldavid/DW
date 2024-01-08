@@ -22,9 +22,9 @@ $background: rgb(20, 20, 20);
             @include phone-portrait-up(){
                 bottom: unset;
                 top: max(10%, 64px);
-            }
-            @media (max-width: 700px){
-                top: 64px;
+                    @media (max-width: 700px){
+                        top: 64px;
+                    }
             }
     }
     #sectionTitle{
@@ -33,11 +33,15 @@ $background: rgb(20, 20, 20);
         flex-direction: column;
         text-align: right;
         align-items: flex-end;
-        @include phone-portrait-up(){
-            flex-direction: column-reverse;
-            text-align: unset;
-            margin-bottom: 32px;
-        }
+                @include phone-portrait-up(){
+                    flex-direction: column-reverse;
+                    text-align: unset;
+                    margin-bottom: 32px;
+                    
+                            @media (max-height: 920px){
+                                margin-bottom: 8px;
+                            }
+                }
     }
 
 
@@ -70,7 +74,10 @@ $background: rgb(20, 20, 20);
                     margin-bottom: 128px;
                 }
                 @media (max-width: 580px){
-                    margin-bottom: max(15%, 46px);
+                    margin-bottom: 10%;
+                }
+                @media (max-height: 920px){
+                    margin-bottom: 12px;
                 }
     }
 
@@ -123,8 +130,17 @@ $background: rgb(20, 20, 20);
                     }
                     @media (max-width: 580px){
                         top: unset; bottom: 0;
+                        left: 50%;
+                        translate: -50% 0;
                         > div[param="imageBox"]{
-                            width: calc(100dvw - 64px*2)
+                            width: calc(100dvw - 64px*2);
+
+                            @media (max-height: 850px){
+                                width: calc(100dvw - 64px*2 - 48px);
+                            }
+                            @media (max-height: 790px){
+                                width: calc(100dvw - 64px*2 - 64px - 16px);
+                            }
                         }
                     }
         }

@@ -3,32 +3,49 @@
 import Container from "@/app/components/container"
 import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import ImageBox from "@/app/components/imageBox/imageBox"
-
-
+import { useContext, useEffect } from "react"
+import { BackgroundBodyContext } from "@/app/contexts/backgroundBody"
 import { cosmicToDate, cosmicYear } from "@/lib/misc"
-import gsap from "gsap/gsap-core"
 
 import paginaEvento from './_paginaValidada.module.scss'
+import InnerContainer from "@/app/components/innerContainer"
+import DynamicContainer from "@/app/components/dynamicContainer"
+
+
 
 export default function EventoValidado({eventoDados}){
-    console.log(eventoDados)
     const metadata = eventoDados.metadata
-/*     
-<h4>generos no evento</h4>
-{ metadata.generos.map((genero, index) => <li key={`genero-${index}`}>{genero.title}</li>) }
-<br/>
-<h4>responsavel do evento</h4>
-<p>{ metadata.responsaveis.title }</p>
- */
+    const {setBackgroundBody} = useContext(BackgroundBodyContext)
+    useEffect(
+        () => {
+            setBackgroundBody(metadata.hero.imgix_url)
+        }, [metadata.hero.imgix_url]
+    )
+
+    console.log(metadata.generos[0])
 
     return(
         <>
             <Container id={paginaEvento.mainContainer}>
+                <ul id={paginaEvento.generos}>
+                    {
+                        metadata.generos.map((genero, index) => {
+                            return (
+                                <li key={`genero-${index}`}>
+                                    <h6 style={{color: genero.metadata.cor}}>{genero.title}</h6>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
                 {/*  */}
                 <section id={paginaEvento.sectionTitle}>
-                    <h1 id={paginaEvento.titulo}>
-                        <GlitchContainer type="text">{eventoDados.title}</GlitchContainer>
-                    </h1>
+                    <div id={paginaEvento.tituloDiv}>
+                        <h1>
+                            <GlitchContainer type="text">{eventoDados.title}</GlitchContainer>
+                        </h1>
+                        <br/>
+                    </div>
                     <h2 className={paginaEvento.data}>
                         {cosmicToDate(metadata.data_do_evento, false)}
                     </h2>
@@ -39,17 +56,22 @@ export default function EventoValidado({eventoDados}){
                 {/*  */}
                 <br/><br/><br/>
                 {/*  */}
-                <section id={paginaEvento.sectionHeroAbout}>
-                    <div
-                        id={paginaEvento.sobreEvento}
-                        dangerouslySetInnerHTML={{__html: metadata.conteudo}}
-                    />
+                <section id={paginaEvento.sectionHero}>
                     <GlitchContainer id={paginaEvento.hero} type="box">
                         <ImageBox src={metadata.hero.imgix_url}/>
                     </GlitchContainer>
                 </section>
                 {/*  */}
             </Container>
+            <DynamicContainer id={paginaEvento.atualizateContainer}>
+                <InnerContainer>
+                    <h4><GlitchContainer type="text">atualiza-te</GlitchContainer></h4>
+                    <div
+                        id={paginaEvento.sobreEvento}
+                        dangerouslySetInnerHTML={{__html: metadata.conteudo}}
+                    />
+                </InnerContainer>
+            </DynamicContainer>
         </>
     )
 }

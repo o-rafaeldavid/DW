@@ -6,6 +6,8 @@ import { useContext, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import FilterForm from "./components/filterForm/filterForm";
 import FilterFormContextProvider, { FilterFormContext } from "./contexts/filterFormContext";
+import BackgroundBodyContextProvider, { BackgroundBodyContext } from "./contexts/backgroundBody";
+import ImageBox from "./components/imageBox/imageBox";
 
 
 
@@ -13,9 +15,11 @@ import FilterFormContextProvider, { FilterFormContext } from "./contexts/filterF
 export default function Body({children, className, paginas}){
     return(
         <FilterFormContextProvider>
-            <GlitchContextProvider>
-                <RealBody className={className} paginas={paginas}>{children}</RealBody>
-            </GlitchContextProvider>
+            <BackgroundBodyContextProvider>
+                <GlitchContextProvider>
+                    <RealBody className={className} paginas={paginas}>{children}</RealBody>
+                </GlitchContextProvider>
+            </BackgroundBodyContextProvider>
         </FilterFormContextProvider>
     )
 }
@@ -31,6 +35,7 @@ function RealBody({children, className, paginas}){
     }
     const pathname = usePathname()
     const estouUnderground = (pathname === '/underground')
+    const estouBueUnder = (pathname.includes('/underground/'))
 
     const [count, setCount] = useState(0)
 
@@ -46,7 +51,7 @@ function RealBody({children, className, paginas}){
             )
 
             return () => {
-            clearInterval(interval)
+                clearInterval(interval)
             }
         }
     )
@@ -55,6 +60,7 @@ function RealBody({children, className, paginas}){
     
 
     const {filterFormData, setFilterDataActivness} = useContext(FilterFormContext)
+    const {backgroundBody} = useContext(BackgroundBodyContext)
 
 
 
@@ -85,6 +91,12 @@ function RealBody({children, className, paginas}){
             </main>
             <Footer/>
             {estouUnderground ? <FilterForm type="search"/> : <></>}
+            {estouBueUnder ?
+                <div id="bgContainFoto">
+                    <section></section>
+                    <ImageBox id="bgFoto" src={backgroundBody}/>
+                </div>
+            : <></>}
         </body>
     )
 }

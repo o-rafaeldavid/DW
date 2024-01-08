@@ -46,6 +46,7 @@ html {
 
 
 body{
+    position: relative;
     width: 100dvw;
     box-sizing: border-box;
     font-family: var(--font-inter), sans-serif;
@@ -78,6 +79,7 @@ body{
             &.dynamicContainer{
                 min-height: unset;
                 height: auto;
+                margin-bottom: 64px * 3;
             }
 
             z-index: 10;
@@ -124,9 +126,10 @@ $headingInfos:
     (2em, 500, var(--font-lexend-peta)),
     (1.5em, 400, var(--font-lexend-peta)),
     (4em, 500, var(--font-lexend-peta)),
-    (1em, 300, var(--font-lexend-peta))
+    (1em, 300, var(--font-lexend-peta)),
+    (1.3em, 300, var(--font-lexend-exa))
 ;
-@for $i from 1 to 6{
+@for $i from 1 to 7{
     $headingInfo: nth($headingInfos, $i);
 
     h#{$i}{
@@ -157,14 +160,23 @@ h5{
     @include phone-portrait-up(){ font-size: 0.9em; }
 }
 
-p{
+h6{
+    @include tablet-portrait-up(){ font-size: 1.7em; }
+    @include phone-portrait-up(){ font-size: 2.3em; }
+}
+
+@mixin p_style(){
     font-size: 1.4em;
+    line-height: 1.2em;
     @include tablet-portrait-up{
-        font-size: 1.7em;
+        font-size: 1.8em;
     }
     @include phone-portrait-up(){
-        font-size: 2em;
+        font-size: 2.8em;
     }
+}
+p{
+    @include p_style();
 }
 
 span{
@@ -184,5 +196,37 @@ button{
         cursor: pointer;
         opacity: 1;
         scale: 1.1;
+    }
+}
+
+
+#bgContainFoto{
+    position: absolute;
+    top: 0; left: 0;
+    width: 100dvw; height: 100%;
+    overflow: hidden;
+    
+
+    > * {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+    }
+
+    > section{
+        z-index: 1;
+        background: linear-gradient(180deg,
+                        rgba(20, 20, 20, 0) 30%,
+                        rgba(20, 20, 20, 0.2) 40%,
+                        rgba(20, 20, 20, 0.8) 60%,
+                        rgba(20, 20, 20, 1) 95%
+                    );
+    }
+
+    > #bgFoto{
+        z-index: 0;
+        filter: blur(20px) saturate(1) contrast(1.3) brightness(0.2);
+        scale: 1.2;
+        background-repeat: repeat;
     }
 }

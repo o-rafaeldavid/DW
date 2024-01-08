@@ -18,20 +18,21 @@ export default function FilterForm({type = undefined}){
             if(filterFormData.type === 'search')
                 setRNT(
                     <fieldset className='column'>
-                        <label for="search" name="search"><h5>Procurar por nome</h5></label>
+                        <label htmlFor="search" name="search"><h5>Procurar por nome</h5></label>
                         <input type="search" name="search" id="search" placeholder='Nome do evento que procuras'/>
                     </fieldset>
                 )
             else if(filterFormData.type === 'date'){
-                const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"}).split('/').reverse().join('-')
+                const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
+                                        .split('/').reverse().join('-')
                 setRNT(
                     <fieldset>
                         <div className='column'>
-                            <label for="date1" name="date1"><h5>Data inicial</h5></label>
+                            <label htmlFor="date1" name="date1"><h5>Data inicial</h5></label>
                             <input type="date" name="date1" id="date1" min={hoje}/>
                         </div>
                         <div className='column'>
-                            <label for="date2" name="date2"><h5>Data final</h5></label>
+                            <label htmlFor="date2" name="date2"><h5>Data final</h5></label>
                             <input type="date" name="date2" id="date2" min={hoje}/>
                         </div>
                     </fieldset>

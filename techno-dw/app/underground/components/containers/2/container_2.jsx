@@ -8,12 +8,21 @@ import { useContext } from 'react'
 import { FilterFormContext } from '@/app/contexts/filterFormContext'
 
 import secondContainer from './undergroundSecondContainer.module.scss'
+import { useSearchParams } from 'next/navigation'
 
 
 
 
 export default function UndergroundContainer_2({data}){
+    const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
+                            .split('/').reverse().join('-')
+
     const {setFilterFormData} = useContext(FilterFormContext)
+    const searchParams = useSearchParams()
+    const checkSearchParam = (searchParam, onNot) => {
+        if((searchParams.get(searchParam) === null || searchParams.get(searchParam) === '')) return onNot
+        else return <span>{searchParams.get(searchParam)}</span>
+    }
 
     return(
         <>
@@ -23,10 +32,17 @@ export default function UndergroundContainer_2({data}){
                     <GlitchContainer type="text">MAIS EVENTOS</GlitchContainer>
                 </h4>
                 <br/>
+                <br/>
                 <section id={secondContainer.sectionFilters}>
-                    <h3>Procurar Por:</h3>
-                    <button onClick={() => { setFilterFormData({activated: true, type: 'search'}) }}><h3>Nome</h3></button>
-                    <button onClick={() => { setFilterFormData({activated: true, type: 'date'}) }}><h3>Data</h3></button>
+                    <h3>FILTRAGEM</h3>
+                    <div>
+                        <button onClick={() => { setFilterFormData({activated: true, type: 'search'}) }}>
+                            <h3>Nome: {checkSearchParam('search', '---')}</h3>
+                        </button>
+                        <button onClick={() => { setFilterFormData({activated: true, type: 'date'}) }}>
+                            <h3>Data: {checkSearchParam('date1', hoje)} até {checkSearchParam('date2', '---')}</h3>
+                        </button>
+                    </div>
                 </section>
                 <UndergroundCarrossel data={data} id={secondContainer.carrossel}/>
             </InnerContainer>

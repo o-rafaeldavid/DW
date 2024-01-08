@@ -63,7 +63,6 @@ export default function UndergroundCarrossel({data, id}){
     const pathname = usePathname()
     const windowSize = useWindowSize()
 
-    console.log(data.objects)
 
     let lista = useRef()
     const cursor = {
@@ -91,9 +90,6 @@ export default function UndergroundCarrossel({data, id}){
     const doNext = (sinal) => {
         const stepX = 100 / (data.objects.length + 1)
         const nextTranslateX = translateX + (sinal * stepX)
-
-
-        console.log(sinal)
         if(
             (sinal < 0 && (starting - stepX * (data.objects.length - 1)) <= nextTranslateX)
             ||
@@ -214,14 +210,10 @@ export default function UndergroundCarrossel({data, id}){
                         const sinal = Math.sign(e.nativeEvent.wheelDelta)
 
                         if(sinal < 0){
-                            console.log('para a frente')
-                            console.log(selected < data.objects.length - 1)
                             if(selected < data.objects.length - 1) body.style.setProperty('overflow-y', 'hidden')
                             else body.style.removeProperty('overflow-y')
                         }
                         else{
-                            console.log('para tras')
-                            console.log(selected > 0)
                             if(selected > 0) body.style.setProperty('overflow-y', 'hidden')
                             else body.style.removeProperty('overflow-y')
                         }
@@ -249,7 +241,7 @@ export default function UndergroundCarrossel({data, id}){
                             <CarrosselCard
                                 key={`carrsossel-${index}`}
                                 eventoInfo={d}
-                                selected={(windowSize.width > 1300) ? (selected === index) : ''}
+                                selected={(windowSize.width > 1300) ? (selected === index) : true}
                             />
                         )
                     )}

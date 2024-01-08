@@ -7,20 +7,59 @@ export default async function Underground({searchParams}) {
   const allEventos = await getAllEventos()
   let page = parseInt(searchParams.page)
   let limit = parseInt(searchParams.limit)
-
+  let search = searchParams.search
+  let date = [searchParams.date1, searchParams.date2]
+  const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
+                          .split('/').reverse().join('-')
 
   if(isNaN(page) || page < 0) page = 0
   if(isNaN(limit) || limit < 4) limit = 4
 
-  const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page)
+  let undefinedDateCounter = 0
+  date.forEach(
+    (d, index)=> {
+      if(d !== undefined){
+        d.split('-').forEach(
+          (nString, dateNumString) => {
+            const numeroData = parseInt(nString)
 
+            if(
+              isNaN(numeroData) || 
+              numeroData < 1 || 
+              numeroData.toString().split('.')[1] !== undefined){
+                if(index !== 0){
+                  date[index] = undefined
+                  undefinedDateCounter++
+                } else date[index] = hoje
+              }
+          }
+        )
+      }
+      else{
+        if(index !== 0) undefinedDateCounter++
+        else date[index] = hoje
+      }
+    }
+  )
+
+  const query = {
+    search: searchParams.search,
+    date: (undefinedDateCounter === 2) ? undefined : {
+      min: date[0],
+      max: date[1]
+    }
+  }
+
+  console.log(query)
+
+  const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page, query)
 
   return (
     <>
       <UndergroundContainer_1 data={allEventos}/>
       <UndergroundContainer_2 data={
         (eventosForUnderground !== undefined) ? eventosForUnderground
-        : await getEventosForUnderground('created_at', 4, 0)
+        : {objects: []}
       }/>
     </>
   )

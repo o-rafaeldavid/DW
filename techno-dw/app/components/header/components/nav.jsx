@@ -13,20 +13,11 @@ export default function Nav({paginas}){
     const pathname = usePathname()
     const splitted = pathname.split('/')
     const where = '/' + splitted[1]
-
-    const routes = [
-        new defRoute('página principal', '/', 'página principal'),
-        new defRoute('underground', '/underground', 'calendário dos próximos beats'),
-        new defRoute('nossa missão', '/nossamissao', '------ descrição aqui')
-    ]
-
+    
     const [notActiveHover, setNAH] = useState(false)
 
-    useEffect(
-        () => {
-            console.log(paginas)
-        }, [paginas]
-    )
+
+
 
 
     return(
@@ -73,12 +64,4 @@ export default function Nav({paginas}){
             </ul>
         </nav>
     )
-}
-
-class defRoute{
-    constructor(name, to, desc){
-        this.name = name
-        this.to = to
-        this.desc = desc
-    }
 }

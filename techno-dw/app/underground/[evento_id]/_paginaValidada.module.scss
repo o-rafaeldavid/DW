@@ -47,14 +47,30 @@ $background: rgb(20, 20, 20);
                 }
     }
 
-
-        #tituloDiv{
-            max-width: 80%;
-            overflow: hidden;
-            @include phone-portrait-up(){
-                margin-top: 0.5em;
-            }
+        #divTituloSeta{
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
         }
+
+            #glitchPreviousButton{
+                position: fixed;
+                left: 32px;
+            }
+
+            #titulo{
+                width: 80%;
+                height: 6em;
+                overflow: hidden;
+                    @media (max-height: 900px){ height: 5em; }
+                    @media (max-width: 1550px){ height: 5em; }
+                    @media (max-height: 700px){ height: 4em; }
+                    @include tablet-portrait-up(){ height: 4.5em; }
+                    @include phone-portrait-up(){
+                        margin-top: 0.5em;
+                    }
+            }
 
             h2.data{
                 margin-top: 0.7em;

@@ -54,6 +54,7 @@ export default function HologramSlider({id, children}){
     )
     return(
         <section
+            id={id}
             param='hologramSlider' ref={hologramRef}
             style={{overflow: 'hidden', position: 'relative'}}
         >

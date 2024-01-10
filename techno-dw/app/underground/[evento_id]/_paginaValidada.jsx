@@ -7,11 +7,11 @@ import { useContext, useEffect } from "react"
 import { BackgroundBodyContext } from "@/app/contexts/backgroundBody"
 import { cosmicToDate, cosmicYear } from "@/lib/misc"
 
-import paginaEvento from './_paginaValidada.module.scss'
 import InnerContainer from "@/app/components/innerContainer"
 import DynamicContainer from "@/app/components/dynamicContainer"
 import HologramSlider from "@/app/components/hologramSlider/hologramSlider"
 
+import paginaEvento from './_paginaValidada.module.scss'
 
 
 export default function EventoValidado({eventoDados}){
@@ -40,11 +40,15 @@ export default function EventoValidado({eventoDados}){
                 </ul>
                 {/*  */}
                 <section id={paginaEvento.sectionTitle}>
-                    <div id={paginaEvento.tituloDiv}>
+                    <div id={paginaEvento.divTituloSeta}>
+                        <HologramSlider id={paginaEvento.titulo}>
                             <h1>
                                 <GlitchContainer type="text">{eventoDados.title}</GlitchContainer>
                             </h1>
-                        <br/>
+                        </HologramSlider>
+                        <GlitchContainer type="box" id={paginaEvento.glitchPreviousButton}>
+                            <button onClick={() => {window.history.back()}}><h1>{`<`}</h1></button>
+                        </GlitchContainer>
                     </div>
                     <h2 className={paginaEvento.data}>
                         {cosmicToDate(metadata.data_do_evento, false)}

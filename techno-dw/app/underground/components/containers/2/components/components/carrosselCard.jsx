@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from "react"
 import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import { cosmicToDate } from "@/lib/misc"
+import HologramSlider from "@/app/components/hologramSlider/hologramSlider"
 
 export default function CarrosselCard({eventoInfo, selected = false}){
     const pathname = usePathname()
@@ -15,6 +16,8 @@ export default function CarrosselCard({eventoInfo, selected = false}){
         titulo: '',
         descricao: ''
     })
+
+
 
     useEffect(
         () => {
@@ -28,6 +31,7 @@ export default function CarrosselCard({eventoInfo, selected = false}){
 
 
 
+
     const innerList = 
     <>
         <ImageBox src={metadata.hero.imgix_url}/>
@@ -35,9 +39,9 @@ export default function CarrosselCard({eventoInfo, selected = false}){
             <GlitchContainer background="white">
                 <div>
                     <h3>{texto.data}</h3>
-                    <div>
+                    <HologramSlider>
                         <h3>{texto.titulo}</h3>
-                    </div>
+                    </HologramSlider>
                 </div>
             </GlitchContainer>
             <section>
@@ -49,13 +53,13 @@ export default function CarrosselCard({eventoInfo, selected = false}){
         <li param={ (selected) ? 'eventSelected' : '' }>
             {
                 (selected) ?
-                <Link href={`${pathname}/${idBySlug}`} scroll={true}>
-                    {innerList}
-                </Link>
-                :
-                <section>
-                    {innerList}
-                </section>
+                    <Link href={`${pathname}/${idBySlug}`} scroll={true}>
+                        {innerList}
+                    </Link>
+                    :
+                    <section>
+                        {innerList}
+                    </section>
             }
         </li>
     )

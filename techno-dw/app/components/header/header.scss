@@ -64,7 +64,7 @@ header{
 
     > nav{
         position: absolute;
-        top: -100dvh; left: 0;
+        top: -200dvh; left: 0;
         width: 100dvw; height: 100dvh;
         padding-top: $headerHeight*5;
         opacity: 0;
@@ -116,6 +116,9 @@ header{
                         @include phone-portrait-up(){
                             padding: 0.8*$headerHeight 0.5*$headerHeight;
                             font-size: 0.78em;
+                        }
+                        @media (max-width: 460px){
+                            * { text-wrap: wrap; }
                         }
                         
 

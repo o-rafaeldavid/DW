@@ -26,8 +26,8 @@ export function useEventListener(
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function useWindowSize(){
-    const [width, setWidth] = useState(0)
-    const [height, setHeight] = useState(0)
+    const [width, setWidth] = useState(undefined)
+    const [height, setHeight] = useState(undefined)
   
     const handleWindowResize = () => {
       setWidth(window.innerWidth);

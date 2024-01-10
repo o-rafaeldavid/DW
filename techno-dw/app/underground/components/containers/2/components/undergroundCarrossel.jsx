@@ -32,7 +32,7 @@ const pageNavigation = (searchParams, pathname) => {
     URL.set('page', paginaAtual + 1)
 
     return {
-        anteiror: () => {
+        anterior: () => {
             URL.set('page', paginaAtual - 1)
             return `${pathname}?${URL.toString()}`
         },
@@ -63,6 +63,10 @@ export default function UndergroundCarrossel({data, id}){
     const pathname = usePathname()
     const windowSize = useWindowSize()
 
+    let skip = data.skip
+    if(skip === undefined) skip = 0
+    let pagina = (parseInt(skip / data.limit))
+
 
     let lista = useRef()
     const cursor = {
@@ -77,34 +81,44 @@ export default function UndergroundCarrossel({data, id}){
             end_up: useState({x: 0, y: 0})
         }
     }
-    const starting = mapear(
+    
+    const starting = () => mapear(
         data.objects.length,
         4,
         9,
         30,
         40
     )
-    const [translateX, setTranslateX] = useState(starting)
+    const [translateX, setTranslateX] = useState(starting())
     const [selected, setSelected] = useState(0)
 
     const doNext = (sinal) => {
         const stepX = 100 / (data.objects.length + 1)
         const nextTranslateX = translateX + (sinal * stepX)
         if(
-            (sinal < 0 && (starting - stepX * (data.objects.length - 1)) <= nextTranslateX)
+            (sinal < 0 && (starting() - stepX * (data.objects.length - 1)) <= nextTranslateX)
             ||
-            (sinal > 0 && nextTranslateX <= starting)
+            (sinal > 0 && nextTranslateX <= starting())
         ){
             setSelected(() => selected - sinal)
             setTranslateX(() => nextTranslateX)
         }
     }
 
+    useEffect(
+        () => {
+            setSelected(0)
+            setTranslateX(starting())
+        }, [data.objects]
+    )
+
+
 
     const setForTablet = () => {
-        if(windowSize.width <= 1300 && lista.current !== undefined){
+        if(windowSize.width !== undefined && windowSize.width <= 1300 && lista.current !== undefined){
             const ol = lista.current
             const parentBounds = ol.getBoundingClientRect()
+
             ol.querySelectorAll('li:not([param="moreEvents"])').forEach((li) => {
                 const liBounds = li.getBoundingClientRect()
                 if(parentBounds.top < liBounds.top && liBounds.bottom < parentBounds.bottom){
@@ -114,16 +128,18 @@ export default function UndergroundCarrossel({data, id}){
             })
         }
     }
+    //mudar entre desktop-tablet
     useEffect(() => {
         setForTablet()
-        if(windowSize.width > 1300 && lista.current !== undefined){
+        if(windowSize.width !== undefined && windowSize.width > 1300 && lista.current !== undefined){
+            console.log('maior q 1300')
             const ol = lista.current
             ol.querySelectorAll('li:not([param="moreEvents"])').forEach((li, index) => {
                 if(index !== selected) li.removeAttribute('param')
             })
         }
     }, [windowSize.width])
-    // useEffect chamado quando o rato/dedo para de dar 'grab'/'touch'
+    // useEffect chamado quando o rato para de dar 'grab'
     useEffect(
         () => {
             if(cursor.started.end_up[0] && cursor.started.start_down[0]){
@@ -144,8 +160,6 @@ export default function UndergroundCarrossel({data, id}){
                     const sinal = -1 * Math.sign((windowSize.width > 1300) ? difference.x : difference.y)
                     doNext(sinal)                    
                 }
-
-
 
                 cursor.started
                     .move[1](false)
@@ -195,13 +209,48 @@ export default function UndergroundCarrossel({data, id}){
             (boundsCarrossel.top < e.clientY && e.clientY < boundsCarrossel.bottom)
 
 
-
         if(!inside) document.body.style.removeProperty('overflow-y')
     })
 
 
+    const checkNavigationToReturnAtual = () => {
+
+        return {
+            anterior: () => (existMoreDataOnCosmic(data).anterior) ?
+                                pageNavigation(searchParams, pathname).anterior() :
+                                pageNavigation(searchParams, pathname).atual()
+                        ,
+
+            proximo: () => (existMoreDataOnCosmic(data).proximo) ?
+                                pageNavigation(searchParams, pathname).proximo() :
+                                pageNavigation(searchParams, pathname).atual()
+        }
+    }
+
+
+    const navigateBtns =
+    <>
+        <div param="navigateBtns">
+            <h3>Páginas</h3>
+            <section>
+                <button>
+                    <Link href={checkNavigationToReturnAtual().anterior()} scroll={false}>
+                        <h2>{`<`}</h2>
+                    </Link>
+                </button>
+                <h3>{pagina}</h3>
+                <button>
+                    <Link href={checkNavigationToReturnAtual().proximo()} scroll={false}>
+                        <h2>{`>`}</h2>
+                    </Link>
+                </button>
+            </section>
+        </div>
+    </>
+
     return (
         <>
+            {(windowSize.width > 1300) ? navigateBtns : <></>}
             <div
                 id={id}
                 onWheel={(e) => {
@@ -248,18 +297,7 @@ export default function UndergroundCarrossel({data, id}){
                     {
                         (windowSize.width > 1300) ?
                         <li param="moreEvents">
-                            <Link
-                                href={
-                                    (existMoreDataOnCosmic(data).proximo) ?
-                                    pageNavigation(searchParams, pathname).proximo() :
-                                    pageNavigation(searchParams, pathname).atual()
-                                }
-                                scroll={false}
-                                onClick={() => {
-                                    setSelected(0)
-                                    setTranslateX(30)
-                                }}
-                            >
+                            <Link href={checkNavigationToReturnAtual().proximo()} scroll={false}>
                                 <span>
                                     <h1><GlitchContainer>+</GlitchContainer></h1>
                                     <h2><GlitchContainer>MAIS EVENTOS</GlitchContainer></h2>
@@ -280,7 +318,7 @@ export default function UndergroundCarrossel({data, id}){
                         (d, index) => <div param={(selected === index) ? 'selected' : ''} key={`point-${index}`}/>
                     )}
                 </div>
-                : <></>
+                : navigateBtns
             }
         </>
     )

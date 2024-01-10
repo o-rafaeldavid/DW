@@ -23,6 +23,18 @@
         flex-direction: column;
         gap: 8px;
     }
+
+    
+    margin-bottom: 128px;
+            @include medium-landscape-down(){
+                margin-bottom: 64px !important;
+            }
+            @media (max-width: 1550px){
+                margin-bottom: 88px;
+            }
+            @include tablet-portrait-up(){
+                margin-bottom: 72px;
+            }
 }
 
 
@@ -30,11 +42,51 @@
     overflow: hidden;
 }
 
+@mixin navigateBtns(){
+    margin: 0 auto 64px auto;
+    width: fit-content;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+            @include tablet-portrait-up(){
+                margin-bottom: 84px;
+                flex-direction: column-reverse;
+            }
+            @include phone-portrait-up(){
+                margin-bottom: 54px;
+            }
+    
+    > section{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        > * {
+            width: fit-content; height: fit-content;
+            @include tablet-portrait-up() {
+                h2{ font-size: 2em; }
+            }
+            @include phone-portrait-up() {
+                h2{ font-size: 4em; }
+            }
+        }
+
+        @include phone-portrait-up() {
+            h3{ font-size: 3em; }
+        }
+    }
+}
+
+div[param="navigateBtns"]:has(+ #carrossel){
+    @include navigateBtns();
+}
+
 #carrossel{
     position: relative;
     height: 500px;
     width: 100%;
-    margin-top: 128px;
 
 
     @media (min-width: 1300px){
@@ -45,7 +97,6 @@
     }
 
         @include medium-landscape-down(){
-            margin-top: 64px !important;
             height: 400px;
         }
 
@@ -55,7 +106,6 @@
 
         @media (max-width: 1550px){
             height: 420px;
-            margin-top: 88px;
         }
 
         @include small-landscape-down(){
@@ -66,8 +116,7 @@
             overflow: hidden;
             font-size: 1.25em;
             height: 530px;
-            margin-top: 36px;
-            margin-bottom: 84px;
+            margin-bottom: 54px;
         }
 
         @include phone-portrait-up(){
@@ -77,7 +126,9 @@
 
 
 
-
+    + div[param="navigateBtns"]{
+        @include navigateBtns();
+    }
     + div[param="navigatePoints"]{
         margin-top: 64px;
         height: 24px;
@@ -362,10 +413,7 @@
                         
                         h3{ font-weight: 600;}
 
-                        > div{
-                            overflow: hidden;
-                            flex-grow: 1;
-                        }
+                        > section[param='hologramSlider']{ flex-grow: 1; }
                     }
                 }
             }

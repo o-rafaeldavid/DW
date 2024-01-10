@@ -20,7 +20,7 @@ export default async function Underground({searchParams}) {
     (d, index)=> {
       if(d !== undefined){
         d.split('-').forEach(
-          (nString, dateNumString) => {
+          (nString) => {
             const numeroData = parseInt(nString)
 
             if(
@@ -43,14 +43,12 @@ export default async function Underground({searchParams}) {
   )
 
   const query = {
-    search: searchParams.search,
+    search: search,
     date: (undefinedDateCounter === 2) ? undefined : {
       min: date[0],
       max: date[1]
     }
   }
-
-  console.log(query)
 
   const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page, query)
 

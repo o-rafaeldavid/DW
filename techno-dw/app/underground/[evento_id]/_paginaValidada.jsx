@@ -10,6 +10,7 @@ import { cosmicToDate, cosmicYear } from "@/lib/misc"
 import paginaEvento from './_paginaValidada.module.scss'
 import InnerContainer from "@/app/components/innerContainer"
 import DynamicContainer from "@/app/components/dynamicContainer"
+import HologramSlider from "@/app/components/hologramSlider/hologramSlider"
 
 
 
@@ -22,7 +23,6 @@ export default function EventoValidado({eventoDados}){
         }, [metadata.hero.imgix_url]
     )
 
-    console.log(metadata.generos[0])
 
     return(
         <>
@@ -41,9 +41,9 @@ export default function EventoValidado({eventoDados}){
                 {/*  */}
                 <section id={paginaEvento.sectionTitle}>
                     <div id={paginaEvento.tituloDiv}>
-                        <h1>
-                            <GlitchContainer type="text">{eventoDados.title}</GlitchContainer>
-                        </h1>
+                            <h1>
+                                <GlitchContainer type="text">{eventoDados.title}</GlitchContainer>
+                            </h1>
                         <br/>
                     </div>
                     <h2 className={paginaEvento.data}>

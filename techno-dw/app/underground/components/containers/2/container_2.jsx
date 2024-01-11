@@ -42,6 +42,9 @@ export default function UndergroundContainer_2({data}){
                         <button onClick={() => { setFilterFormData({activated: true, type: 'date'}) }}>
                             <h3>Data: {checkSearchParam('date1', hoje)} até {checkSearchParam('date2', '---')}</h3>
                         </button>
+                        <button onClick={() => { setFilterFormData({activated: true, type: 'genero'}) }}>
+                            <h3>VERIFICAR Géneros Escolhidos</h3>
+                        </button>
                     </div>
                 </section>
                 <UndergroundCarrossel data={data} id={secondContainer.carrossel}/>

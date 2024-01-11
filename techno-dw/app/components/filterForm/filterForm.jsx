@@ -6,12 +6,14 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import './filterForm.scss'
 
 
-export default function FilterForm({type = undefined}){
+export default function FilterForm({dataFilters, type = undefined}){
     const [ReactNodeType, setRNT] = useState(<></>)
     const {filterFormData, setFilterDataActivness} = useContext(FilterFormContext)
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const router = useRouter()
+
+
 
     useEffect(
         () => {
@@ -38,11 +40,45 @@ export default function FilterForm({type = undefined}){
                     </fieldset>
                 )
             }
+            else if(filterFormData.type === 'genero'){
+                const generos = searchParams.get('generos').split(',')
+                setRNT(
+                    <fieldset>
+                        <ul className='generos'>
+                            {dataFilters.map(filter => 
+                                <li>
+                                    <button type="button" onClick={(e) => {
+                                        const nextInput = e.currentTarget.nextElementSibling
+                                        nextInput.checked = !nextInput.checked
+                                    }}>
+                                        <h3 style={{color: filter.metadata.neoncor}}><label id={filter.slug}>{filter.title}</label></h3>
+                                        <h3
+                                            style={{filter: `
+                                                drop-shadow(${filter.metadata.cor} 0 0 10px)
+                                                drop-shadow(${filter.metadata.cor} 0 0 4px)
+                                            `}}
+                                        >
+                                            <label id={filter.slug}>{filter.title}</label>
+                                        </h3>
+                                    </button>
+                                    <input
+                                        type="checkbox" name="genero" id={filter.slug}
+                                        checked={generos.includes(filter.id)}
+                                    />
+                                </li>
+                            )}
+                        </ul>
+                    </fieldset>
+                )
+            }
 
 
 
         }, [filterFormData.type]
     )
+
+
+
 
 
 
@@ -65,6 +101,17 @@ export default function FilterForm({type = undefined}){
                     URL.set('date1', target.date1.value)
                     URL.set('date2', target.date2.value)
                 }
+                else if(filterFormData.type === 'genero'){
+                    let selectedGens = []
+                    dataFilters.forEach(filter => {
+                        if(target[filter.slug].checked) selectedGens.push(filter.id)
+                    })
+                    
+                    URL.set('generos', selectedGens.join(','))
+                }
+
+
+
 
                 if(go) {
                     setFilterDataActivness(false)

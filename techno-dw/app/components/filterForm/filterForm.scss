@@ -68,6 +68,7 @@
             font-weight: 600;
                 @include phone-portrait-up(){ font-size: 1.6em; }
         }
+        
     }
 
     fieldset, fieldset > div{
@@ -130,6 +131,50 @@
                             display: none;
                         }
                 }
+            }
+        }
+
+
+        > ul.generos{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+                    @media (max-width: 500px){ grid-template-columns: 1fr; }
+
+            row-gap: 6px;
+            column-gap: 18px;
+            > li{
+                text-align: left;
+                    @media (max-width: 500px){ text-align: center; }
+                > button {
+                    position: relative;
+
+                    > h3{
+                        @include tablet-portrait-up(){ font-size: 1.2em; }
+                        @include phone-portrait-up(){ font-size: 1.2em; }
+
+                        + h3{
+                            position: absolute;
+                            top: 0; left: 0;
+                            opacity: 0;
+                            transition: opacity 150ms;
+                        }
+
+                        > label{ cursor: pointer; }
+                    }
+
+                    &:has(+ input[type="checkbox"]:checked){
+                        opacity: 1;
+
+                        > h3 > label{ color: unset; }
+                        
+                        > h3 + h3{
+                            opacity: 1;
+                        }
+                    }
+
+                }
+
+                > input[type="checkbox"]{ display: none; }
             }
         }
     }

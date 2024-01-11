@@ -96,6 +96,11 @@ export const getEventosForUnderground = async (sort, limit, skip, query) => {
       if(query.date.max !== undefined) find["metadata.data_do_evento"]["$lte"] = query.date.max
     }
     if(query.search !== undefined) find["title"] = {$regex: query.search, $options: "i"}
+    if(query.generosID !== undefined){
+        find["metadata.generos"] = {
+          "$in": query.generosID
+        }
+    }
   }
 
 
@@ -142,3 +147,13 @@ export const getPaginaBySlug = async (slug) =>
     },
     "slug, title, metadata",
   )
+
+
+
+
+  export const getAllGeneros = async () =>
+    getFromCosmic(
+      false,
+      {"type": "generos"},
+      "slug, title, metadata, id",
+    )

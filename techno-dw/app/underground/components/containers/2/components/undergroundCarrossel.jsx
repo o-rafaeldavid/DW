@@ -65,7 +65,14 @@ export default function UndergroundCarrossel({data, id}){
 
     let skip = data.skip
     if(skip === undefined) skip = 0
-    let pagina = (parseInt(skip / data.limit))
+    let limit = data.limit
+    let pagina = 0
+    let maxPagina = 0
+    if(limit !== undefined){
+        pagina = (parseInt(skip / data.limit))
+        maxPagina = parseInt(data.total / data.limit)
+    }
+
 
 
     let lista = useRef()
@@ -238,7 +245,7 @@ export default function UndergroundCarrossel({data, id}){
                         <h2>{`<`}</h2>
                     </Link>
                 </button>
-                <h3>{pagina}</h3>
+                <h3>{pagina}/{maxPagina}</h3>
                 <button>
                     <Link href={checkNavigationToReturnAtual().proximo()} scroll={false}>
                         <h2>{`>`}</h2>

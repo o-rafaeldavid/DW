@@ -9,12 +9,16 @@ export default async function Underground({searchParams}) {
   let limit = parseInt(searchParams.limit)
   let search = searchParams.search
   let date = [searchParams.date1, searchParams.date2]
+  let generos = searchParams.generos
   const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
                           .split('/').reverse().join('-')
 
   if(isNaN(page) || page < 0) page = 0
   if(isNaN(limit) || limit < 4) limit = 4
 
+
+
+  
   let undefinedDateCounter = 0
   date.forEach(
     (d, index)=> {
@@ -42,12 +46,19 @@ export default async function Underground({searchParams}) {
     }
   )
 
+
+  let generosArray = undefined
+  if(generos !== undefined){
+    generosArray = generos.split(',')
+    console.log(generosArray)
+  }
   const query = {
     search: search,
     date: (undefinedDateCounter === 2) ? undefined : {
       min: date[0],
       max: date[1]
-    }
+    },
+    generosID: generosArray
   }
 
   const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page, query)

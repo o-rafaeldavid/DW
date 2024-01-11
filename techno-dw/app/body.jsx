@@ -12,12 +12,12 @@ import ImageBox from "./components/imageBox/imageBox";
 
 
 
-export default function Body({children, className, paginas}){
+export default function Body({children, className, paginas, dataFilters}){
     return(
         <FilterFormContextProvider>
             <BackgroundBodyContextProvider>
                 <GlitchContextProvider>
-                    <RealBody className={className} paginas={paginas}>{children}</RealBody>
+                    <RealBody className={className} paginas={paginas} dataFilters={dataFilters}>{children}</RealBody>
                 </GlitchContextProvider>
             </BackgroundBodyContextProvider>
         </FilterFormContextProvider>
@@ -29,7 +29,7 @@ export default function Body({children, className, paginas}){
 
 
 
-function RealBody({children, className, paginas}){
+function RealBody({children, className, paginas, dataFilters}){
     const footerShow = () => {
         document.querySelector('footer').classList.add('up');
     }
@@ -90,7 +90,7 @@ function RealBody({children, className, paginas}){
                 {children}
             </main>
             <Footer/>
-            {estouUnderground ? <FilterForm type="search"/> : <></>}
+            {estouUnderground ? <FilterForm type="search" dataFilters={dataFilters}/> : <></>}
             {estouBueUnder ?
                 <div id="bgContainFoto">
                     <section></section>

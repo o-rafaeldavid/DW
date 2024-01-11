@@ -32,7 +32,16 @@ export default function EventoValidado({eventoDados}){
                         metadata.generos.map((genero, index) => {
                             return (
                                 <li key={`genero-${index}`}>
-                                    <h6 style={{color: genero.metadata.cor}}>{genero.title}</h6>
+                                    <h6
+                                        style={{
+                                            color: genero.metadata.neoncor,
+                                            filter: `
+                                                drop-shadow(${genero.metadata.cor} 0 0 10px)
+                                                drop-shadow(${genero.metadata.cor} 0 0 4px)
+                                            `}}
+                                    >
+                                        {genero.title}
+                                    </h6>
                                 </li>
                             )
                         })

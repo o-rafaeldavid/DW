@@ -76,19 +76,6 @@ export default function UndergroundCarrossel({data, id}){
 
 
     let lista = useRef()
-    const cursor = {
-        started:{
-            start_down: useState(false),
-            move: useState(false),
-            end_up: useState(false)
-        },
-        position:{
-            start_down: useState({x: 0, y: 0}),
-            move: useState({x: 0, y: 0}),
-            end_up: useState({x: 0, y: 0})
-        }
-    }
-    
     const starting = () => mapear(
         data.objects.length,
         4,
@@ -146,65 +133,6 @@ export default function UndergroundCarrossel({data, id}){
             })
         }
     }, [windowSize.width])
-    // useEffect chamado quando o rato para de dar 'grab'
-    useEffect(
-        () => {
-            if(cursor.started.end_up[0] && cursor.started.start_down[0]){
-                const posStarted =
-                    cursor.position
-                        .start_down[0]
-
-                const posFinishedOnMove =
-                    cursor.position
-                        .move[0]
-
-                const difference = {
-                    x: posStarted.x - posFinishedOnMove.x,
-                    y: posStarted.y - posFinishedOnMove.y
-                }
-
-                if(Math.abs(difference.x) >= 50 || Math.abs(difference.y) >= 50){
-                    const sinal = -1 * Math.sign((windowSize.width > 1300) ? difference.x : difference.y)
-                    doNext(sinal)                    
-                }
-
-                cursor.started
-                    .move[1](false)
-
-                cursor.started
-                    .start_down[1](false)
-
-                cursor.started
-                    .end_up[1](false)
-            }
-        }, [cursor.started.end_up[0]]
-    )
-
-
-    const moveIt = {
-        start_down: (e, x, y) => {
-            e.currentTarget.setAttribute('param', 'grabbing')
-            cursor.started
-                .start_down[1](true)
-
-            cursor.position
-                .start_down[1]({x: x, y: y})
-        },
-        move: (e, x, y) => {
-            if(cursor.started.start_down[0]){
-                cursor.started
-                    .move[1](true)
-
-                cursor.position
-                    .move[1]({x: x, y: y})
-            }
-        },
-        end_up: (e) => {
-            e.currentTarget.removeAttribute('param')
-            cursor.started
-                .end_up[1](true)
-        }
-    }
 
 
     useEventListener(document.body, 'wheel', (e) => {
@@ -276,15 +204,6 @@ export default function UndergroundCarrossel({data, id}){
 
                         doNext(sinal)
                     }
-                }}
-                onMouseDown={(e) => {
-                    moveIt.start_down(e, e.clientX, e.clientY)
-                }}
-                onMouseMove={(e) => {
-                    moveIt.move(e, e.clientX, e.clientY)
-                }}
-                onMouseUp={(e) =>  {
-                    moveIt.end_up(e)
                 }}
             >
                 <ol

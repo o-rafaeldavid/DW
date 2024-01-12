@@ -1,5 +1,5 @@
 import Body from './body'
-import { getAllGeneros, getAllPaginas, getGlobalData } from '@/lib/cosmic'
+import { getAllDistritos, getAllGeneros, getAllPaginas, getGlobalData } from '@/lib/cosmic'
 import { Inter, Lexend_Peta, Lexend_Exa, Lexend } from 'next/font/google'
 
 
@@ -17,7 +17,7 @@ export async function generateMetadata() {
     title: metaDataPrincipal.metadata.site_title,
     description: metaDataPrincipal.metadata.site_tag,
     icons: {
-      icon: 'faviconestranho.png'
+      icon: './favincons/0.svg'
     }
   };
 }
@@ -29,6 +29,7 @@ export default async function RootLayout({ children }) {
 
   const paginas = await getAllPaginas()
   const generos = await getAllGeneros()
+  const distritos = await getAllDistritos()
 
   return (
     <>
@@ -37,6 +38,7 @@ export default async function RootLayout({ children }) {
           className={`${inter.variable} ${lexend_peta.variable} ${lexend_exa.variable} ${lexend.variable}`}
           paginas={paginas}
           dataFilters={generos}
+          distritosFilter={distritos}
         >
           {children}
         </Body>

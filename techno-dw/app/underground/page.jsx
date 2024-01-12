@@ -1,4 +1,4 @@
-import { getAllEventos, getEventosForUnderground } from "@/lib/cosmic"
+import { getAllEventos, getEventosForUnderground, getLocalizacoesByDistritoIDs } from "@/lib/cosmic"
 import UndergroundContainer_1 from "./components/containers/1/container_1"
 import UndergroundContainer_2 from "./components/containers/2/container_2"
 
@@ -10,6 +10,7 @@ export default async function Underground({searchParams}) {
   let search = searchParams.search
   let date = [searchParams.date1, searchParams.date2]
   let generos = searchParams.generos
+  let distritos = searchParams.distritos
   const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
                           .split('/').reverse().join('-')
 
@@ -46,12 +47,14 @@ export default async function Underground({searchParams}) {
     }
   )
 
-
   let generosArray = undefined
-  if(generos !== undefined){
-    generosArray = generos.split(',')
-    console.log(generosArray)
-  }
+  if(generos !== undefined) generosArray = generos.split(',')
+
+  let distritosArray = undefined
+  if(distritos !== undefined) distritosArray = distritos.split(',')
+
+
+  console.log(distritosArray)
   const query = {
     search: search,
     date: (undefinedDateCounter === 2) ? undefined : {
@@ -61,7 +64,23 @@ export default async function Underground({searchParams}) {
     generosID: generosArray
   }
 
-  const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page, query)
+
+  const eventosForUnderground =
+  (distritosArray === undefined) ? 
+  await getEventosForUnderground("created_at", limit, limit * page, query)
+  :
+  await getLocalizacoesByDistritoIDs(distritosArray)
+    .then(res => {
+      let localIDarray = []
+      if(res === undefined) return undefined
+      else localIDarray = res.map(r => r.id)
+
+      query['localizacoesID'] = localIDarray
+      return getEventosForUnderground("created_at", limit, limit * page, query)
+      }
+    )
+    .catch((err) => undefined)
+  //const eventosForUnderground = await getEventosForUnderground('created_at', limit, limit * page, query)
 
   return (
     <>

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Container from "./components/container"
 import GlitchContainer from "./components/glitchContainer/glitchContainer"
 import WrappedText from "./components/wrappedText/WrappedText"
+import Luz from "./components/luz/luz"
 
 import home from './home.module.scss'
 import { sanitize } from "isomorphic-dompurify"
@@ -27,7 +28,7 @@ export default function Home({data}) {
       <Container>
         <Luz motion={{
             top: [45, 50],
-            left: [40, 60],
+            left: [0, 60],
             rotate: [-5, 10]
         }}/>
         <Luz motion={{
@@ -86,46 +87,4 @@ export default function Home({data}) {
       </Container>
     </>
   )
-}
-
-
-function Luz({motion, randomizer = 0.01}){
-    let luzRef = useRef(undefined)
-    useEffect(
-        () => {
-            const luz = luzRef.current
-            if(luz !== undefined){
-                luz.style.setProperty('--rotate-start', motion.rotate[0] + 'deg')
-                luz.style.setProperty('--rotate-to', motion.rotate[1] + 'deg')
-                luz.style.setProperty('--top-start', motion.top[0] + '%')
-                luz.style.setProperty('--top-to', motion.top[1] + '%')
-                luz.style.setProperty('--left-start', motion.left[0] + '%')
-                luz.style.setProperty('--left-to', motion.left[1] + '%')
-            }
-        }, [luzRef.current, motion]
-    )
-
-    let reqRef = useRef()
-    const randomizeShowIt = timestamp => {
-        reqRef.current = requestAnimationFrame(randomizeShowIt)
-
-        if(Math.random() < randomizer && luzRef.current !== undefined){
-            luzRef.current.setAttribute('param', 'glitchIt')
-            let timeout = setTimeout(
-                () => {
-                    luzRef.current.removeAttribute('param')
-                    return () => clearTimeout(timeout)
-                }, 100
-            )
-        }
-    }
-    useEffect(
-        () => {
-            reqRef.current = requestAnimationFrame(randomizeShowIt)
-            return () => cancelAnimationFrame(reqRef.current)
-        }
-    )
-    return(
-        <div className={home.luz} ref={luzRef}/>
-    )
 }

@@ -1,5 +1,4 @@
 "use client"
-import Footer from "./footer"
 import Header from "./components/header/header";
 import GlitchContextProvider from "./contexts/glitchContext";
 import { useContext, useEffect, useState } from "react";
@@ -8,19 +7,27 @@ import FilterForm from "./components/filterForm/filterForm";
 import FilterFormContextProvider, { FilterFormContext } from "./contexts/filterFormContext";
 import BackgroundBodyContextProvider, { BackgroundBodyContext } from "./contexts/backgroundBody";
 import ImageBox from "./components/imageBox/imageBox";
+import LoadingScreen from "./components/loadingScreen/loadingScreen";
+import LoadingScreenContextProvider from "./components/loadingScreen/context/loadingScreenContext";
 
 
 
 
-export default function Body({children, className, paginas, dataFilters}){
+export default function Body({children, className, paginas, dataFilters, distritosFilter}){
     return(
-        <FilterFormContextProvider>
-            <BackgroundBodyContextProvider>
-                <GlitchContextProvider>
-                    <RealBody className={className} paginas={paginas} dataFilters={dataFilters}>{children}</RealBody>
-                </GlitchContextProvider>
-            </BackgroundBodyContextProvider>
-        </FilterFormContextProvider>
+        <LoadingScreenContextProvider>
+            <FilterFormContextProvider>
+                <BackgroundBodyContextProvider>
+                    <GlitchContextProvider>
+                        <RealBody
+                            className={className}
+                            paginas={paginas}
+                            dataFilters={dataFilters}
+                            distritosFilter={distritosFilter}>{children}</RealBody>
+                    </GlitchContextProvider>
+                </BackgroundBodyContextProvider>
+            </FilterFormContextProvider>
+        </LoadingScreenContextProvider>
     )
 }
 
@@ -29,10 +36,7 @@ export default function Body({children, className, paginas, dataFilters}){
 
 
 
-function RealBody({children, className, paginas, dataFilters}){
-    const footerShow = () => {
-        document.querySelector('footer').classList.add('up');
-    }
+function RealBody({children, className, paginas, dataFilters, distritosFilter}){
     const pathname = usePathname()
     const estouUnderground = (pathname === '/underground')
     const estouBueUnder = (pathname.includes('/underground/'))
@@ -68,7 +72,6 @@ function RealBody({children, className, paginas, dataFilters}){
     return(
         <body
             className={className}
-            onWheel={footerShow}
             onClick={(e) => {
                 if(estouUnderground && filterFormData.activated){
                     const filterForm = document.getElementById('filterForm')
@@ -89,14 +92,14 @@ function RealBody({children, className, paginas, dataFilters}){
             <main>
                 {children}
             </main>
-            <Footer/>
-            {estouUnderground ? <FilterForm type="search" dataFilters={dataFilters}/> : <></>}
+            {estouUnderground ? <FilterForm type="search" dataFilters={dataFilters} distritosFilter={distritosFilter}/> : <></>}
             {estouBueUnder ?
                 <div id="bgContainFoto">
                     <section></section>
                     <ImageBox id="bgFoto" src={backgroundBody}/>
                 </div>
             : <></>}
+            <LoadingScreen/>
         </body>
     )
 }

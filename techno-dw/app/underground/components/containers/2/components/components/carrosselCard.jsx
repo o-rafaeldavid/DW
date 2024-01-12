@@ -1,12 +1,17 @@
 import ImageBox from "@/app/components/imageBox/imageBox"
 import { usePathname } from "next/navigation"
 import Link from 'next/link'
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import GlitchContainer from "@/app/components/glitchContainer/glitchContainer"
 import { cosmicToDate } from "@/lib/misc"
 import HologramSlider from "@/app/components/hologramSlider/hologramSlider"
+import { useWindowSize } from "@/lib/hooks"
+import { LoadingScreenContext } from "@/app/components/loadingScreen/context/loadingScreenContext"
 
 export default function CarrosselCard({eventoInfo, selected = false}){
+    const {setLoadingScreen} = useContext(LoadingScreenContext)
+    const windowSize = useWindowSize()
+
     const pathname = usePathname()
     const metadata = eventoInfo.metadata
     const idBySlug = parseInt(eventoInfo.slug.split('-')[1]) - 1
@@ -17,6 +22,10 @@ export default function CarrosselCard({eventoInfo, selected = false}){
         descricao: ''
     })
 
+    const [generos, setGeneros] = useState([])
+
+    const [spot, setSpot] = useState('')
+
 
 
     useEffect(
@@ -24,11 +33,12 @@ export default function CarrosselCard({eventoInfo, selected = false}){
             setTexto({
                 data: cosmicToDate(metadata.data_do_evento, false),
                 titulo: eventoInfo.title,
-                descricao: metadata.descricao
+                descricao: `${metadata.descricao.split(' ').slice(0, 16).join(' ')} [...]`
             })
+            setGeneros(metadata.generos)
+            setSpot(metadata.localizacao.title)
         }, [eventoInfo]
     )
-
 
 
 
@@ -46,14 +56,41 @@ export default function CarrosselCard({eventoInfo, selected = false}){
             </GlitchContainer>
             <section>
                 <p>{texto.descricao}</p>
+                <h3>{spot}</h3>
             </section>
+            
+            {(windowSize.width > 1300) ?
+                    <>
+                    <HologramSlider>
+                        <ul>
+                            {generos.map((genero, index) => {
+                                return (
+                                    <li key={`generos-${index}`}>
+                                        <h6
+                                            style={{
+                                                color: genero.metadata.neoncor,
+                                                filter: `
+                                                    drop-shadow(${genero.metadata.cor} 0 0 10px)
+                                                    drop-shadow(${genero.metadata.cor} 0 0 4px)
+                                                `}}
+                                        >
+                                            {genero.title}
+                                        </h6>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </HologramSlider>
+                    </>
+
+                : <></>}
         </section>
     </>
     return(
         <li param={ (selected) ? 'eventSelected' : '' }>
             {
                 (selected) ?
-                    <Link href={`${pathname}/${idBySlug}`} scroll={true}>
+                    <Link href={`${pathname}/${idBySlug}`} scroll={true} onClick={() => {setLoadingScreen(true)}}>
                         {innerList}
                     </Link>
                     :

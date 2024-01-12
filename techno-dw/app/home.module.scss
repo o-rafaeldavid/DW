@@ -1,10 +1,10 @@
 @import '../styles/mediaQueries.scss';
 
-#technoXuxex, #desc, .luz{
+#technoXuxex, #desc{
     position: absolute;
 }
 
-#technoXuxex, .luz{
+#technoXuxex{
     translate: -50% -50%;
 }
 
@@ -50,37 +50,4 @@
                 max-width: 250px;
                 > h2{ text-wrap: wrap; }
             }
-}
-
-.luz{
-    opacity: 0.1;
-        &[param="glitchIt"]{ opacity: 1;}
-    width: 4px;
-    height: 300dvh;
-    background-color: white;
-    filter: drop-shadow(white 0 0 10px) drop-shadow(white 0 0 3px);
-    animation: motion 20s linear infinite;
-
-
-
-    --rotate-start: 0;
-    --top-start: 0;
-    --left-start: 0;
-
-    --rotate-to: 0;
-    --top-to: 0;
-    --left-to: 0;
-
-    @keyframes motion {
-        0%, 100%{
-            rotate: var(--rotate-start);
-            top: var(--top-start);
-            left: var(--left-start);
-        }
-        50%{
-            rotate: var(--rotate-to);
-            top: var(--top-to);
-            left: var(--left-to);
-        }
-    }
 }

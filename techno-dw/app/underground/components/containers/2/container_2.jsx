@@ -17,6 +17,7 @@ export default function UndergroundContainer_2({data}){
     const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
                             .split('/').reverse().join('-')
 
+                            console.log(data)
     const {setFilterFormData} = useContext(FilterFormContext)
     const searchParams = useSearchParams()
     const checkSearchParam = (searchParam, onNot) => {
@@ -44,6 +45,9 @@ export default function UndergroundContainer_2({data}){
                         </button>
                         <button onClick={() => { setFilterFormData({activated: true, type: 'genero'}) }}>
                             <h3>VERIFICAR Géneros Escolhidos</h3>
+                        </button>
+                        <button onClick={() => { setFilterFormData({activated: true, type: 'distrito'}) }}>
+                            <h3>VERIFICAR Distritos Escolhidos</h3>
                         </button>
                     </div>
                 </section>

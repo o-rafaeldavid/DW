@@ -84,21 +84,35 @@ export const getEventosForUnderground = async (sort, limit, skip, query) => {
   const hoje = new Date().toLocaleDateString("pt", {timeZone: "Portugal"})
                     .split('/').reverse().join('-')
 
-  let find = {"type": "eventos"}
+  let find = {
+    "type": "eventos"
+  }
   if(query !== undefined){
+    /////    /////    /////
     if(query.date !== undefined){
       find["metadata.data_do_evento"] = {}
 
-      
+                /////    /////    /////
       if(query.date.min !== undefined) find["metadata.data_do_evento"]["$gte"] = query.date.min
       else find["metadata.data_do_evento"]["$gte"] = hoje
 
       if(query.date.max !== undefined) find["metadata.data_do_evento"]["$lte"] = query.date.max
     }
+
+    /////    /////    /////
     if(query.search !== undefined) find["title"] = {$regex: query.search, $options: "i"}
+
+    /////    /////    /////
     if(query.generosID !== undefined){
         find["metadata.generos"] = {
           "$in": query.generosID
+        }
+    }
+
+    /////    /////    /////
+    if(query.localizacoesID !== undefined){
+        find["metadata.localizacao"] = {
+          "$in": query.localizacoesID
         }
     }
   }
@@ -123,8 +137,8 @@ export const getEventosForUnderground = async (sort, limit, skip, query) => {
 }
 
 
-/* getEventosForUnderground("created_at", 4, 0, {date: {min: '2024-07-06'}, search: 'NEOPOP'})
-.then(res => {}) */
+/* getEventosForUnderground("created_at", 4, 0, {localizacoesID: ['65a07352aa609f4b521b3f89']})
+.then(res => console.log(res)) */
 
 
 
@@ -157,3 +171,31 @@ export const getPaginaBySlug = async (slug) =>
       {"type": "generos"},
       "slug, title, metadata, id",
     )
+
+  export const getAllDistritos = async () =>
+    getFromCosmic(
+      false,
+      {"type": "distritos"},
+      "slug, title, metadata, id",
+    )
+
+  export const getLocalizacoesByDistritoIDs = async (district) =>
+    getFromCosmic(
+      false,
+      {
+        "type": "localizacoes",
+        "metadata.distrito.id": {$in: district}
+      },
+      "slug,title,metadata, id",
+    )
+  
+
+/* getLocalizacoesByDistritoID(['65a071a6aa609f4b521b3f70', '65a072efaa609f4b521b3f82'])
+    .then(res => {
+      let localIDarray = []
+      if(res.length == 0) return undefined
+      else localIDarray = res.map(r => r.id)
+      return getEventosForUnderground("created_at", 4, 0, {localizacoesID: localIDarray})
+              .then(res => console.log(res))
+      }
+    ) */

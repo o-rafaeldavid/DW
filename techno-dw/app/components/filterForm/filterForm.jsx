@@ -6,14 +6,12 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import './filterForm.scss'
 
 
-export default function FilterForm({dataFilters, type = undefined}){
+export default function FilterForm({dataFilters, distritosFilter}){
     const [ReactNodeType, setRNT] = useState(<></>)
     const {filterFormData, setFilterDataActivness} = useContext(FilterFormContext)
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const router = useRouter()
-
-
 
     useEffect(
         () => {
@@ -41,10 +39,11 @@ export default function FilterForm({dataFilters, type = undefined}){
                 )
             }
             else if(filterFormData.type === 'genero'){
-                const generos = searchParams.get('generos').split(',')
+                const generosSearch = searchParams.get('generos')
+                const generos = (generosSearch === null) ? [] : generosSearch.split(',')
                 setRNT(
                     <fieldset>
-                        <ul className='generos'>
+                        <ul className='colunas'>
                             {dataFilters.map(filter => 
                                 <li>
                                     <button type="button" onClick={(e) => {
@@ -64,6 +63,40 @@ export default function FilterForm({dataFilters, type = undefined}){
                                     <input
                                         type="checkbox" name="genero" id={filter.slug}
                                         checked={generos.includes(filter.id)}
+                                    />
+                                </li>
+                            )}
+                        </ul>
+                    </fieldset>
+                )
+            }
+            else if(filterFormData.type === 'distrito'){
+                const distritosSearch = searchParams.get('distritos')
+                const distritos = (distritosSearch === null) ? [] : distritosSearch.split(',')
+                setRNT(
+                    <fieldset>
+                        <ul className='colunas'>
+                            {distritosFilter.map(distrito => 
+                                <li>
+                                    <button type="button" onClick={(e) => {
+                                        const nextInput = e.currentTarget.nextElementSibling
+                                        nextInput.checked = !nextInput.checked
+                                    }}>
+                                        <h3>
+                                            <label id={distrito.slug}>{distrito.title}</label>
+                                        </h3>
+                                        <h3
+                                            style={{filter: `
+                                                drop-shadow(white 0 0 10px)
+                                                drop-shadow(white 0 0 4px)
+                                            `}}
+                                        >
+                                            <label id={distrito.slug}>{distrito.title}</label>
+                                        </h3>
+                                    </button>
+                                    <input
+                                        type="checkbox" name="distrito" id={distrito.slug}
+                                        checked={distritos.includes(distrito.id)}
                                     />
                                 </li>
                             )}
@@ -109,6 +142,14 @@ export default function FilterForm({dataFilters, type = undefined}){
                     
                     URL.set('generos', selectedGens.join(','))
                 }
+                else if(filterFormData.type === 'distrito'){
+                    let selectedDistricts = []
+                    distritosFilter.forEach(distrito => {
+                        if(target[distrito.slug].checked) selectedDistricts.push(distrito.id)
+                    })
+                    
+                    URL.set('distritos', selectedDistricts.join(','))
+                }
 
 
 
@@ -125,3 +166,4 @@ export default function FilterForm({dataFilters, type = undefined}){
         </form>
     )
 }
+

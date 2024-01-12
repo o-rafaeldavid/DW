@@ -1,7 +1,7 @@
 import { useWindowSize } from "@/lib/hooks"
 import { useEffect, useRef, useState } from "react"
 
-export default function HologramSlider({id, children}){
+export default function HologramSlider({id, children, speed = 1, className = ""}){
     let hologramRef = useRef(undefined)
     const windowSize = useWindowSize()
     const [isBigger, setIsBigger] = useState(false)
@@ -39,7 +39,7 @@ export default function HologramSlider({id, children}){
 
             setLeftDiv(prevLeft => {
                 if(prevLeft <= - 1 * divWidth) return 48
-                else return prevLeft - 1
+                else return prevLeft - 1 * speed
             })
         }
     }
@@ -57,6 +57,7 @@ export default function HologramSlider({id, children}){
             id={id}
             param='hologramSlider' ref={hologramRef}
             style={{overflow: 'hidden', position: 'relative'}}
+            className={className}
         >
             <section style={{
                 width: 'fit-content',

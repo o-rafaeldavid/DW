@@ -5,10 +5,12 @@ import GlitchContainer from '../../glitchContainer/glitchContainer'
 import { useContext, useEffect, useState } from 'react'
 import { HambActivatedContext } from '../contexts/hambActivated'
 import { isMobile } from 'react-device-detect';
+import { LoadingScreenContext } from '../../loadingScreen/context/loadingScreenContext'
 
  
 export default function Nav({paginas}){
     const { hambActivated, setHambActivated }= useContext(HambActivatedContext)
+    const {setLoadingScreen} = useContext(LoadingScreenContext)
 
     const pathname = usePathname()
     const splitted = pathname.split('/')
@@ -52,6 +54,8 @@ export default function Nav({paginas}){
                                                 ${isMobile ? 'mobile' : ''}
                                             `, '')
                                         }
+
+                                        onClick={() => {setLoadingScreen(true)}}
                                     >
                                         {sameRoute(glitch, (hover) ? glitch : titulo)}
                                         <p>{metadata.descricao}</p>

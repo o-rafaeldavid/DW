@@ -1,0 +1,51 @@
+@import '../../../styles/general.scss';
+@import '../../../styles/mediaQueries.scss';
+
+#loadingScreen{
+    position: fixed;
+    top: 50%; left: 50%;
+    translate: -50% -50%;
+    width: 110dvw; height: 110dvh;
+    background-color: $background;
+
+    
+    z-index: -100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 100ms;
+
+    &.show{
+        visibility: visible;
+        opacity: 1;
+        z-index: 100000;
+    }
+    
+    
+
+    > [param="glitchContainer"]{
+        position: absolute;
+        top: 45%; left: 50%;
+        translate: -50% -50%;
+    }
+}
+
+#loadingFlex{
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    width: 100dvw;
+
+    > [param="hologramSlider"]{
+        height: 10em;
+        width: 100dvw;
+
+        text-align: center;
+
+        &:nth-child(2){ translate: 10% 0; rotate: 180deg;}
+        &:nth-child(3){ translate: 30% 0; rotate: 180deg;}
+        &:nth-child(5){ translate: -30% 0}
+        &:nth-child(6){ translate: 20% 0; rotate: 180deg;}
+        &:nth-child(7){ translate: -40% 0}
+
+    }
+}

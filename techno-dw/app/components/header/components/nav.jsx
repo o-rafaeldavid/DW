@@ -55,7 +55,7 @@ export default function Nav({paginas}){
                                             `, '')
                                         }
 
-                                        onClick={() => {setLoadingScreen(true)}}
+                                        onClick={() => { if(where !== route) setLoadingScreen(true) }}
                                     >
                                         {sameRoute(glitch, (hover) ? glitch : titulo)}
                                         <p>{metadata.descricao}</p>

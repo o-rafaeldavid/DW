@@ -22,17 +22,18 @@ export default function Luz({motion, randomizer = 0.01}){
 
     let reqRef = useRef()
     const randomizeShowIt = timestamp => {
+        const luz = luzRef.current
+        let timeout = -1;
+
+
         reqRef.current = requestAnimationFrame(randomizeShowIt)
 
-        if(Math.random() < randomizer && luzRef.current !== undefined){
-            luzRef.current.setAttribute('param', 'glitchIt')
-            let timeout = setTimeout(
-                () => {
-                    luzRef.current.removeAttribute('param')
-                    return () => clearTimeout(timeout)
-                }, 100
-            )
+        if(Math.random() < randomizer && luz !== undefined){
+            luz.setAttribute('param', 'glitchIt')
+            timeout = setTimeout(() => { luz.removeAttribute('param') }, 100)
         }
+
+        return () => clearTimeout(timeout)
     }
     useEffect(
         () => {

@@ -26,6 +26,11 @@
         position: absolute;
         top: 45%; left: 50%;
         translate: -50% -50%;
+
+        @include phone-portrait-up(){
+            top: unset; left: unset; right: 0;
+            translate: 0 0;
+        }
     }
 }
 
@@ -35,8 +40,17 @@
     height: 100dvh;
     width: 100dvw;
 
+            @media (max-width: 1550px){ scale: 1.4; }
+            @include tablet-portrait-up(){ scale: 2; }
+            @include phone-portrait-up(){
+                scale: 1;
+
+                h1{ font-size: 20em; }
+            }
+
     > [param="hologramSlider"]{
         height: 10em;
+                @include phone-portrait-up(){ height: 20em; }
         width: 100dvw;
 
         text-align: center;

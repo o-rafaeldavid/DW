@@ -8,6 +8,7 @@ import HologramSlider from "../hologramSlider/hologramSlider"
 
 
 import './loadingScreen.scss'
+
 export default function LoadingScreen(){
     const pathname = usePathname()
     const [show, setShow] = useState(false)
